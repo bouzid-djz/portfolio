@@ -1,0 +1,540 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* User's existing colors are preserved, new shadcn/ui defaults integrated */
+  --background: oklch(0.98 0 0); /* Preserved user value */
+  --foreground: oklch(0.15 0 0); /* Preserved user value */
+  --card: oklch(1 0 0); /* Preserved user value */
+  --card-foreground: oklch(0.15 0 0); /* Preserved user value */
+  --popover: oklch(1 0 0); /* Preserved user value */
+  --popover-foreground: oklch(0.15 0 0); /* Preserved user value */
+  --primary: oklch(0.87 0.2 142); /* #80EF80 */
+  --primary-foreground: oklch(0.15 0 0);
+  --secondary: oklch(0.96 0 0); /* Preserved user value */
+  --secondary-foreground: oklch(0.2 0 0); /* Preserved user value */
+  --muted: oklch(0.96 0 0); /* Preserved user value */
+  --muted-foreground: oklch(0.5 0 0); /* Preserved user value */
+  --accent: oklch(0.96 0 0); /* Preserved user value */
+  --accent-foreground: oklch(0.2 0 0); /* Preserved user value */
+  --destructive: oklch(0.577 0.245 27.325); /* Preserved user value */
+  --destructive-foreground: oklch(0.577 0.245 27.325); /* Preserved user value */
+  --border: oklch(0.9 0 0); /* Preserved user value */
+  --input: oklch(0.9 0 0); /* Preserved user value */
+  --ring: oklch(0.87 0.2 142); /* #80EF80 */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  /* User's existing colors are preserved, new shadcn/ui defaults integrated */
+  --background: oklch(0.18 0 0); /* Preserved user value */
+  --foreground: oklch(0.95 0 0); /* Preserved user value */
+  --card: oklch(0.1 0 0); /* Preserved user value */
+  --card-foreground: oklch(0.95 0 0); /* Preserved user value */
+  --popover: oklch(0.05 0 0); /* Preserved user value */
+  --popover-foreground: oklch(0.95 0 0); /* Preserved user value */
+  --primary: oklch(0.87 0.2 142); /* #80EF80 */
+  --primary-foreground: oklch(0.15 0 0);
+  --secondary: oklch(0.15 0 0); /* Preserved user value */
+  --secondary-foreground: oklch(0.95 0 0); /* Preserved user value */
+  --muted: oklch(0.15 0 0); /* Preserved user value */
+  --muted-foreground: oklch(0.65 0 0); /* Preserved user value */
+  --accent: oklch(0.15 0 0); /* Preserved user value */
+  --accent-foreground: oklch(0.95 0 0); /* Preserved user value */
+  --destructive: oklch(0.55 0.22 27.325); /* Preserved user value */
+  --destructive-foreground: oklch(0.98 0 0); /* Preserved user value */
+  --border: oklch(0.2 0 0); /* Preserved user value */
+  --input: oklch(0.2 0 0); /* Preserved user value */
+  --ring: oklch(0.87 0.2 142); /* #80EF80 */
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.1 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.87 0.2 142); /* #80EF80 */
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.15 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.2 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  /* optional: --font-sans, --font-serif, --font-mono if they are applied in the layout.tsx */
+  --font-sans: "Geist", "Geist Fallback";
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    * {
+      cursor: none !important;
+    }
+  }
+}
+
+/* Added missing slide animation utilities for sheet component */
+@keyframes slide-in-from-top {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out-to-top {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out-to-bottom {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slide-in-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-to-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-in-from-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-to-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Matrix rain animation for Konami easter egg */
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.animate-matrix-rain {
+  animation: matrix-rain linear infinite;
+}
+
+@keyframes rainbow-text-fast {
+  0% {
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+  }
+  8% {
+    color: #ff4400;
+    text-shadow: 0 0 20px #ff4400;
+  }
+  16% {
+    color: #ff8800;
+    text-shadow: 0 0 20px #ff8800;
+  }
+  24% {
+    color: #ffcc00;
+    text-shadow: 0 0 20px #ffcc00;
+  }
+  33% {
+    color: #ffff00;
+    text-shadow: 0 0 20px #ffff00;
+  }
+  41% {
+    color: #00ff00;
+    text-shadow: 0 0 20px #00ff00;
+  }
+  50% {
+    color: #00ffff;
+    text-shadow: 0 0 20px #00ffff;
+  }
+  58% {
+    color: #0088ff;
+    text-shadow: 0 0 20px #0088ff;
+  }
+  66% {
+    color: #0044ff;
+    text-shadow: 0 0 20px #0044ff;
+  }
+  75% {
+    color: #8800ff;
+    text-shadow: 0 0 20px #8800ff;
+  }
+  83% {
+    color: #ff00ff;
+    text-shadow: 0 0 20px #ff00ff;
+  }
+  91% {
+    color: #ff0088;
+    text-shadow: 0 0 20px #ff0088;
+  }
+  100% {
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+  }
+}
+
+@keyframes rainbow-border-fast {
+  0% {
+    border-color: #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+  }
+  8% {
+    border-color: #ff4400;
+    box-shadow: 0 0 10px #ff4400;
+  }
+  16% {
+    border-color: #ff8800;
+    box-shadow: 0 0 10px #ff8800;
+  }
+  24% {
+    border-color: #ffcc00;
+    box-shadow: 0 0 10px #ffcc00;
+  }
+  33% {
+    border-color: #ffff00;
+    box-shadow: 0 0 10px #ffff00;
+  }
+  41% {
+    border-color: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+  }
+  50% {
+    border-color: #00ffff;
+    box-shadow: 0 0 10px #00ffff;
+  }
+  58% {
+    border-color: #0088ff;
+    box-shadow: 0 0 10px #0088ff;
+  }
+  66% {
+    border-color: #0044ff;
+    box-shadow: 0 0 10px #0044ff;
+  }
+  75% {
+    border-color: #8800ff;
+    box-shadow: 0 0 10px #8800ff;
+  }
+  83% {
+    border-color: #ff00ff;
+    box-shadow: 0 0 10px #ff00ff;
+  }
+  91% {
+    border-color: #ff0088;
+    box-shadow: 0 0 10px #ff0088;
+  }
+  100% {
+    border-color: #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+  }
+}
+
+@keyframes psychedelic-bg-fast {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 100%;
+  }
+  50% {
+    background-position: 0% 100%;
+  }
+  75% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes wave-crazy {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-30px) rotate(10deg);
+  }
+  40% {
+    transform: translateY(20px) rotate(-15deg);
+  }
+  60% {
+    transform: translateY(-25px) rotate(8deg);
+  }
+  80% {
+    transform: translateY(15px) rotate(-12deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes shake-violent {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    transform: translate(-10px, 10px) rotate(-5deg);
+  }
+  20% {
+    transform: translate(10px, -10px) rotate(5deg);
+  }
+  30% {
+    transform: translate(-15px, -5px) rotate(-3deg);
+  }
+  40% {
+    transform: translate(15px, 5px) rotate(3deg);
+  }
+  50% {
+    transform: translate(-8px, -15px) rotate(-7deg);
+  }
+  60% {
+    transform: translate(8px, 15px) rotate(7deg);
+  }
+  70% {
+    transform: translate(-12px, 8px) rotate(-4deg);
+  }
+  80% {
+    transform: translate(12px, -8px) rotate(4deg);
+  }
+  90% {
+    transform: translate(-5px, -12px) rotate(-2deg);
+  }
+}
+
+@keyframes appear-disappear {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-violent {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+  10% {
+    transform: translateY(-50px) translateX(30px) rotate(15deg) scale(1.3);
+  }
+  20% {
+    transform: translateY(40px) translateX(-40px) rotate(-20deg) scale(0.7);
+  }
+  30% {
+    transform: translateY(-30px) translateX(50px) rotate(25deg) scale(1.5);
+  }
+  40% {
+    transform: translateY(60px) translateX(-30px) rotate(-15deg) scale(0.6);
+  }
+  50% {
+    transform: translateY(-40px) translateX(-50px) rotate(30deg) scale(1.4);
+  }
+  60% {
+    transform: translateY(50px) translateX(40px) rotate(-25deg) scale(0.8);
+  }
+  70% {
+    transform: translateY(-60px) translateX(-20px) rotate(20deg) scale(1.2);
+  }
+  80% {
+    transform: translateY(30px) translateX(60px) rotate(-30deg) scale(0.9);
+  }
+  90% {
+    transform: translateY(-20px) translateX(-60px) rotate(10deg) scale(1.1);
+  }
+}
+
+.psychedelic-mode {
+  animation: psychedelic-bg-fast 2s ease infinite, shake-violent 0.5s ease infinite;
+  background: linear-gradient(
+    270deg,
+    #ff0000,
+    #ff4400,
+    #ff8800,
+    #ffcc00,
+    #ffff00,
+    #00ff00,
+    #00ffff,
+    #0088ff,
+    #0044ff,
+    #8800ff,
+    #ff00ff,
+    #ff0088,
+    #ff0000
+  );
+  background-size: 1000% 1000%;
+}
+
+.psychedelic-mode * {
+  animation: rainbow-text-fast 0.8s linear infinite, wave-crazy 0.6s ease-in-out infinite !important;
+}
+
+.psychedelic-mode h1,
+.psychedelic-mode h2,
+.psychedelic-mode h3,
+.psychedelic-mode h4,
+.psychedelic-mode h5,
+.psychedelic-mode h6 {
+  font-weight: 900;
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor, 0 0 40px currentColor !important;
+  animation: rainbow-text-fast 0.5s linear infinite, shake-violent 0.3s ease infinite !important;
+}
+
+.psychedelic-mode .border {
+  animation: rainbow-border-fast 0.8s linear infinite !important;
+}
+
+.psychedelic-mode [class*="bg-"] {
+  animation: psychedelic-bg-fast 1.5s ease infinite !important;
+  background: linear-gradient(270deg, #ff0080, #00ffff, #ff00ff, #00ff00, #ffff00, #ff0000);
+  background-size: 600% 600%;
+}
+
+.psychedelic-image {
+  animation: appear-disappear 0.5s ease-in-out infinite, bounce-violent 0.4s ease-in-out infinite !important;
+  position: fixed !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+}
+
+/* Added presentation mode styles */
+.presentation-mode {
+  overflow: hidden;
+}
+
+.presentation-mode section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+}
+
+.presentation-mode [data-presentation-hide] {
+  display: none !important;
+}
+
+.presentation-mode body {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+.presentation-mode * {
+  cursor: default !important;
+}
+
+.presentation-mode .sidebar-menu {
+  display: none !important;
+}
