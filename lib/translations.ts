@@ -170,15 +170,6 @@ export const translations = {
       welcome:
         "Bonjour ! Je suis l'assistant virtuel de Quentin. Posez-moi des questions sur son parcours, ses compétences, ses projets ou son expérience.",
     },
-    // Cursor
-    cursor: {
-      title: "Style de curseur",
-      classic: "Classique",
-      trail: "Traînée",
-      glow: "Lumineux",
-      crosshair: "Viseur",
-      none: "Désactivé",
-    },
   },          
   en: {
     nav: {
@@ -328,4 +319,3 @@ export const translations = {
     },
   },
 }
-
