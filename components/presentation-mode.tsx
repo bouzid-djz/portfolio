@@ -20,6 +20,8 @@ const slides = [
 export function PresentationMode() {
   const [isPresenting, setIsPresenting] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [presentationStartTime, setPresentationStartTime] = useState<number>(0)
+  const [elapsedTime, setElapsedTime] = useState<number>(0)
 
   const goToSlide = useCallback((index: number) => {
     if (index >= 0 && index < slides.length) {
@@ -38,6 +40,22 @@ export function PresentationMode() {
   const prevSlide = useCallback(() => {
     goToSlide(currentSlide - 1)
   }, [currentSlide, goToSlide])
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60)
+    const s = seconds % 60
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+  }
+
+  useEffect(() => {
+    if (!isPresenting) return
+
+    const interval = setInterval(() => {
+      setElapsedTime(Math.floor((Date.now() - presentationStartTime) / 1000))
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [isPresenting, presentationStartTime])
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -75,6 +93,8 @@ export function PresentationMode() {
   const enterPresentation = () => {
     setIsPresenting(true)
     setCurrentSlide(0)
+    setPresentationStartTime(Date.now())
+    setElapsedTime(0)
     
     // Hide interactive elements
     document.querySelectorAll("[data-presentation-hide]").forEach((el) => {
@@ -95,6 +115,7 @@ export function PresentationMode() {
 
   const exitPresentation = () => {
     setIsPresenting(false)
+    setElapsedTime(0)
     
     // Show hidden elements
     document.querySelectorAll("[data-presentation-hide]").forEach((el) => {
@@ -130,6 +151,11 @@ export function PresentationMode() {
 
       {isPresenting && (
         <>
+          {/* Timer */}
+          <div className="fixed top-4 right-20 z-[100] bg-background/80 backdrop-blur-sm border border-border rounded-lg px-3 py-1.5 shadow-lg">
+            <span className="text-xs font-mono text-muted-foreground">{formatTime(elapsedTime)}</span>
+          </div>
+
           {/* Exit button */}
           <Button
             onClick={exitPresentation}
