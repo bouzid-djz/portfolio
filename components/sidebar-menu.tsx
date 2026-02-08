@@ -5,7 +5,6 @@ import { Menu, X, Home, User, Code, Briefcase, FileText, Mail, Lightbulb, FlaskC
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSelector } from "@/components/language-selector"
-import { CursorSelector } from "@/components/cursor-selector"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { cn } from "@/lib/utils"
@@ -94,10 +93,6 @@ export function SidebarMenu() {
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Theme</span>
               <ThemeToggle />
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Cursor</span>
-              <CursorSelector />
             </div>
           </div>
         </div>

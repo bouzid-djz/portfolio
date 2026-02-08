@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSelector } from "@/components/language-selector"
-import { CursorSelector } from "@/components/cursor-selector"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 
@@ -91,14 +90,12 @@ export function Navigation() {
               ))}
               <LanguageSelector />
               <ThemeToggle />
-              <CursorSelector />
             </div>
 
             {/* Mobile Menu Controls */}
             <div className="md:hidden flex items-center gap-2">
               <LanguageSelector />
-              <ThemeToggle />
-              <CursorSelector />
+              <ThemeToggle /> 
               <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                 {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>

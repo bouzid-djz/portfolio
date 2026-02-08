@@ -18,9 +18,6 @@ export function Terminal() {
   const [isMinimized, setIsMinimized] = useState(false)
   const [input, setInput] = useState("")
   const [history, setHistory] = useState<Command[]>([])
-  const [isPsychedelicMode, setIsPsychedelicMode] = useState(false)
-  const [showSpongebob, setShowSpongebob] = useState(false)
-  const [showQuiVideo, setShowQuiVideo] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -28,11 +25,6 @@ export function Terminal() {
 
   const { language } = useLanguage()
   const t = translations[language].terminal
-
-  useEffect(() => {
-    audioRef.current = new Audio("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WE%20ARE%20CHARLIE%20KIRK%20%28Agartha%20Hardstyle%20Remix%29%20%281%29%20%281%29-whYHItFnNOEwoVwnCCPHqCYBjhCI1U.mp3")
-    audioRef.current.loop = true
-  }, [])
 
   useEffect(() => {
     setHistory([
@@ -113,66 +105,9 @@ export function Terminal() {
         ]
         break
 
-      case "weare":
-      case "weare...":
-        setIsPsychedelicMode(true)
-        output = [
-          "🌈 PSYCHEDELIC MODE ACTIVATED! 🌈",
-          "Audio and visuals enabled!",
-          "Type 'erika' to return to normal mode",
-          "",
-        ]
-        document.body.classList.add("psychedelic-mode")
-
-        // Replace all images with Charlie Kirk meme
-        const allImages = document.querySelectorAll("img")
-        allImages.forEach((img) => {
-          img.dataset.originalSrc = img.src
-          img.src = "/images/ck.jpeg"
-          img.classList.add("psychedelic-image")
-        })
-
-        if (audioRef.current) {
-          audioRef.current.play().catch((err) => console.error("Audio play error:", err))
-        }
-        break
-
-      case "erika":
-        setIsPsychedelicMode(false)
-        output = ["✨ Returning to normal mode...", ""]
-        document.body.classList.remove("psychedelic-mode")
-
-        const restoredImages = document.querySelectorAll("img")
-        restoredImages.forEach((img) => {
-          if (img.dataset.originalSrc) {
-            img.src = img.dataset.originalSrc
-            delete img.dataset.originalSrc
-            img.classList.remove("psychedelic-image")
-          }
-        })
-
-        if (audioRef.current) {
-          audioRef.current.pause()
-          audioRef.current.currentTime = 0
-        }
-        break
-
       case "clear":
         setHistory([])
         return
-
-      case "spongebob":
-        setShowSpongebob(true)
-        output = []
-        break
-
-      case "qui":
-        setShowQuiVideo(true)
-        output = []
-        break
-
-      case "":
-        break
 
       default:
         if (command.startsWith("cat ")) {
@@ -195,35 +130,6 @@ export function Terminal() {
 
   return (
     <>
-      {showSpongebob && (
-        <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
-          <img src="/images/monkey-20d-20spongebob.jpeg" alt="" className="max-w-full max-h-full object-contain" />
-        </div>
-      )}
-
-      {showQuiVideo && (
-        <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
-          <video
-            ref={videoRef}
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8734fe0b51c34bea9b08417ca0545020-EvLv21pPDCDbYARm1lgdRxVIYOaF28.mov"
-            className="max-w-full max-h-full object-contain"
-            autoPlay
-            muted={false}
-            playsInline
-            controls={false}
-            onEnded={() => setShowQuiVideo(false)}
-            onError={() => {
-              console.log("[v0] Video error, closing modal")
-              setShowQuiVideo(false)
-            }}
-            onLoadedData={(e) => {
-              const video = e.currentTarget
-              video.play().catch(err => console.log("[v0] Play error:", err))
-            }}
-          />
-        </div>
-      )}
-
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}

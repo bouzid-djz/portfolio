@@ -34,8 +34,9 @@ export function Veille() {
     },
   ]
 
-  const themes = [t.theme1, t.theme2, t.theme3, t.theme4, t.theme5]
+  const themes = [t.theme1, t.theme2, t.theme3]
 
+  
   return (
     <section id="veille" className="py-24 scroll-mt-16 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4">
@@ -54,8 +55,8 @@ export function Veille() {
           <div className="space-y-6">
             <h3 className="text-xl font-semibold">{t.themesTitle}</h3>
             <div className="flex flex-wrap gap-2">
-              {themes.map((theme) => (
-                <Badge key={theme} variant="secondary" className="text-sm">
+              {themes.map((theme, index) => (
+                <Badge key={`theme-${index}`} variant="secondary" className="text-sm">
                   {theme}
                 </Badge>
               ))}
@@ -65,11 +66,11 @@ export function Veille() {
           <div className="space-y-6">
             <h3 className="text-xl font-semibold">{t.sourcesTitle}</h3>
             <div className="grid md:grid-cols-2 gap-4">
-              {sources.map((source) => {
+              {sources.map((source, index) => {
                 const Icon = source.icon
                 return (
                   <Card
-                    key={source.name}
+                    key={`source-${index}`}
                     className="p-6 space-y-4 border-border/40 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-shadow"
                   >
                     <div className="flex items-start gap-4">
@@ -111,3 +112,4 @@ export function Veille() {
     </section>
   )
 }
+

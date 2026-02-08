@@ -97,45 +97,37 @@ export const translations = {
     },
     // Veille
     veille: {
-      title: "Veille Technologique",
-      description:
-        "Je maintiens une veille technologique active centrée sur la cybersécurité, l'administration réseau et les nouvelles technologies IT pour rester à jour sur les menaces, outils et bonnes pratiques.",
-      themesTitle: "Thèmes surveillés",
-      theme1: "Cybersécurité (vulnérabilités, ransomware, MFA)",
-      theme2: "Administration système (Windows Server, Active Directory, PowerShell)",
-      theme3: "Virtualisation et cloud (VMware, Hyper-V, solutions SaaS)",
-      theme4: "Nouvelles technologies IT",
-      theme5: "Gestion de projet et bonnes pratiques",
-      sourcesTitle: "Sources utilisées",
-      source1Name: "IT-Connect",
-      source1Type: "Site web",
-      source1Desc: "Tutoriels et actualités sur la cybersécurité, l'administration système et les réseaux",
-      source2Name: "Alertes Google",
-      source2Type: "Veille automatisée",
-      source2Desc: "Mots-clés : cybersécurité, administration réseau, vulnérabilités",
-      source3Name: "Podcasts Tech",
-      source3Type: "Podcasts",
-      source3Desc: "Underscore, Apple différemment, et autres podcasts technologiques",
-      visit: "Visiter",
-      conclusion:
-        "Cette veille me permet d'adapter mes compétences, d'anticiper les évolutions du secteur et de proposer des solutions pertinentes en entreprise. Elle constitue un pilier essentiel de mon développement professionnel dans le domaine de la cybersécurité.",
-    },
+        title: "Veille Technologique",
+        description:
+          "Je maintiens une veille technologique active centrée sur la cybersécurité, l'administration réseau et les nouvelles technologies IT pour rester à jour sur les menaces, outils et bonnes pratiques.",
+        themesTitle: "Thèmes surveillés",
+        theme1: "Cybersécurité (vulnérabilités, ransomware, MFA)",
+        theme2: "Administration système (Windows Server, Active Directory, PowerShell)",
+        theme3: "Nouvelles technologies IT",
+        sourcesTitle: "Sources utilisées",
+        source1Name: "IT-Connect",
+        source1Type: "Site web",
+        source1Desc: "Tutoriels et actualités sur la cybersécurité, l'administration système et les réseaux",
+        source2Name: "Podcasts Tech",
+        source2Type: "Podcasts",
+        source2Desc: "Apple Podcasts",
+        visit: "Visiter",
+        conclusion:
+          "Cette veille me permet d'adapter mes compétences, d'anticiper les évolutions du secteur et de proposer des solutions pertinentes en entreprise. Elle constitue un pilier essentiel de mon développement professionnel dans le domaine de la cybersécurité.",
+                },
     // Contact
     contact: {
-      title: "Restons en contact",
-      description:
-        "N'hésitez pas à me contacter pour discuter d'opportunités professionnelles, de projets ou simplement échanger sur la cybersécurité.",
-      email: "Email",
-      linkedin: "LinkedIn",
-      sendMessage: "Envoyer un message",
+      title: "Contact",
+      description: "N'hésitez pas à me contacter pour toute question ou opportunité professionnelle.",
       name: "Nom",
-      subject: "Sujet",
+      email: "Email",
       message: "Message",
       send: "Envoyer",
       sending: "Envoi en cours...",
       success: "Message envoyé avec succès !",
-      error: "Erreur lors de l'envoi du message",
+      error: "Erreur lors de l'envoi du message.",
     },
+    
     // Terminal
     terminal: {
       welcome: "Quentin SILVA Portfolio Terminal v1.0.0",
@@ -187,7 +179,7 @@ export const translations = {
       crosshair: "Viseur",
       none: "Désactivé",
     },
-  },
+  },          
   en: {
     nav: {
       home: "Home",
@@ -278,38 +270,30 @@ export const translations = {
       themesTitle: "Monitored themes",
       theme1: "Cybersecurity (vulnerabilities, ransomware, MFA)",
       theme2: "System administration (Windows Server, Active Directory, PowerShell)",
-      theme3: "Virtualization and cloud (VMware, Hyper-V, SaaS solutions)",
-      theme4: "New IT technologies",
-      theme5: "Project management and best practices",
+      theme3: "New IT technologies",
       sourcesTitle: "Sources used",
       source1Name: "IT-Connect",
       source1Type: "Website",
       source1Desc: "Tutorials and news on cybersecurity, system administration and networks",
-      source2Name: "Google Alerts",
-      source2Type: "Automated monitoring",
-      source2Desc: "Keywords: cybersecurity, network administration, vulnerabilities",
-      source3Name: "Tech Podcasts",
-      source3Type: "Podcasts",
-      source3Desc: "Underscore, Apple differently, and other technology podcasts",
+      source2Name: "Tech Podcasts",
+      source2Type: "Podcasts",
+      source2Desc: "Apple Podcasts",
       visit: "Visit",
       conclusion:
         "This watch allows me to adapt my skills, anticipate sector developments and propose relevant solutions in business. It is an essential pillar of my professional development in cybersecurity.",
-    },
+    },    
     contact: {
-      title: "Let's stay in touch",
-      description:
-        "Feel free to contact me to discuss professional opportunities, projects or simply to exchange about cybersecurity.",
-      email: "Email",
-      linkedin: "LinkedIn",
-      sendMessage: "Send a message",
+      title: "Contact",
+      description: "Feel free to contact me for any questions or professional opportunities.",
       name: "Name",
-      subject: "Subject",
+      email: "Email",
       message: "Message",
       send: "Send",
       sending: "Sending...",
       success: "Message sent successfully!",
-      error: "Error sending message",
+      error: "Error sending message.",
     },
+    
     terminal: {
       welcome: "Quentin SILVA Portfolio Terminal v1.0.0",
       welcomeHelp: "Type 'help' for available commands",
@@ -342,23 +326,6 @@ export const translations = {
       notFound: "Command not found",
       typeHelp: "Type 'help' for available commands",
     },
-    // Chatbot
-    chatbot: {
-      title: "AI Assistant",
-      subtitle: "Ask me questions about Quentin",
-      placeholder: "Ask your question...",
-      send: "Send",
-      welcome:
-        "Hello! I'm Quentin's virtual assistant. Ask me questions about his background, skills, projects or experience.",
-    },
-    // Cursor
-    cursor: {
-      title: "Cursor style",
-      classic: "Classic",
-      trail: "Trail",
-      glow: "Glow",
-      crosshair: "Crosshair",
-      none: "Disabled",
-    },
   },
 }
+

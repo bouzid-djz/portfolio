@@ -13,8 +13,6 @@ import { GridBackground } from "@/components/grid-background"
 import { Terminal } from "@/components/terminal"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { KonamiEasterEgg } from "@/components/konami-easter-egg"
-import { CustomCursor } from "@/components/custom-cursor"
-import { Chatbot } from "@/components/chatbot"
 import { PresentationMode } from "@/components/presentation-mode"
 
 export default function Home() {
@@ -41,9 +39,7 @@ export default function Home() {
         </div>
       </footer>
       <Terminal />
-      <Chatbot />
       <KonamiEasterEgg />
-      <CustomCursor />
     </div>
   )
 }

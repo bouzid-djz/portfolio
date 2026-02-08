@@ -9,8 +9,12 @@ import { ContactForm } from "@/components/contact-form"
 
 export function Contact() {
   const { language } = useLanguage()
+  console.log("Language:", language)
+  console.log("Translations:", translations)
+  console.log("Contact data:", translations[language]?.contact)
   const t = translations[language].contact
   const { ref, isVisible } = useScrollAnimation()
+
 
   return (
     <section id="contact" className="py-24 scroll-mt-16 bg-muted/30">
