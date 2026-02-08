@@ -133,7 +133,7 @@ export function Terminal() {
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 left-6 h-14 w-14 rounded-full shadow-lg z-50"
+          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50"
           size="icon"
           data-presentation-hide
         >
@@ -144,7 +144,7 @@ export function Terminal() {
       {isOpen && (
         <div
           className={`fixed z-50 transition-all ${
-            isMinimized ? "bottom-6 left-6 w-64" : "bottom-6 left-6 w-full max-w-2xl"
+            isMinimized ? "bottom-6 right-6 w-64" : "bottom-6 right-6 w-full max-w-2xl"
           }`}
           data-presentation-hide
         >
