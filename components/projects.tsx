@@ -1,17 +1,28 @@
 "use client"
 
+import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Download, ExternalLink } from "lucide-react"
+import { Download, ExternalLink, Play, X } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { BackupDemo } from "@/components/backup-demo"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 export function Projects() {
   const { language } = useLanguage()
   const t = translations[language].projects
   const { ref, isVisible } = useScrollAnimation()
+  const [showBackupDemo, setShowBackupDemo] = useState(false)
 
   const projects = [
     {
@@ -20,6 +31,7 @@ export function Projects() {
       context: t.context,
       technologies: ["CISCO", "Réseaux"],
       downloadUrl: "/Projet.zip",
+      hasDemo: false,
     },
     {
       title: t.project2Title,
@@ -27,6 +39,7 @@ export function Projects() {
       context: t.internship,
       technologies: ["PowerShell", "VBS", "Automatisation"],
       downloadUrl: "/Projet2.zip",
+      hasDemo: true,
     },
     {
       title: t.project3Title,
@@ -34,6 +47,7 @@ export function Projects() {
       context: t.context,
       technologies: ["Nginx", "Linux", "Sécurité"],
       downloadUrl: "/Projet3.pdf",
+      hasDemo: false,
     },
   ]
 
@@ -73,12 +87,38 @@ export function Projects() {
                   ))}
                 </div>
 
-                <Button asChild variant="outline" size="sm" className="w-full bg-transparent">
-                  <a href={project.downloadUrl} download>
-                    <Download className="h-4 w-4 mr-2" />
-                    {t.download}
-                  </a>
-                </Button>
+                <div className="flex gap-2">
+                  {project.hasDemo && (
+                    <Dialog open={showBackupDemo && index === 1} onOpenChange={setShowBackupDemo}>
+                      <DialogTrigger asChild>
+                        <Button variant="default" size="sm" className="flex-1">
+                          <Play className="h-4 w-4 mr-2" />
+                          Essayer
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <DialogHeader>
+                          <DialogTitle>Démonstration Interactive</DialogTitle>
+                          <DialogDescription>
+                            Testez le script de sauvegarde directement dans votre navigateur
+                          </DialogDescription>
+                        </DialogHeader>
+                        <BackupDemo />
+                      </DialogContent>
+                    </Dialog>
+                  )}
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className={`bg-transparent ${project.hasDemo ? "flex-1" : "w-full"}`}
+                  >
+                    <a href={project.downloadUrl} download>
+                      <Download className="h-4 w-4 mr-2" />
+                      {t.download}
+                    </a>
+                  </Button>
+                </div>
               </Card>
             ))}
           </div>
