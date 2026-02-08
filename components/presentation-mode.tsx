@@ -8,7 +8,6 @@ const slides = [
   { id: "hero", title: "Accueil" },
   { id: "about", title: "A propos" },
   { id: "skills", title: "Competences" },
-  { id: "certifications", title: "Certifications" },
   { id: "projects", title: "Projets" },
   { id: "experience", title: "Experience" },
   { id: "timeline", title: "Parcours" },
