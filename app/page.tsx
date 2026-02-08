@@ -1,7 +1,6 @@
 import { Hero } from "@/components/hero"
 import { About } from "@/components/about"
 import { Skills } from "@/components/skills"
-import { Certifications } from "@/components/certifications" // Import Certifications component
 import { Projects } from "@/components/projects"
 import { Experience } from "@/components/experience"
 import { Timeline } from "@/components/timeline"
