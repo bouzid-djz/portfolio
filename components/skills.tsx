@@ -32,14 +32,14 @@ const certifications = [
     name: "MOOC ANSSI",
     organization: "ANSSI",
     date: "Juin 2025",
-    url: "/mooc_anssi.pdf",
+    url: "https://formations.francetransfo.gouv.fr/programmes-solista/271AZ-26-0000002/mooc-anssi-cybersecurite-accueil?distancecours=HYBRID",
     status: "obtained",
   },
   {
     name: "MOOC CNIL",
     organization: "CNIL",
     date: "En cours",
-    url: "/mooc_cnil.pdf",
+    url: "https://www.cnil.fr/fr/le-mooc-de-la-cnil-est-de-retour-dans-une-nouvelle-version-enrichie",
     status: "in-progress",
   },
 ]
