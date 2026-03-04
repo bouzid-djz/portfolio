@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Download, ExternalLink, Play, X } from "lucide-react"
+import { Download, ExternalLink, Play } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
@@ -45,8 +45,8 @@ export function Projects() {
       title: t.project3Title,
       description: t.project3Desc,
       context: t.context,
-      technologies: ["Nginx", "Linux", "Sécurité"],
-      downloadUrl: "/Projet3.pdf",
+      technologies: ["Proxmox", "AD", "TrueNAS", "VLAN", "Ubuntu"],
+      downloadUrl: "#",
       hasDemo: false,
     },
   ]
@@ -112,6 +112,7 @@ export function Projects() {
                     variant="outline"
                     size="sm"
                     className={`bg-transparent ${project.hasDemo ? "flex-1" : "w-full"}`}
+                    disabled={project.downloadUrl === "#"}
                   >
                     <a href={project.downloadUrl} download>
                       <Download className="h-4 w-4 mr-2" />
