@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, X, Home, User, Code, Briefcase, FileText, Mail, Lightbulb, FlaskConical } from "lucide-react"
+import { Menu, X, Home, User, Code, Briefcase, FileText, Mail, Lightbulb } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSelector } from "@/components/language-selector"
@@ -21,7 +21,6 @@ export function SidebarMenu() {
     { label: t.nav.projects, href: "#projects", icon: Briefcase },
     { label: t.nav.experience, href: "#experience", icon: FileText },
     { label: t.nav.veille, href: "#veille", icon: Lightbulb },
-    { label: "Labs", href: "#labs", icon: FlaskConical },
     { label: t.nav.contact, href: "#contact", icon: Mail },
   ]
 
