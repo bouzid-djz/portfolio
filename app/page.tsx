@@ -5,6 +5,7 @@ import { Projects } from "@/components/projects"
 import { Experience } from "@/components/experience"
 import { Timeline } from "@/components/timeline"
 import { Veille } from "@/components/veille"
+import { Labs } from "@/components/labs"
 import { Contact } from "@/components/contact"
 import { SidebarMenu } from "@/components/sidebar-menu"
 import { GridBackground } from "@/components/grid-background"
@@ -28,6 +29,7 @@ export default function Home() {
         <Experience />
         <Timeline />
         <Veille />
+        <Labs />
         <Contact />
       </main>
       <footer className="border-t border-border/40 bg-background/80 backdrop-blur-sm">

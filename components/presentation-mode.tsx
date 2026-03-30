@@ -12,6 +12,7 @@ const slides = [
   { id: "experience", title: "Experience" },
   { id: "timeline", title: "Parcours" },
   { id: "veille", title: "Veille" },
+  { id: "labs", title: "Labs" },
   { id: "contact", title: "Contact" },
 ]
 
@@ -94,15 +95,18 @@ export function PresentationMode() {
     setPresentationStartTime(Date.now())
     setElapsedTime(0)
     
+    // Hide interactive elements
     document.querySelectorAll("[data-presentation-hide]").forEach((el) => {
       (el as HTMLElement).style.display = "none"
     })
 
+    // Scroll to first section
     const firstSection = document.getElementById("hero")
     if (firstSection) {
       firstSection.scrollIntoView({ behavior: "smooth", block: "start" })
     }
 
+    // Request fullscreen
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen().catch(() => {})
     }
@@ -112,10 +116,12 @@ export function PresentationMode() {
     setIsPresenting(false)
     setElapsedTime(0)
     
+    // Show hidden elements
     document.querySelectorAll("[data-presentation-hide]").forEach((el) => {
       (el as HTMLElement).style.display = ""
     })
 
+    // Exit fullscreen
     if (document.fullscreenElement) {
       document.exitFullscreen()
     }
@@ -144,10 +150,12 @@ export function PresentationMode() {
 
       {isPresenting && (
         <>
+          {/* Timer */}
           <div className="fixed top-4 right-20 z-[100] bg-background/80 backdrop-blur-sm border border-border rounded-lg px-3 py-1.5 shadow-lg">
             <span className="text-xs font-mono text-muted-foreground">{formatTime(elapsedTime)}</span>
           </div>
 
+          {/* Exit button */}
           <Button
             onClick={exitPresentation}
             className="fixed top-4 right-4 z-[100] h-10 w-10 rounded-lg shadow-lg bg-red-500 hover:bg-red-600"
@@ -157,6 +165,7 @@ export function PresentationMode() {
             <X className="h-5 w-5" />
           </Button>
 
+          {/* Navigation bar */}
           <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2 bg-background/95 backdrop-blur-sm border border-border rounded-xl px-4 py-2 shadow-xl">
             <Button
               onClick={() => goToSlide(0)}
@@ -208,6 +217,7 @@ export function PresentationMode() {
             </span>
           </div>
 
+          {/* Current slide title */}
           <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] bg-background/95 backdrop-blur-sm border border-border rounded-lg px-4 py-2 shadow-lg">
             <span className="text-sm font-medium">{slides[currentSlide].title}</span>
           </div>
