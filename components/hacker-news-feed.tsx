@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Loader2 } from "lucide-react"
+import { ExternalLink, Loader2, RefreshCw } from "lucide-react"
 
 interface Story {
   id: number
@@ -17,35 +17,47 @@ export function HackerNewsFeed() {
   const [stories, setStories] = useState<Story[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    async function fetchStories() {
-      try {
-        const res = await fetch("https://hacker-news.firebaseio.com/v0/topstories.json")
-        const ids: number[] = await res.json()
-        const top8 = ids.slice(0, 8)
-        const fetched = await Promise.all(
-          top8.map((id) =>
-            fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then((r) => r.json())
-          )
+  const fetchStories = useCallback(async () => {
+    setLoading(true)
+    try {
+      const res = await fetch("https://hacker-news.firebaseio.com/v0/topstories.json")
+      const ids: number[] = await res.json()
+      const top8 = ids.slice(0, 8)
+      const fetched = await Promise.all(
+        top8.map((id) =>
+          fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then((r) => r.json())
         )
-        setStories(fetched.filter((s) => s && s.title))
-      } catch (e) {
-        console.error(e)
-      } finally {
-        setLoading(false)
-      }
+      )
+      setStories(fetched.filter((s) => s && s.title))
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
     }
-    fetchStories()
   }, [])
+
+  useEffect(() => {
+    fetchStories()
+  }, [fetchStories])
 
   return (
     <Card className="p-6 border-border/40 bg-card/50 backdrop-blur-sm">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">Hacker News — Top Stories</h3>
-        <Badge variant="outline" className="text-xs flex items-center gap-1">
-          <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse inline-block" />
-          Live
-        </Badge>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={fetchStories}
+            disabled={loading}
+            className="p-1.5 rounded-md hover:bg-muted transition-colors disabled:opacity-50"
+            title="Actualiser"
+          >
+            <RefreshCw className={`h-4 w-4 text-muted-foreground ${loading ? "animate-spin" : ""}`} />
+          </button>
+          <Badge variant="outline" className="text-xs flex items-center gap-1">
+            <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse inline-block" />
+            Live
+          </Badge>
+        </div>
       </div>
 
       {loading ? (
