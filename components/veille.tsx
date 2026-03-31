@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Rss, Radio, Workflow } from "lucide-react"
+import { ExternalLink, Rss, Workflow } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
@@ -31,12 +31,6 @@ export function Veille() {
       name: t.source3Name,
       type: t.source3Type,
       description: t.source3Desc,
-      icon: Radio,
-    },
-    {
-      name: t.source4Name,
-      type: t.source4Type,
-      description: t.source4Desc,
       icon: Workflow,
     },
   ]
