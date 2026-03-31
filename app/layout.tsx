@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/image-removebg-preview.png",
+        url: "https://bouzid-djz.github.io/portfolio/image-removebg-preview.png",
         type: "image/png",
       },
     ],
-    apple: "/image-removebg-preview.png",
+    apple: "https://bouzid-djz.github.io/portfolio/image-removebg-preview.png",
   },
 }
 
@@ -34,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-<body className={`${geist.className} antialiased`} suppressHydrationWarning>
+      <body className={`${geist.className} antialiased`} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
