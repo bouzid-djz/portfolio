@@ -12,7 +12,6 @@ const slides = [
   { id: "experience", title: "Experience" },
   { id: "timeline", title: "Parcours" },
   { id: "veille", title: "Veille" },
-  { id: "labs", title: "Labs" },
   { id: "contact", title: "Contact" },
 ]
 
