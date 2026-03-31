@@ -6,6 +6,7 @@ import { ExternalLink, Rss, Radio, Workflow } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { HackerNewsFeed } from "@/components/hacker-news-feed"
 
 export function Veille() {
   const { language } = useLanguage()
@@ -42,7 +43,6 @@ export function Veille() {
 
   const themes = [t.theme1, t.theme2, t.theme3]
 
-  
   return (
     <section id="veille" className="py-24 scroll-mt-16 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4">
@@ -109,6 +109,8 @@ export function Veille() {
               })}
             </div>
           </div>
+
+          <HackerNewsFeed />
 
           <Card className="p-8 border-border/40 bg-primary/5 backdrop-blur-sm">
             <p className="text-muted-foreground leading-relaxed">{t.conclusion}</p>
