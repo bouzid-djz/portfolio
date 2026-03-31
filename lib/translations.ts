@@ -65,6 +65,7 @@ export const translations = {
       title: "Projets réalisés",
       context: "Projet de cours",
       internship: "Stage en entreprise",
+      personal: "Projet personnel",
       download: "Télécharger",
       project1Title: "Parc informatique entreprise pharmaceutique",
       project1Desc:
@@ -73,6 +74,8 @@ export const translations = {
       project2Desc: "Système automatisé de sauvegarde quotidienne des fichiers critiques de l'entreprise.",
       project3Title: "Mise en place d'une infrastructure réseau",
       project3Desc: "Conception et déploiement d'une infrastructure complète via Proxmox.",
+      project4Title: "Workflow n8n de veille technologique",
+      project4Desc: "Workflow d'automatisation qui collecte chaque semaine les actualités tech depuis plusieurs sources et envoie un résumé par e-mail chaque dimanche matin.",
       docsTitle: "Documentation complète",
       docsDesc:
         "Consultez mon tableau de synthèse complet pour une vue d'ensemble détaillée de mes compétences et réalisations.",
@@ -232,6 +235,7 @@ export const translations = {
       title: "Completed Projects",
       context: "Course project",
       internship: "Company internship",
+      personal: "Personal project",
       download: "Download",
       project1Title: "Pharmaceutical company IT infrastructure",
       project1Desc:
@@ -240,6 +244,8 @@ export const translations = {
       project2Desc: "Automated daily backup system for critical company files.",
       project3Title: "Network infrastructure setup",
       project3Desc: "Design and deployment of a complete infrastructure via Proxmox.",
+      project4Title: "n8n Tech Watch Workflow",
+      project4Desc: "Automation workflow that collects weekly tech news from multiple sources and sends a summary by email every Sunday morning.",
       docsTitle: "Complete documentation",
       docsDesc: "Check out my comprehensive synthesis table for a detailed overview of my skills and achievements.",
       viewDocs: "View synthesis table",

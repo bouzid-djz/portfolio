@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Download, ExternalLink, Play } from "lucide-react"
+import { Download, ExternalLink, Play, Workflow } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
@@ -32,6 +32,7 @@ export function Projects() {
       technologies: ["CISCO", "Réseaux"],
       downloadUrl: "/Projet.zip",
       hasDemo: false,
+      icon: null,
     },
     {
       title: t.project2Title,
@@ -40,6 +41,7 @@ export function Projects() {
       technologies: ["PowerShell", "VBS", "Automatisation"],
       downloadUrl: "/Projet2.zip",
       hasDemo: true,
+      icon: null,
     },
     {
       title: t.project3Title,
@@ -48,6 +50,16 @@ export function Projects() {
       technologies: ["Proxmox", "AD", "TrueNAS", "VLAN", "Ubuntu"],
       downloadUrl: "#",
       hasDemo: false,
+      icon: null,
+    },
+    {
+      title: t.project4Title,
+      description: t.project4Desc,
+      context: t.personal,
+      technologies: ["n8n", "Automatisation", "E-mail", "RSS"],
+      downloadUrl: "#",
+      hasDemo: false,
+      icon: Workflow,
     },
   ]
 
@@ -65,16 +77,21 @@ export function Projects() {
             <div className="h-1 w-20 bg-primary rounded-full" />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
             {projects.map((project, index) => (
               <Card
                 key={index}
                 className="p-6 space-y-4 border-border/40 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all hover:-translate-y-1"
               >
                 <div className="space-y-3">
-                  <Badge variant="outline" className="text-xs">
-                    {project.context}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      {project.context}
+                    </Badge>
+                    {project.icon && (
+                      <project.icon className="h-4 w-4 text-primary" />
+                    )}
+                  </div>
                   <h3 className="text-lg font-semibold leading-tight text-balance">{project.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
                 </div>
@@ -107,18 +124,19 @@ export function Projects() {
                       </DialogContent>
                     </Dialog>
                   )}
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className={`bg-transparent ${project.hasDemo ? "flex-1" : "w-full"}`}
-                    disabled={project.downloadUrl === "#"}
-                  >
-                    <a href={project.downloadUrl} download>
-                      <Download className="h-4 w-4 mr-2" />
-                      {t.download}
-                    </a>
-                  </Button>
+                  {project.downloadUrl !== "#" && (
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className={`bg-transparent ${project.hasDemo ? "flex-1" : "w-full"}`}
+                    >
+                      <a href={project.downloadUrl} download>
+                        <Download className="h-4 w-4 mr-2" />
+                        {t.download}
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </Card>
             ))}
