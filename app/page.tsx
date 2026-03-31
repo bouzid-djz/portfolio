@@ -32,7 +32,7 @@ export default function Home() {
       </main>
       <footer className="border-t border-border/40 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-8 text-center">
-          <p className="text-sm text-muted-foreground">© 2025 Quentin SILVA - Tous droits réservés</p>
+          <p className="text-sm text-muted-foreground">© 2026 Quentin SILVA - Tous droits réservés</p>
         </div>
       </footer>
       <Terminal />
