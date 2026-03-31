@@ -147,7 +147,7 @@ export function Projects() {
               <h3 className="text-xl font-semibold">{t.docsTitle}</h3>
               <p className="text-muted-foreground leading-relaxed">{t.docsDesc}</p>
               <Button asChild>
-                <a href="/tableau.pdf" target="_blank" rel="noreferrer noopener">
+                <a href="https://bouzid-djz.github.io/portfolio/tableau.pdf" target="_blank" rel="noreferrer noopener">
                   <ExternalLink className="h-4 w-4 mr-2" />
                   {t.viewDocs}
                 </a>
