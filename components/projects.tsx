@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Download, ExternalLink, Play, Workflow } from "lucide-react"
+import { Download, ExternalLink, Play, Workflow, ArrowRight } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
@@ -32,6 +32,7 @@ export function Projects() {
       technologies: ["CISCO", "Réseaux"],
       downloadUrl: "/Projet.zip",
       hasDemo: false,
+      detailUrl: null,
       icon: null,
     },
     {
@@ -41,6 +42,7 @@ export function Projects() {
       technologies: ["PowerShell", "VBS", "Automatisation"],
       downloadUrl: "/Projet2.zip",
       hasDemo: true,
+      detailUrl: null,
       icon: null,
     },
     {
@@ -50,6 +52,7 @@ export function Projects() {
       technologies: ["Proxmox", "AD", "TrueNAS", "VLAN", "Ubuntu"],
       downloadUrl: "#",
       hasDemo: false,
+      detailUrl: "/projects/proxmox",
       icon: null,
     },
     {
@@ -59,6 +62,7 @@ export function Projects() {
       technologies: ["n8n", "Automatisation", "E-mail", "RSS"],
       downloadUrl: "#",
       hasDemo: false,
+      detailUrl: null,
       icon: Workflow,
     },
   ]
@@ -124,12 +128,25 @@ export function Projects() {
                       </DialogContent>
                     </Dialog>
                   )}
+                  {project.detailUrl && (
+                    <Button
+                      asChild
+                      variant="default"
+                      size="sm"
+                      className="flex-1"
+                    >
+                      <a href={project.detailUrl}>
+                        <ArrowRight className="h-4 w-4 mr-2" />
+                        Voir le projet
+                      </a>
+                    </Button>
+                  )}
                   {project.downloadUrl !== "#" && (
                     <Button
                       asChild
                       variant="outline"
                       size="sm"
-                      className={`bg-transparent ${project.hasDemo ? "flex-1" : "w-full"}`}
+                      className={`bg-transparent ${project.hasDemo || project.detailUrl ? "flex-1" : "w-full"}`}
                     >
                       <a href={project.downloadUrl} download>
                         <Download className="h-4 w-4 mr-2" />
