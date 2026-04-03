@@ -8,119 +8,168 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; scroll-padding-top: 72px; }
-    :root {
-      --background: #121212; --foreground: #eeeeee; --card: #030303;
-      --border: #1e1e1e; --muted: #0b0b0b; --muted-foreground: #8f8f8f;
-      --primary: #7ef473; --primary-foreground: #0b0b0b; --radius: 0.625rem;
-      --font-sans: 'Geist', 'Helvetica Neue', sans-serif;
-      --font-mono: 'Geist Mono', 'Courier New', monospace;
-      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
-      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
-      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
-      --sp-1:.25rem;--sp-2:.5rem;--sp-3:.75rem;--sp-4:1rem;--sp-5:1.25rem;
-      --sp-6:1.5rem;--sp-8:2rem;--sp-10:2.5rem;--sp-16:4rem;--sp-20:5rem;
-      --shadow-sm:0 1px 3px rgba(0,0,0,.6); --shadow-md:0 4px 16px rgba(0,0,0,.7);
-      --transition:150ms cubic-bezier(.4,0,.2,1); --content:1100px;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:72px}
+    :root{
+      --bg:#121212;--fg:#eeeeee;--card:#030303;--border:#1e1e1e;--muted:#0b0b0b;--muted-fg:#8f8f8f;
+      --primary:#7ef473;--primary-fg:#0b0b0b;--radius:.625rem;
+      --font-sans:'Geist','Helvetica Neue',sans-serif;--font-mono:'Geist Mono','Courier New',monospace;
+      --xs:clamp(.75rem,.7rem + .25vw,.875rem);--sm:clamp(.875rem,.8rem + .35vw,1rem);
+      --base:clamp(1rem,.95rem + .25vw,1.125rem);--xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+      --2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+      --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;--s8:2rem;--s10:2.5rem;--s16:4rem;--s20:5rem;
+      --sh-sm:0 1px 3px rgba(0,0,0,.6);--sh-md:0 4px 16px rgba(0,0,0,.7);
+      --t:150ms cubic-bezier(.4,0,.2,1);--content:1100px;
+      /* Windows colors */
+      --win-bg:#f0f0f0;--win-title:#0078d4;--win-border:#999;--win-btn:#e1e1e1;--win-btn-hover:#c7c7c7;
+      --win-selected:#0078d4;--win-selected-fg:#fff;--win-fg:#000;--win-folder:#ffc107;
     }
-    body { font-family:var(--font-sans); font-size:var(--text-base); color:var(--foreground); background-color:var(--background); line-height:1.6; min-height:100dvh; background-image:linear-gradient(to right,#80808012 1px,transparent 1px),linear-gradient(to bottom,#80808012 1px,transparent 1px); background-size:24px 24px; }
-    a,button { transition:color var(--transition),background var(--transition),border-color var(--transition); }
-    ::selection { background:rgba(126,244,115,.2); color:var(--foreground); }
-    .container { max-width:var(--content); margin-inline:auto; padding-inline:var(--sp-6); }
-    .navbar { position:sticky; top:0; z-index:100; background:color-mix(in oklab,var(--background) 88%,transparent); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:var(--sp-4) 0; }
-    .navbar .container { display:flex; align-items:center; justify-content:space-between; }
-    .nav-logo { display:flex; align-items:center; gap:var(--sp-3); text-decoration:none; color:var(--foreground); font-weight:600; font-size:var(--text-sm); }
-    .nav-logo-icon { width:32px; height:32px; background:var(--primary); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; }
-    .nav-right { display:flex; align-items:center; gap:var(--sp-3); }
-    .nav-back { display:flex; align-items:center; gap:var(--sp-2); font-size:var(--text-sm); color:var(--muted-foreground); text-decoration:none; padding:var(--sp-2) var(--sp-3); border:1px solid var(--border); border-radius:var(--radius); }
-    .nav-back:hover { border-color:var(--primary); color:var(--primary); }
-    .nav-tag { font-size:var(--text-xs); font-family:var(--font-mono); color:var(--primary); border:1px solid rgba(126,244,115,.3); padding:var(--sp-1) var(--sp-3); border-radius:var(--radius); background:rgba(126,244,115,.06); }
-    .progress-bar { position:fixed; top:0; left:0; width:100%; height:2px; background:rgba(126,244,115,.1); z-index:200; }
-    .progress-fill { height:100%; background:var(--primary); transition:width .1s linear; width:0%; }
-    .hero { padding:var(--sp-20) 0 var(--sp-16); }
-    .hero-eyebrow { display:flex; align-items:center; gap:var(--sp-2); margin-bottom:var(--sp-5); flex-wrap:wrap; }
-    .chip { display:inline-flex; align-items:center; gap:var(--sp-1); padding:2px var(--sp-3); border-radius:var(--radius); font-size:var(--text-xs); font-family:var(--font-mono); border:1px solid var(--border); background:var(--muted); color:var(--muted-foreground); }
-    .chip::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; opacity:.8; }
-    .chip.green { border-color:rgba(126,244,115,.4); background:rgba(126,244,115,.08); color:var(--primary); }
-    .chip.orange { border-color:rgba(240,81,0,.4); background:rgba(240,81,0,.08); color:#f05100; }
-    .chip.blue { border-color:rgba(77,143,255,.4); background:rgba(77,143,255,.08); color:#4d8fff; }
-    .chip.purple { border-color:rgba(172,75,255,.4); background:rgba(172,75,255,.08); color:#ac4bff; }
-    .hero h1 { font-size:var(--text-2xl); font-weight:700; line-height:1.1; letter-spacing:-.03em; margin-bottom:var(--sp-5); }
-    .hero h1 .accent { color:var(--primary); }
-    .hero-desc { font-size:var(--text-base); color:var(--muted-foreground); max-width:68ch; line-height:1.7; margin-bottom:var(--sp-10); }
-    .hero-stats { display:flex; gap:var(--sp-10); flex-wrap:wrap; }
-    .stat { display:flex; flex-direction:column; gap:var(--sp-1); }
-    .stat-value { font-size:var(--text-xl); font-weight:700; font-family:var(--font-mono); color:var(--primary); line-height:1; }
-    .stat-label { font-size:var(--text-xs); color:var(--muted-foreground); text-transform:uppercase; letter-spacing:.1em; font-family:var(--font-mono); }
-    .divider { border:none; border-top:1px solid var(--border); margin:0; }
-    .section { padding:var(--sp-16) 0; }
-    .section+.section { border-top:1px solid var(--border); }
-    .section-head { display:flex; align-items:center; gap:var(--sp-3); margin-bottom:var(--sp-8); }
-    .section-head h2 { font-size:var(--text-sm); font-weight:600; text-transform:uppercase; letter-spacing:.12em; font-family:var(--font-mono); color:var(--muted-foreground); }
-    .section-head::before { content:""; flex-shrink:0; width:20px; height:1px; background:var(--primary); }
-    .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:var(--sp-6); box-shadow:var(--shadow-sm); transition:border-color var(--transition),box-shadow var(--transition); }
-    .card:hover { border-color:rgba(126,244,115,.25); box-shadow:var(--shadow-md); }
-    .card h3 { font-size:var(--text-sm); font-weight:600; margin-bottom:var(--sp-3); }
-    .card p,.card li { font-size:var(--text-sm); color:var(--muted-foreground); line-height:1.65; }
-    .card ul { list-style:none; display:flex; flex-direction:column; gap:var(--sp-2); }
-    .card ul li { display:flex; gap:var(--sp-2); align-items:baseline; }
-    .card ul li::before { content:"→"; color:var(--primary); font-size:var(--text-xs); flex-shrink:0; font-family:var(--font-mono); }
-    /* FLOW */
-    .flow-wrap { overflow-x:auto; padding-bottom:var(--sp-2); }
-    .flow { display:flex; align-items:center; gap:0; min-width:600px; }
-    .flow-node { display:flex; flex-direction:column; align-items:center; gap:var(--sp-2); flex:1; }
-    .flow-icon { width:56px; height:56px; border-radius:var(--radius); border:1px solid var(--border); background:var(--muted); display:flex; align-items:center; justify-content:center; font-size:1.4rem; transition:border-color var(--transition),transform var(--transition); }
-    .flow-node:hover .flow-icon { border-color:rgba(126,244,115,.4); transform:translateY(-2px); }
-    .flow-node.highlight .flow-icon { border-color:rgba(126,244,115,.5); background:rgba(126,244,115,.06); }
-    .flow-node-label { font-size:var(--text-xs); font-family:var(--font-mono); color:var(--muted-foreground); text-align:center; max-width:90px; line-height:1.3; }
-    .flow-node-sub { font-size:10px; color:rgba(143,143,143,.6); text-align:center; max-width:90px; margin-top:2px; font-family:var(--font-mono); }
-    .flow-arrow { flex-shrink:0; padding:0 var(--sp-1); }
-    .flow-arrow svg { color:#3a3a3a; }
-    /* CODE BLOCK */
-    .code-block { background:#0a0a0a; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
-    .code-header { display:flex; align-items:center; justify-content:space-between; padding:var(--sp-3) var(--sp-4); border-bottom:1px solid var(--border); }
-    .code-lang { font-size:var(--text-xs); font-family:var(--font-mono); color:var(--primary); }
-    .code-dots { display:flex; gap:6px; }
-    .code-dot { width:10px; height:10px; border-radius:50%; }
-    .code-dot.red { background:#ff5f57; } .code-dot.yellow { background:#ffbd2e; } .code-dot.green { background:#28c840; }
-    pre { padding:var(--sp-5); overflow-x:auto; }
-    pre code { font-family:var(--font-mono); font-size:var(--text-xs); line-height:1.7; color:#cdd6f4; }
-    .kw { color:#cba6f7; } .fn { color:#89b4fa; } .str { color:#a6e3a1; } .cm { color:#6c7086; font-style:italic; } .var { color:#f38ba8; } .num { color:#fab387; }
-    /* FEATURES */
-    .feat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr)); gap:var(--sp-4); }
-    .feat-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:var(--sp-5); transition:border-color var(--transition),transform var(--transition); }
-    .feat-card:hover { border-color:rgba(126,244,115,.3); transform:translateY(-2px); }
-    .feat-icon { font-size:1.4rem; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border-radius:var(--radius); border:1px solid var(--border); background:var(--muted); margin-bottom:var(--sp-4); }
-    .feat-card h4 { font-size:var(--text-sm); font-weight:600; margin-bottom:var(--sp-2); }
-    .feat-card p { font-size:var(--text-xs); color:var(--muted-foreground); line-height:1.5; }
-    /* TIMELINE */
-    .timeline { display:flex; flex-direction:column; }
-    .tl-item { display:grid; grid-template-columns:120px 1px 1fr; gap:0 var(--sp-6); padding-bottom:var(--sp-8); }
-    .tl-item:last-child { padding-bottom:0; }
-    .tl-date { font-size:var(--text-xs); font-family:var(--font-mono); color:var(--muted-foreground); padding-top:2px; text-align:right; }
-    .tl-line { position:relative; }
-    .tl-line::before { content:""; position:absolute; top:8px; left:50%; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; background:var(--primary); box-shadow:0 0 0 3px rgba(126,244,115,.15); }
-    .tl-line::after { content:""; position:absolute; top:16px; bottom:-2rem; left:50%; transform:translateX(-50%); width:1px; background:var(--border); }
-    .tl-item:last-child .tl-line::after { display:none; }
-    .tl-content h4 { font-size:var(--text-sm); font-weight:600; margin-bottom:var(--sp-2); }
-    .tl-content p { font-size:var(--text-xs); color:var(--muted-foreground); line-height:1.6; }
-    /* COMP */
-    .comp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr)); gap:var(--sp-3); }
-    .comp-item { display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-3) var(--sp-4); background:var(--card); border:1px solid var(--border); border-radius:var(--radius); font-size:var(--text-xs); }
-    .comp-dot { width:6px; height:6px; border-radius:50%; background:var(--primary); flex-shrink:0; }
-    /* FOOTER */
-    .footer { border-top:1px solid var(--border); padding:var(--sp-8) 0; margin-top:var(--sp-8); }
-    .footer .container { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--sp-4); }
-    .footer p { font-size:var(--text-xs); color:var(--muted-foreground); font-family:var(--font-mono); }
-    .btn-back { display:inline-flex; align-items:center; gap:var(--sp-2); padding:var(--sp-3) var(--sp-5); border-radius:var(--radius); font-size:var(--text-sm); font-weight:500; text-decoration:none; border:1px solid var(--border); color:var(--muted-foreground); }
-    .btn-back:hover { border-color:var(--primary); color:var(--primary); }
-    .reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease,transform .6s ease; }
-    .reveal.in { opacity:1; transform:translateY(0); }
-    @media(max-width:640px) { .tl-item { grid-template-columns:80px 1px 1fr; gap:0 var(--sp-3); } }
-    @media(max-width:768px) { .ctx-grid { grid-template-columns:1fr !important; } }
+    body{font-family:var(--font-sans);font-size:var(--base);color:var(--fg);background:var(--bg);line-height:1.6;min-height:100dvh;background-image:linear-gradient(to right,#80808012 1px,transparent 1px),linear-gradient(to bottom,#80808012 1px,transparent 1px);background-size:24px 24px}
+    a,button{transition:color var(--t),background var(--t),border-color var(--t)}
+    ::selection{background:rgba(126,244,115,.2);color:var(--fg)}
+    .container{max-width:var(--content);margin-inline:auto;padding-inline:var(--s6)}
+    .navbar{position:sticky;top:0;z-index:100;background:color-mix(in oklab,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:var(--s4) 0}
+    .navbar .container{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{display:flex;align-items:center;gap:var(--s3);text-decoration:none;color:var(--fg);font-weight:600;font-size:var(--sm)}
+    .nav-logo-icon{width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center}
+    .nav-right{display:flex;align-items:center;gap:var(--s3)}
+    .nav-back{display:flex;align-items:center;gap:var(--s2);font-size:var(--sm);color:var(--muted-fg);text-decoration:none;padding:var(--s2) var(--s3);border:1px solid var(--border);border-radius:var(--radius)}
+    .nav-back:hover{border-color:var(--primary);color:var(--primary)}
+    .nav-tag{font-size:var(--xs);font-family:var(--font-mono);color:var(--primary);border:1px solid rgba(126,244,115,.3);padding:var(--s1) var(--s3);border-radius:var(--radius);background:rgba(126,244,115,.06)}
+    .progress-bar{position:fixed;top:0;left:0;width:100%;height:2px;background:rgba(126,244,115,.1);z-index:200}
+    .progress-fill{height:100%;background:var(--primary);transition:width .1s linear;width:0%}
+    .hero{padding:var(--s20) 0 var(--s16)}
+    .hero-eyebrow{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s5);flex-wrap:wrap}
+    .chip{display:inline-flex;align-items:center;gap:var(--s1);padding:2px var(--s3);border-radius:var(--radius);font-size:var(--xs);font-family:var(--font-mono);border:1px solid var(--border);background:var(--muted);color:var(--muted-fg)}
+    .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.8}
+    .chip.green{border-color:rgba(126,244,115,.4);background:rgba(126,244,115,.08);color:var(--primary)}
+    .chip.orange{border-color:rgba(240,81,0,.4);background:rgba(240,81,0,.08);color:#f05100}
+    .chip.blue{border-color:rgba(77,143,255,.4);background:rgba(77,143,255,.08);color:#4d8fff}
+    .chip.purple{border-color:rgba(172,75,255,.4);background:rgba(172,75,255,.08);color:#ac4bff}
+    .hero h1{font-size:var(--2xl);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:var(--s5)}
+    .hero h1 .accent{color:var(--primary)}
+    .hero-desc{font-size:var(--base);color:var(--muted-fg);max-width:68ch;line-height:1.7;margin-bottom:var(--s10)}
+    .hero-stats{display:flex;gap:var(--s10);flex-wrap:wrap}
+    .stat{display:flex;flex-direction:column;gap:var(--s1)}
+    .stat-value{font-size:var(--xl);font-weight:700;font-family:var(--font-mono);color:var(--primary);line-height:1}
+    .stat-label{font-size:var(--xs);color:var(--muted-fg);text-transform:uppercase;letter-spacing:.1em;font-family:var(--font-mono)}
+    .divider{border:none;border-top:1px solid var(--border);margin:0}
+    .section{padding:var(--s16) 0}
+    .section+.section{border-top:1px solid var(--border)}
+    .section-head{display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s8)}
+    .section-head h2{font-size:var(--sm);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-family:var(--font-mono);color:var(--muted-fg)}
+    .section-head::before{content:"";flex-shrink:0;width:20px;height:1px;background:var(--primary)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--s6);box-shadow:var(--sh-sm);transition:border-color var(--t),box-shadow var(--t)}
+    .card:hover{border-color:rgba(126,244,115,.25);box-shadow:var(--sh-md)}
+    .card h3{font-size:var(--sm);font-weight:600;margin-bottom:var(--s3)}
+    .card p,.card li{font-size:var(--sm);color:var(--muted-fg);line-height:1.65}
+    .card ul{list-style:none;display:flex;flex-direction:column;gap:var(--s2)}
+    .card ul li{display:flex;gap:var(--s2);align-items:baseline}
+    .card ul li::before{content:"→";color:var(--primary);font-size:var(--xs);flex-shrink:0;font-family:var(--font-mono)}
+    .flow-wrap{overflow-x:auto;padding-bottom:var(--s2)}
+    .flow{display:flex;align-items:center;gap:0;min-width:600px}
+    .flow-node{display:flex;flex-direction:column;align-items:center;gap:var(--s2);flex:1}
+    .flow-icon{width:56px;height:56px;border-radius:var(--radius);border:1px solid var(--border);background:var(--muted);display:flex;align-items:center;justify-content:center;font-size:1.4rem;transition:border-color var(--t),transform var(--t)}
+    .flow-node:hover .flow-icon{border-color:rgba(126,244,115,.4);transform:translateY(-2px)}
+    .flow-node.highlight .flow-icon{border-color:rgba(126,244,115,.5);background:rgba(126,244,115,.06)}
+    .flow-node-label{font-size:var(--xs);font-family:var(--font-mono);color:var(--muted-fg);text-align:center;max-width:90px;line-height:1.3}
+    .flow-node-sub{font-size:10px;color:rgba(143,143,143,.6);text-align:center;max-width:90px;margin-top:2px;font-family:var(--font-mono)}
+    .flow-arrow{flex-shrink:0;padding:0 var(--s1)}
+    .flow-arrow svg{color:#3a3a3a}
+    .code-block{background:#0a0a0a;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .code-header{display:flex;align-items:center;justify-content:space-between;padding:var(--s3) var(--s4);border-bottom:1px solid var(--border)}
+    .code-lang{font-size:var(--xs);font-family:var(--font-mono);color:var(--primary)}
+    .code-dots{display:flex;gap:6px}
+    .code-dot{width:10px;height:10px;border-radius:50%}
+    .code-dot.red{background:#ff5f57}.code-dot.yellow{background:#ffbd2e}.code-dot.green{background:#28c840}
+    pre{padding:var(--s5);overflow-x:auto}
+    pre code{font-family:var(--font-mono);font-size:var(--xs);line-height:1.7;color:#cdd6f4}
+    .kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#6c7086;font-style:italic}.var{color:#f38ba8}.num{color:#fab387}
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:var(--s4)}
+    .feat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--s5);transition:border-color var(--t),transform var(--t)}
+    .feat-card:hover{border-color:rgba(126,244,115,.3);transform:translateY(-2px)}
+    .feat-icon{font-size:1.4rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--muted);margin-bottom:var(--s4)}
+    .feat-card h4{font-size:var(--sm);font-weight:600;margin-bottom:var(--s2)}
+    .feat-card p{font-size:var(--xs);color:var(--muted-fg);line-height:1.5}
+    .timeline{display:flex;flex-direction:column}
+    .tl-item{display:grid;grid-template-columns:120px 1px 1fr;gap:0 var(--s6);padding-bottom:var(--s8)}
+    .tl-item:last-child{padding-bottom:0}
+    .tl-date{font-size:var(--xs);font-family:var(--font-mono);color:var(--muted-fg);padding-top:2px;text-align:right}
+    .tl-line{position:relative}
+    .tl-line::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px rgba(126,244,115,.15)}
+    .tl-line::after{content:"";position:absolute;top:16px;bottom:-2rem;left:50%;transform:translateX(-50%);width:1px;background:var(--border)}
+    .tl-item:last-child .tl-line::after{display:none}
+    .tl-content h4{font-size:var(--sm);font-weight:600;margin-bottom:var(--s2)}
+    .tl-content p{font-size:var(--xs);color:var(--muted-fg);line-height:1.6}
+    .comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:var(--s3)}
+    .comp-item{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4);background:var(--card);border:1px solid var(--border);border-radius:var(--radius);font-size:var(--xs)}
+    .comp-dot{width:6px;height:6px;border-radius:50%;background:var(--primary);flex-shrink:0}
+    .footer{border-top:1px solid var(--border);padding:var(--s8) 0;margin-top:var(--s8)}
+    .footer .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--s4)}
+    .footer p{font-size:var(--xs);color:var(--muted-fg);font-family:var(--font-mono)}
+    .btn-back{display:inline-flex;align-items:center;gap:var(--s2);padding:var(--s3) var(--s5);border-radius:var(--radius);font-size:var(--sm);font-weight:500;text-decoration:none;border:1px solid var(--border);color:var(--muted-fg)}
+    .btn-back:hover{border-color:var(--primary);color:var(--primary)}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.in{opacity:1;transform:translateY(0)}
+
+    /* ===== SIMULATION ===== */
+    .sim-wrapper{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .sim-topbar{background:#1a1a1a;border-bottom:1px solid var(--border);padding:var(--s3) var(--s4);display:flex;align-items:center;justify-content:space-between}
+    .sim-topbar-title{font-size:var(--xs);font-family:var(--font-mono);color:var(--muted-fg)}
+    .sim-topbar-title span{color:var(--primary)}
+    .sim-badge{font-size:10px;font-family:var(--font-mono);background:rgba(126,244,115,.1);border:1px solid rgba(126,244,115,.25);color:var(--primary);padding:2px 8px;border-radius:4px}
+    .sim-body{padding:var(--s6);display:flex;flex-direction:column;gap:var(--s5)}
+    .sim-start-btn{display:inline-flex;align-items:center;gap:var(--s2);padding:var(--s3) var(--s6);background:var(--primary);color:var(--primary-fg);border:none;border-radius:var(--radius);font-family:var(--font-sans);font-size:var(--sm);font-weight:600;cursor:pointer;transition:opacity var(--t),transform var(--t);align-self:flex-start}
+    .sim-start-btn:hover{opacity:.9;transform:translateY(-1px)}
+    .sim-start-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+    .sim-log{background:#0a0a0a;border:1px solid var(--border);border-radius:var(--radius);padding:var(--s4);font-family:var(--font-mono);font-size:var(--xs);line-height:1.8;min-height:120px;max-height:220px;overflow-y:auto;color:#cdd6f4}
+    .sim-log .log-info{color:#89b4fa}
+    .sim-log .log-ok{color:#a6e3a1}
+    .sim-log .log-warn{color:#f9e2af}
+    .sim-log .log-err{color:#f38ba8}
+    .sim-log .log-dim{color:#6c7086}
+
+    /* Windows dialog */
+    .win-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:flex;align-items:center;justify-content:center;padding:var(--s4);backdrop-filter:blur(2px)}
+    .win-overlay.hidden{display:none}
+    .win-dialog{background:var(--win-bg);border:1px solid var(--win-border);border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,.5);min-width:340px;max-width:520px;width:100%;font-family:'Segoe UI',sans-serif;color:var(--win-fg);overflow:hidden;animation:winIn .15s ease}
+    @keyframes winIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+    .win-titlebar{background:var(--win-title);color:#fff;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:500;user-select:none}
+    .win-titlebar-icon{display:flex;align-items:center;gap:6px}
+    .win-close{width:24px;height:24px;background:rgba(255,255,255,.2);border:none;color:#fff;cursor:pointer;border-radius:2px;font-size:14px;display:flex;align-items:center;justify-content:center}
+    .win-close:hover{background:#e81123}
+    /* Folder browser */
+    .win-browser-body{padding:0}
+    .win-browser-desc{padding:10px 14px;font-size:13px;border-bottom:1px solid #ccc;background:#fff}
+    .win-browser-tree{padding:6px;background:#fff;border-bottom:1px solid #ccc;height:220px;overflow-y:auto}
+    .win-tree-item{display:flex;align-items:center;gap:6px;padding:4px 8px;font-size:13px;cursor:pointer;border-radius:2px;user-select:none}
+    .win-tree-item:hover{background:#e5f3ff}
+    .win-tree-item.selected{background:var(--win-selected);color:var(--win-selected-fg)}
+    .win-tree-item .folder-icon{font-size:16px;flex-shrink:0}
+    .win-tree-item .folder-path{font-size:11px;color:#666;margin-left:auto}
+    .win-tree-item.selected .folder-path{color:rgba(255,255,255,.7)}
+    .win-browser-path{padding:8px 14px;font-size:12px;background:#f8f8f8;border-bottom:1px solid #ccc;color:#555;font-family:'Courier New',monospace}
+    .win-browser-actions{padding:10px 14px;display:flex;justify-content:flex-end;gap:8px;background:#f0f0f0}
+    .win-btn{padding:5px 18px;font-size:13px;font-family:'Segoe UI',sans-serif;border:1px solid var(--win-border);background:var(--win-btn);cursor:pointer;border-radius:2px;color:var(--win-fg)}
+    .win-btn:hover{background:var(--win-btn-hover)}
+    .win-btn.primary{background:#0078d4;border-color:#0078d4;color:#fff}
+    .win-btn.primary:hover{background:#106ebe}
+    .win-btn:disabled{opacity:.5;cursor:not-allowed}
+    /* MessageBox */
+    .win-msgbox-body{padding:20px 24px;display:flex;gap:14px;align-items:flex-start;background:#fff}
+    .win-msgbox-icon{font-size:32px;flex-shrink:0}
+    .win-msgbox-text{font-size:13px;line-height:1.5}
+    .win-msgbox-text strong{display:block;margin-bottom:4px;font-size:14px}
+    .win-msgbox-actions{padding:12px 14px;display:flex;justify-content:flex-end;gap:8px;background:#f0f0f0;border-top:1px solid #ddd}
+    /* Progress */
+    .win-progress-body{padding:16px 20px;background:#fff}
+    .win-progress-label{font-size:13px;margin-bottom:8px;color:#333}
+    .win-progress-track{height:20px;background:#e0e0e0;border:1px inset #999;border-radius:2px;overflow:hidden}
+    .win-progress-fill{height:100%;background:linear-gradient(90deg,#0078d4,#00b7ff);transition:width .08s linear;width:0%}
+    .win-progress-info{font-size:12px;color:#666;margin-top:6px;font-family:'Courier New',monospace}
+
+    @media(max-width:640px){.tl-item{grid-template-columns:80px 1px 1fr;gap:0 var(--s3)}}
+    @media(max-width:768px){.ctx-grid{grid-template-columns:1fr !important}}
   </style>
 </head>
 <body>
@@ -137,6 +186,104 @@
     </div>
   </div>
 </nav>
+
+<!-- WINDOWS DIALOGS (overlay) -->
+<div class="win-overlay hidden" id="dlg-browser">
+  <div class="win-dialog">
+    <div class="win-titlebar">
+      <div class="win-titlebar-icon"><span>📁</span> Rechercher un dossier</div>
+      <button class="win-close" onclick="cancelBrowser()">✕</button>
+    </div>
+    <div class="win-browser-body">
+      <div class="win-browser-desc">Choisissez un dossier à sauvegarder</div>
+      <div class="win-browser-tree" id="browser-tree"></div>
+      <div class="win-browser-path" id="browser-path">Aucun dossier sélectionné</div>
+      <div class="win-browser-actions">
+        <button class="win-btn" onclick="cancelBrowser()">Annuler</button>
+        <button class="win-btn primary" id="btn-ok-browser" onclick="confirmBrowser()" disabled>OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="win-overlay hidden" id="dlg-addmore">
+  <div class="win-dialog">
+    <div class="win-titlebar">
+      <div class="win-titlebar-icon"><span>📂</span> Ajouter un autre dossier</div>
+      <button class="win-close" onclick="answerAddMore(false)">✕</button>
+    </div>
+    <div class="win-msgbox-body">
+      <div class="win-msgbox-icon">❓</div>
+      <div class="win-msgbox-text"><strong>Voulez-vous sélectionner un autre dossier ?</strong>Vous pouvez ajouter plusieurs dossiers à sauvegarder.</div>
+    </div>
+    <div class="win-msgbox-actions">
+      <button class="win-btn primary" onclick="answerAddMore(true)">Oui</button>
+      <button class="win-btn" onclick="answerAddMore(false)">Non</button>
+    </div>
+  </div>
+</div>
+
+<div class="win-overlay hidden" id="dlg-progress">
+  <div class="win-dialog">
+    <div class="win-titlebar">
+      <div class="win-titlebar-icon"><span>🔒</span> Sauvegarde en cours...</div>
+    </div>
+    <div class="win-progress-body">
+      <div class="win-progress-label" id="progress-label">Compression de <strong>Documents</strong> avec 7-Zip AES-256...</div>
+      <div class="win-progress-track"><div class="win-progress-fill" id="progress-fill"></div></div>
+      <div class="win-progress-info" id="progress-info">Initialisation...</div>
+    </div>
+  </div>
+</div>
+
+<div class="win-overlay hidden" id="dlg-success">
+  <div class="win-dialog">
+    <div class="win-titlebar">
+      <div class="win-titlebar-icon"><span>✅</span> Succès</div>
+      <button class="win-close" onclick="closeSuccess()">✕</button>
+    </div>
+    <div class="win-msgbox-body">
+      <div class="win-msgbox-icon">✅</div>
+      <div class="win-msgbox-text" id="success-text"><strong>Sauvegarde réussie</strong></div>
+    </div>
+    <div class="win-msgbox-actions">
+      <button class="win-btn primary" onclick="closeSuccess()">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="win-overlay hidden" id="dlg-done">
+  <div class="win-dialog">
+    <div class="win-titlebar">
+      <div class="win-titlebar-icon"><span>🎉</span> Sauvegarde terminée</div>
+      <button class="win-close" onclick="closeDone()">✕</button>
+    </div>
+    <div class="win-msgbox-body">
+      <div class="win-msgbox-icon">🎉</div>
+      <div class="win-msgbox-text" id="done-text"><strong>Tous les dossiers ont été sauvegardés.</strong></div>
+    </div>
+    <div class="win-msgbox-actions">
+      <button class="win-btn primary" onclick="closeDone()">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="win-overlay hidden" id="dlg-nosel">
+  <div class="win-dialog">
+    <div class="win-titlebar">
+      <div class="win-titlebar-icon"><span>⚠️</span> Sauvegarde annulée</div>
+      <button class="win-close" onclick="closeNosel()">✕</button>
+    </div>
+    <div class="win-msgbox-body">
+      <div class="win-msgbox-icon">⚠️</div>
+      <div class="win-msgbox-text"><strong>Aucun dossier sélectionné.</strong>Opération annulée.</div>
+    </div>
+    <div class="win-msgbox-actions">
+      <button class="win-btn primary" onclick="closeNosel()">OK</button>
+    </div>
+  </div>
+</div>
+
 <main>
   <div class="container">
     <section class="hero">
@@ -158,9 +305,38 @@
     </section>
     <hr class="divider">
 
+    <!-- SIMULATION -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Simulation interactive</h2></div>
+      <div class="sim-wrapper">
+        <div class="sim-topbar">
+          <span class="sim-topbar-title">PowerShell 7.4 &mdash; <span>backup.ps1</span></span>
+          <span class="sim-badge">Simulation fidèle</span>
+        </div>
+        <div class="sim-body">
+          <p style="font-size:var(--xs);color:var(--muted-fg);line-height:1.6">Reproduit fidèlement le comportement du script : sélection de dossiers via explorateur Windows, boucle multi-sélection, compression simulée avec barre de progression, puis confirmation par boîte de dialogue.</p>
+          <div id="sim-selected" style="display:none">
+            <p style="font-size:var(--xs);color:var(--muted-fg);margin-bottom:var(--s2)">Dossiers sélectionnés :</p>
+            <div id="sim-selected-list" style="display:flex;flex-wrap:wrap;gap:var(--s2)"></div>
+          </div>
+          <div style="display:flex;gap:var(--s3);flex-wrap:wrap">
+            <button class="sim-start-btn" id="btn-launch" onclick="launchScript()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+              Lancer le script
+            </button>
+            <button class="sim-start-btn" id="btn-reset" onclick="resetSim()" style="background:#1e1e1e;color:var(--muted-fg);border:1px solid var(--border);display:none">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Réinitialiser
+            </button>
+          </div>
+          <div class="sim-log" id="sim-log"><span class="log-dim"># En attente du lancement...</span></div>
+        </div>
+      </div>
+    </section>
+
     <section class="section reveal">
       <div class="section-head"><h2>Contexte</h2></div>
-      <div class="ctx-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-5);">
+      <div class="ctx-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s5)">
         <div class="card">
           <h3>Le besoin client</h3>
           <p>Une société du secteur BTP avec plusieurs filiales effectuait ses sauvegardes manuellement, sans chiffrement. Les documents sensibles (devis, contrats, plans) n'étaient pas sécurisés. Le besoin : un outil simple, utilisable par des non-techniciens, fiable et sécurisé.</p>
@@ -182,35 +358,15 @@
       <div class="section-head"><h2>Fonctionnement</h2></div>
       <div class="flow-wrap">
         <div class="flow">
-          <div class="flow-node">
-            <div class="flow-icon">🗂️</div>
-            <div class="flow-node-label">Sélection dossier</div>
-            <div class="flow-node-sub">Boîte de dialogue Windows</div>
-          </div>
+          <div class="flow-node"><div class="flow-icon">🗂️</div><div class="flow-node-label">Sélection dossier</div><div class="flow-node-sub">Boîte de dialogue Windows</div></div>
           <div class="flow-arrow"><svg width="24" height="16" viewBox="0 0 24 16"><path d="M0 8h20M14 2l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
-          <div class="flow-node">
-            <div class="flow-icon">➕</div>
-            <div class="flow-node-label">Dossier suivant ?</div>
-            <div class="flow-node-sub">Boucle illimitée</div>
-          </div>
+          <div class="flow-node"><div class="flow-icon">➕</div><div class="flow-node-label">Dossier suivant ?</div><div class="flow-node-sub">Boucle illimitée</div></div>
           <div class="flow-arrow"><svg width="24" height="16" viewBox="0 0 24 16"><path d="M0 8h20M14 2l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
-          <div class="flow-node highlight">
-            <div class="flow-icon">🔒</div>
-            <div class="flow-node-label">Compression</div>
-            <div class="flow-node-sub">7-Zip AES-256</div>
-          </div>
+          <div class="flow-node highlight"><div class="flow-icon">🔒</div><div class="flow-node-label">Compression</div><div class="flow-node-sub">7-Zip AES-256</div></div>
           <div class="flow-arrow"><svg width="24" height="16" viewBox="0 0 24 16"><path d="M0 8h20M14 2l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
-          <div class="flow-node">
-            <div class="flow-icon">📂</div>
-            <div class="flow-node-label">Dépôt destination</div>
-            <div class="flow-node-sub">D:\Mon Drive</div>
-          </div>
+          <div class="flow-node"><div class="flow-icon">📂</div><div class="flow-node-label">Dépôt destination</div><div class="flow-node-sub">D:\Mon Drive</div></div>
           <div class="flow-arrow"><svg width="24" height="16" viewBox="0 0 24 16"><path d="M0 8h20M14 2l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
-          <div class="flow-node">
-            <div class="flow-icon">✅</div>
-            <div class="flow-node-label">Confirmation</div>
-            <div class="flow-node-sub">Succès ou erreur</div>
-          </div>
+          <div class="flow-node"><div class="flow-icon">✅</div><div class="flow-node-label">Confirmation</div><div class="flow-node-sub">Succès ou erreur</div></div>
         </div>
       </div>
     </section>
@@ -218,46 +374,19 @@
     <section class="section reveal">
       <div class="section-head"><h2>Fonctionnalités clés</h2></div>
       <div class="feat-grid">
-        <div class="feat-card">
-          <div class="feat-icon">📱</div>
-          <h4>Interface graphique native</h4>
-          <p>Aucune ligne de commande. L'utilisateur interagit uniquement via des boîtes de dialogue Windows standard, accessibles à tous les employés.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">📁</div>
-          <h4>Multi-dossiers</h4>
-          <p>Après chaque sélection, le script propose d'en ajouter un autre. La boucle continue jusqu'à ce que l'utilisateur confirme la fin de sélection.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🔒</div>
-          <h4>Chiffrement AES-256</h4>
-          <p>Chaque archive est chiffrée avec AES-256 via 7-Zip. Sans le mot de passe, les fichiers sont inaccessibles même en cas de vol du support.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">♻️</div>
-          <h4>Gestion des doublons</h4>
-          <p>Si une archive du même nom existe déjà à destination, elle est automatiquement écrasée. Pas d'accumulation de fichiers obsolètes.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🛠️</div>
-          <h4>Création auto du dossier</h4>
-          <p>Si le dossier de destination n'existe pas, il est créé automatiquement. Le script ne plante pas sur une cible manquante.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🚨</div>
-          <h4>Gestion des erreurs</h4>
-          <p>Chaque opération retourne un code de sortie 7-Zip. En cas d'échec, une boîte de dialogue alerte l'utilisateur avec le nom du dossier concerné.</p>
-        </div>
+        <div class="feat-card"><div class="feat-icon">📱</div><h4>Interface graphique native</h4><p>Aucune ligne de commande. L'utilisateur interagit uniquement via des boîtes de dialogue Windows standard, accessibles à tous les employés.</p></div>
+        <div class="feat-card"><div class="feat-icon">📁</div><h4>Multi-dossiers</h4><p>Après chaque sélection, le script propose d'en ajouter un autre. La boucle continue jusqu'à ce que l'utilisateur confirme la fin de sélection.</p></div>
+        <div class="feat-card"><div class="feat-icon">🔒</div><h4>Chiffrement AES-256</h4><p>Chaque archive est chiffrée avec AES-256 via 7-Zip. Sans le mot de passe, les fichiers sont inaccessibles même en cas de vol du support.</p></div>
+        <div class="feat-card"><div class="feat-icon">♻️</div><h4>Gestion des doublons</h4><p>Si une archive du même nom existe déjà à destination, elle est automatiquement écrasée. Pas d'accumulation de fichiers obsolètes.</p></div>
+        <div class="feat-card"><div class="feat-icon">🛠️</div><h4>Création auto du dossier</h4><p>Si le dossier de destination n'existe pas, il est créé automatiquement. Le script ne plante pas sur une cible manquante.</p></div>
+        <div class="feat-card"><div class="feat-icon">🚨</div><h4>Gestion des erreurs</h4><p>Chaque opération retourne un code de sortie 7-Zip. En cas d'échec, une boîte de dialogue alerte l'utilisateur avec le nom du dossier concerné.</p></div>
       </div>
     </section>
 
     <section class="section reveal">
       <div class="section-head"><h2>Extrait du code</h2></div>
       <div class="code-block">
-        <div class="code-header">
-          <span class="code-lang">PowerShell</span>
-          <div class="code-dots"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div></div>
-        </div>
+        <div class="code-header"><span class="code-lang">PowerShell</span><div class="code-dots"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div></div></div>
         <pre><code><span class="cm"># Boucle de sélection multi-dossiers</span>
 <span class="kw">while</span> (<span class="var">$dialog</span>.ShowDialog() <span class="kw">-eq</span> <span class="str">"OK"</span>) {
     <span class="var">$selectedFolders</span> += <span class="var">$dialog</span>.SelectedPath
@@ -271,15 +400,7 @@
 <span class="cm"># Compression AES-256 via 7-Zip</span>
 <span class="kw">foreach</span> (<span class="var">$source</span> <span class="kw">in</span> <span class="var">$selectedFolders</span>) {
     <span class="var">$arguments</span> = <span class="str">"a -tzip `"<span class="var">$zipPath</span>`" `"<span class="var">$source</span>\*`" -r -p<span class="var">$password</span> -mem=AES256"</span>
-
-    <span class="var">$processInfo</span> = <span class="fn">New-Object</span> System.Diagnostics.ProcessStartInfo
-    <span class="var">$processInfo</span>.FileName       = <span class="var">$sevenZipPath</span>
-    <span class="var">$processInfo</span>.Arguments     = <span class="var">$arguments</span>
     <span class="var">$processInfo</span>.CreateNoWindow = <span class="num">$true</span>   <span class="cm"># exécution silencieuse</span>
-
-    <span class="var">$process</span> = <span class="fn">New-Object</span> System.Diagnostics.Process
-    <span class="var">$process</span>.StartInfo = <span class="var">$processInfo</span>
-    <span class="var">$process</span>.Start()     | <span class="fn">Out-Null</span>
     <span class="var">$process</span>.WaitForExit()
 }</code></pre>
       </div>
@@ -288,26 +409,10 @@
     <section class="section reveal">
       <div class="section-head"><h2>Déroulement du stage</h2></div>
       <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-date">Étape 1</div>
-          <div class="tl-line"></div>
-          <div class="tl-content"><h4>Analyse du besoin</h4><p>Audit de la méthode de sauvegarde existante : copies manuelles sans chiffrement, risques de perte et d'accès non autorisé aux documents. Définition des exigences avec le responsable informatique.</p></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-date">Étape 2</div>
-          <div class="tl-line"></div>
-          <div class="tl-content"><h4>Choix des technologies</h4><p>PowerShell natif Windows pour éviter toute installation supplémentaire. 7-Zip pour la compression et le chiffrement AES-256. Interface graphique via System.Windows.Forms pour une prise en main immédiate.</p></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-date">Étape 3</div>
-          <div class="tl-line"></div>
-          <div class="tl-content"><h4>Développement &amp; tests</h4><p>Développement itératif du script : boucle de sélection, gestion des cas d'erreur (dossier inexistant, doublon, échec 7-Zip), exécution silencieuse du processus. Tests sur différents profils utilisateurs.</p></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-date">Étape 4</div>
-          <div class="tl-line"></div>
-          <div class="tl-content"><h4>Déploiement &amp; remise</h4><p>Livraison du script accompagné d'une documentation utilisateur. Déploiement sur les postes des différentes filiales. Prise en main validée par les employés sans formation technique.</p></div>
-        </div>
+        <div class="tl-item"><div class="tl-date">Étape 1</div><div class="tl-line"></div><div class="tl-content"><h4>Analyse du besoin</h4><p>Audit de la méthode de sauvegarde existante : copies manuelles sans chiffrement, risques de perte et d'accès non autorisé aux documents. Définition des exigences avec le responsable informatique.</p></div></div>
+        <div class="tl-item"><div class="tl-date">Étape 2</div><div class="tl-line"></div><div class="tl-content"><h4>Choix des technologies</h4><p>PowerShell natif Windows pour éviter toute installation supplémentaire. 7-Zip pour la compression et le chiffrement AES-256. Interface graphique via System.Windows.Forms pour une prise en main immédiate.</p></div></div>
+        <div class="tl-item"><div class="tl-date">Étape 3</div><div class="tl-line"></div><div class="tl-content"><h4>Développement &amp; tests</h4><p>Développement itératif du script : boucle de sélection, gestion des cas d'erreur (dossier inexistant, doublon, échec 7-Zip), exécution silencieuse du processus. Tests sur différents profils utilisateurs.</p></div></div>
+        <div class="tl-item"><div class="tl-date">Étape 4</div><div class="tl-line"></div><div class="tl-content"><h4>Déploiement &amp; remise</h4><p>Livraison du script accompagné d'une documentation utilisateur. Déploiement sur les postes des différentes filiales. Prise en main validée par les employés sans formation technique.</p></div></div>
       </div>
     </section>
 
@@ -332,10 +437,298 @@
     <a href="/portfolio/" class="btn-back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Retour au portfolio</a>
   </div>
 </footer>
+
 <script>
-  window.addEventListener('scroll',()=>{ const h=document.documentElement; document.getElementById('pf').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'; });
-  const obs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);} }); },{threshold:.07});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// ============================
+// SIMULATION STATE
+// ============================
+const FOLDERS = [
+  { name:"Bureau",     path:"C:\\Users\\Utilisateur\\Desktop",   size:"42 Mo"  },
+  { name:"Documents",  path:"C:\\Users\\Utilisateur\\Documents", size:"128 Mo" },
+  { name:"Images",     path:"C:\\Users\\Utilisateur\\Pictures",  size:"756 Mo" },
+  { name:"Musique",    path:"C:\\Users\\Utilisateur\\Music",     size:"2,1 Go" },
+  { name:"Vidéos",     path:"C:\\Users\\Utilisateur\\Videos",    size:"4,3 Go" },
+  { name:"Télécharg.", path:"C:\\Users\\Utilisateur\\Downloads", size:"318 Mo" },
+  { name:"Projets",    path:"C:\\Projets",                       size:"87 Mo"  },
+  { name:"Comptab.",   path:"C:\\BTP\\Comptabilité",             size:"55 Mo"  },
+  { name:"Plans",      path:"C:\\BTP\\Plans",                    size:"1,2 Go" },
+  { name:"Devis",      path:"C:\\BTP\\Devis",                    size:"34 Mo"  },
+];
+const DEST = "D:\\Mon Drive";
+let selectedFolders = [];
+let selectedInBrowser = null;
+let resolve_browser = null;
+let resolve_addmore = null;
+let resolve_success = null;
+let running = false;
+
+// ============================
+// LOG
+// ============================
+function log(msg, cls='') {
+  const el = document.getElementById('sim-log');
+  const line = document.createElement('div');
+  line.innerHTML = cls ? `<span class="${cls}">${msg}</span>` : msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+function clearLog() {
+  document.getElementById('sim-log').innerHTML = '';
+}
+
+// ============================
+// FOLDER BROWSER
+// ============================
+function openBrowser() {
+  return new Promise(res => {
+    resolve_browser = res;
+    selectedInBrowser = null;
+    document.getElementById('browser-path').textContent = 'Aucun dossier sélectionné';
+    document.getElementById('btn-ok-browser').disabled = true;
+    const tree = document.getElementById('browser-tree');
+    tree.innerHTML = '';
+    FOLDERS.forEach((f,i) => {
+      const item = document.createElement('div');
+      item.className = 'win-tree-item';
+      item.innerHTML = `<span class="folder-icon">📁</span><span>${f.name}</span><span class="folder-path">${f.size}</span>`;
+      item.onclick = () => selectInBrowser(i);
+      item.id = 'tree-item-'+i;
+      tree.appendChild(item);
+    });
+    document.getElementById('dlg-browser').classList.remove('hidden');
+  });
+}
+function selectInBrowser(i) {
+  document.querySelectorAll('.win-tree-item').forEach(el => el.classList.remove('selected'));
+  document.getElementById('tree-item-'+i).classList.add('selected');
+  selectedInBrowser = FOLDERS[i];
+  document.getElementById('browser-path').textContent = FOLDERS[i].path;
+  document.getElementById('btn-ok-browser').disabled = false;
+}
+function confirmBrowser() {
+  document.getElementById('dlg-browser').classList.add('hidden');
+  if(resolve_browser) resolve_browser({ok: true, folder: selectedInBrowser});
+}
+function cancelBrowser() {
+  document.getElementById('dlg-browser').classList.add('hidden');
+  if(resolve_browser) resolve_browser({ok: false});
+}
+
+// ============================
+// MESSAGEBOX — ADDMORE
+// ============================
+function askAddMore() {
+  return new Promise(res => {
+    resolve_addmore = res;
+    document.getElementById('dlg-addmore').classList.remove('hidden');
+  });
+}
+function answerAddMore(val) {
+  document.getElementById('dlg-addmore').classList.add('hidden');
+  if(resolve_addmore) resolve_addmore(val);
+}
+
+// ============================
+// PROGRESS DIALOG
+// ============================
+function showProgress(folderName) {
+  document.getElementById('progress-label').innerHTML = `Compression de <strong>${folderName}</strong> avec 7-Zip AES-256...`;
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('progress-info').textContent = 'Initialisation...';
+  document.getElementById('dlg-progress').classList.remove('hidden');
+}
+function updateProgress(pct, info) {
+  document.getElementById('progress-fill').style.width = pct+'%';
+  document.getElementById('progress-info').textContent = info;
+}
+function hideProgress() {
+  document.getElementById('dlg-progress').classList.add('hidden');
+}
+function animateProgress(folderName, size) {
+  return new Promise(res => {
+    showProgress(folderName);
+    const steps = [
+      [5, 'Ouverture de l\'archive...'],
+      [15,'Lecture des fichiers source...'],
+      [28,'Compression en cours (méthode Deflate)...'],
+      [42,'Application du chiffrement AES-256...'],
+      [58,'Génération de la clé de chiffrement...'],
+      [72,'Écriture de l\'archive...'],
+      [85,'Vérification de l\'intégrité...'],
+      [95,'Finalisation...'],
+      [100,'Terminé.']
+    ];
+    let i = 0;
+    const tick = setInterval(() => {
+      if(i >= steps.length) { clearInterval(tick); setTimeout(() => { hideProgress(); res(); }, 400); return; }
+      updateProgress(steps[i][0], steps[i][1]);
+      i++;
+    }, 280);
+  });
+}
+
+// ============================
+// SUCCESS DIALOG
+// ============================
+function showSuccess(folderName, zipName) {
+  return new Promise(res => {
+    resolve_success = res;
+    document.getElementById('success-text').innerHTML =
+      `<strong>Sauvegarde réussie !</strong>Le dossier <em>${folderName}</em> a été sauvegardé dans <code style="font-size:12px;background:#e0e0e0;padding:1px 4px;border-radius:2px">${DEST}\\${zipName}</code>`;
+    document.getElementById('dlg-success').classList.remove('hidden');
+  });
+}
+function closeSuccess() {
+  document.getElementById('dlg-success').classList.add('hidden');
+  if(resolve_success) resolve_success();
+}
+
+// ============================
+// DONE DIALOG
+// ============================
+function showDone(count) {
+  return new Promise(res => {
+    resolve_success = res;
+    document.getElementById('done-text').innerHTML =
+      `<strong>${count} dossier${count>1?'s':''} sauvegardé${count>1?'s':''}.</strong>Toutes les archives ont été chiffrées (AES-256) et déposées dans <code style="font-size:12px;background:#e0e0e0;padding:1px 4px;border-radius:2px">${DEST}</code>`;
+    document.getElementById('dlg-done').classList.remove('hidden');
+  });
+}
+function closeDone() {
+  document.getElementById('dlg-done').classList.add('hidden');
+  if(resolve_success) resolve_success();
+  endSim();
+}
+
+// ============================
+// NO SELECTION
+// ============================
+function showNosel() {
+  document.getElementById('dlg-nosel').classList.remove('hidden');
+}
+function closeNosel() {
+  document.getElementById('dlg-nosel').classList.add('hidden');
+  endSim();
+}
+
+// ============================
+// SELECTED TAGS UI
+// ============================
+function updateSelectedUI() {
+  const wrap = document.getElementById('sim-selected');
+  const list = document.getElementById('sim-selected-list');
+  if(selectedFolders.length === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  list.innerHTML = selectedFolders.map(f =>
+    `<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:#1e1e1e;border:1px solid var(--border);border-radius:var(--radius);font-size:var(--xs);font-family:var(--font-mono)">📁 ${f.name}</span>`
+  ).join('');
+}
+
+// ============================
+// MAIN SCRIPT SIMULATION
+// ============================
+async function launchScript() {
+  if(running) return;
+  running = true;
+  selectedFolders = [];
+  document.getElementById('btn-launch').disabled = true;
+  clearLog();
+  updateSelectedUI();
+
+  log('<span class="log-dim">PS C:\\Users\\Utilisateur> .\\backup.ps1</span>');
+  await sleep(400);
+  log('<span class="log-info">[INFO] Chargement de System.Windows.Forms...</span>');
+  await sleep(500);
+  log('<span class="log-info">[INFO] Destination : D:\\Mon Drive</span>');
+  await sleep(300);
+  log('<span class="log-info">[INFO] Moteur : 7-Zip AES-256</span>');
+  await sleep(400);
+  log('<span class="log-dim"># Ouverture de la boîte de sélection de dossiers...</span>');
+  await sleep(500);
+
+  // SELECTION LOOP
+  while(true) {
+    const result = await openBrowser();
+    if(!result.ok) {
+      log('<span class="log-warn">[WARN] Sélection annulée par l\'utilisateur.</span>');
+      break;
+    }
+    selectedFolders.push(result.folder);
+    log(`<span class="log-ok">[OK]   Dossier ajouté : ${result.folder.path}</span>`);
+    updateSelectedUI();
+    await sleep(200);
+    const more = await askAddMore();
+    if(!more) break;
+    log('<span class="log-dim"># Ouverture d\'une nouvelle boîte de sélection...</span>');
+    await sleep(300);
+  }
+
+  if(selectedFolders.length === 0) {
+    log('<span class="log-err">[ERR]  Aucun dossier sélectionné. Opération annulée.</span>');
+    showNosel();
+    return;
+  }
+
+  log(`<span class="log-info">[INFO] ${selectedFolders.length} dossier(s) à sauvegarder.</span>`);
+  await sleep(400);
+  log(`<span class="log-info">[INFO] Vérification de la destination : ${DEST}</span>`);
+  await sleep(300);
+  log('<span class="log-ok">[OK]   Destination accessible.</span>');
+  await sleep(300);
+
+  // BACKUP LOOP
+  for(let i=0; i<selectedFolders.length; i++) {
+    const f = selectedFolders[i];
+    const zip = f.name+'.zip';
+    log(`<span class="log-dim"># Traitement (${i+1}/${selectedFolders.length}) : ${f.name}</span>`);
+    await sleep(200);
+    log(`<span class="log-info">[INFO] Vérification doublons → ${DEST}\\${zip}</span>`);
+    await sleep(300);
+    log(`<span class="log-warn">[WARN] Archive existante détectée → suppression...</span>`);
+    await sleep(400);
+    log(`<span class="log-ok">[OK]   Ancien fichier supprimé.</span>`);
+    await sleep(200);
+    log(`<span class="log-info">[INFO] Lancement 7z.exe : a -tzip "${DEST}\\${zip}" "${f.path}\\*" -r -mem=AES256</span>`);
+    await sleep(300);
+    await animateProgress(f.name, f.size);
+    log(`<span class="log-ok">[OK]   ExitCode 7-Zip : 0 — ${f.name}.zip créé avec succès.</span>`);
+    await sleep(200);
+    await showSuccess(f.name, zip);
+    await sleep(200);
+  }
+
+  log(`<span class="log-ok">[DONE] ${selectedFolders.length} archive(s) chiffrée(s) déposée(s) dans ${DEST}</span>`);
+  await sleep(400);
+  await showDone(selectedFolders.length);
+}
+
+function endSim() {
+  running = false;
+  document.getElementById('btn-launch').disabled = false;
+  document.getElementById('btn-reset').style.display = 'inline-flex';
+}
+
+function resetSim() {
+  selectedFolders = [];
+  updateSelectedUI();
+  clearLog();
+  document.getElementById('sim-log').innerHTML = '<span class="log-dim"># En attente du lancement...</span>';
+  document.getElementById('btn-reset').style.display = 'none';
+  document.getElementById('btn-launch').disabled = false;
+  running = false;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// scroll progress
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  document.getElementById('pf').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+});
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
