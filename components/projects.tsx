@@ -4,25 +4,15 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Download, ExternalLink, Play, Workflow, ArrowRight } from "lucide-react"
+import { Download, ExternalLink, Workflow, ArrowRight } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
-import { BackupDemo } from "@/components/backup-demo"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 
 export function Projects() {
   const { language } = useLanguage()
   const t = translations[language].projects
   const { ref, isVisible } = useScrollAnimation()
-  const [showBackupDemo, setShowBackupDemo] = useState(false)
 
   const projects = [
     {
@@ -41,7 +31,7 @@ export function Projects() {
       context: t.internship,
       technologies: ["PowerShell", "VBS", "Automatisation"],
       downloadUrl: "/Projet2.zip",
-      hasDemo: true,
+      hasDemo: false,
       detailUrl: null,
       icon: null,
     },
@@ -109,25 +99,6 @@ export function Projects() {
                 </div>
 
                 <div className="flex gap-2">
-                  {project.hasDemo && (
-                    <Dialog open={showBackupDemo && index === 1} onOpenChange={setShowBackupDemo}>
-                      <DialogTrigger asChild>
-                        <Button variant="default" size="sm" className="flex-1">
-                          <Play className="h-4 w-4 mr-2" />
-                          Essayer
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                        <DialogHeader>
-                          <DialogTitle>Démonstration Interactive</DialogTitle>
-                          <DialogDescription>
-                            Testez le script de sauvegarde directement dans votre navigateur
-                          </DialogDescription>
-                        </DialogHeader>
-                        <BackupDemo />
-                      </DialogContent>
-                    </Dialog>
-                  )}
                   {project.detailUrl && (
                     <Button
                       asChild
@@ -146,7 +117,7 @@ export function Projects() {
                       asChild
                       variant="outline"
                       size="sm"
-                      className={`bg-transparent ${project.hasDemo || project.detailUrl ? "flex-1" : "w-full"}`}
+                      className={`bg-transparent ${project.detailUrl ? "flex-1" : "w-full"}`}
                     >
                       <a href={project.downloadUrl} download>
                         <Download className="h-4 w-4 mr-2" />
