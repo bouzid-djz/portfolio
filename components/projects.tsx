@@ -21,7 +21,6 @@ export function Projects() {
       context: t.context,
       technologies: ["CISCO", "Réseaux"],
       downloadUrl: "/Projet.zip",
-      hasDemo: false,
       detailUrl: null,
       icon: null,
     },
@@ -31,8 +30,7 @@ export function Projects() {
       context: t.internship,
       technologies: ["PowerShell", "VBS", "Automatisation"],
       downloadUrl: "/Projet2.zip",
-      hasDemo: false,
-      detailUrl: null,
+      detailUrl: "/portfolio/projects/powershell.html",
       icon: null,
     },
     {
@@ -41,7 +39,6 @@ export function Projects() {
       context: t.context,
       technologies: ["Proxmox", "AD", "TrueNAS", "VLAN", "Ubuntu"],
       downloadUrl: "#",
-      hasDemo: false,
       detailUrl: "/portfolio/projects/proxmox.html",
       icon: null,
     },
@@ -51,7 +48,6 @@ export function Projects() {
       context: t.personal,
       technologies: ["n8n", "Automatisation", "E-mail", "RSS"],
       downloadUrl: "#",
-      hasDemo: false,
       detailUrl: "/portfolio/projects/n8n.html",
       icon: Workflow,
     },
@@ -100,12 +96,7 @@ export function Projects() {
 
                 <div className="flex gap-2">
                   {project.detailUrl && (
-                    <Button
-                      asChild
-                      variant="default"
-                      size="sm"
-                      className="flex-1"
-                    >
+                    <Button asChild variant="default" size="sm" className="flex-1">
                       <a href={project.detailUrl}>
                         <ArrowRight className="h-4 w-4 mr-2" />
                         Voir le projet
