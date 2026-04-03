@@ -20,9 +20,8 @@
       --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;--s8:2rem;--s10:2.5rem;--s16:4rem;--s20:5rem;
       --sh-sm:0 1px 3px rgba(0,0,0,.6);--sh-md:0 4px 16px rgba(0,0,0,.7);
       --t:150ms cubic-bezier(.4,0,.2,1);--content:1100px;
-      /* Windows colors */
       --win-bg:#f0f0f0;--win-title:#0078d4;--win-border:#999;--win-btn:#e1e1e1;--win-btn-hover:#c7c7c7;
-      --win-selected:#0078d4;--win-selected-fg:#fff;--win-fg:#000;--win-folder:#ffc107;
+      --win-selected:#0078d4;--win-selected-fg:#fff;--win-fg:#000;
     }
     body{font-family:var(--font-sans);font-size:var(--base);color:var(--fg);background:var(--bg);line-height:1.6;min-height:100dvh;background-image:linear-gradient(to right,#80808012 1px,transparent 1px),linear-gradient(to bottom,#80808012 1px,transparent 1px);background-size:24px 24px}
     a,button{transition:color var(--t),background var(--t),border-color var(--t)}
@@ -76,31 +75,12 @@
     .flow-node-sub{font-size:10px;color:rgba(143,143,143,.6);text-align:center;max-width:90px;margin-top:2px;font-family:var(--font-mono)}
     .flow-arrow{flex-shrink:0;padding:0 var(--s1)}
     .flow-arrow svg{color:#3a3a3a}
-    .code-block{background:#0a0a0a;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-    .code-header{display:flex;align-items:center;justify-content:space-between;padding:var(--s3) var(--s4);border-bottom:1px solid var(--border)}
-    .code-lang{font-size:var(--xs);font-family:var(--font-mono);color:var(--primary)}
-    .code-dots{display:flex;gap:6px}
-    .code-dot{width:10px;height:10px;border-radius:50%}
-    .code-dot.red{background:#ff5f57}.code-dot.yellow{background:#ffbd2e}.code-dot.green{background:#28c840}
-    pre{padding:var(--s5);overflow-x:auto}
-    pre code{font-family:var(--font-mono);font-size:var(--xs);line-height:1.7;color:#cdd6f4}
-    .kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#6c7086;font-style:italic}.var{color:#f38ba8}.num{color:#fab387}
     .feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:var(--s4)}
     .feat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--s5);transition:border-color var(--t),transform var(--t)}
     .feat-card:hover{border-color:rgba(126,244,115,.3);transform:translateY(-2px)}
     .feat-icon{font-size:1.4rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--muted);margin-bottom:var(--s4)}
     .feat-card h4{font-size:var(--sm);font-weight:600;margin-bottom:var(--s2)}
     .feat-card p{font-size:var(--xs);color:var(--muted-fg);line-height:1.5}
-    .timeline{display:flex;flex-direction:column}
-    .tl-item{display:grid;grid-template-columns:120px 1px 1fr;gap:0 var(--s6);padding-bottom:var(--s8)}
-    .tl-item:last-child{padding-bottom:0}
-    .tl-date{font-size:var(--xs);font-family:var(--font-mono);color:var(--muted-fg);padding-top:2px;text-align:right}
-    .tl-line{position:relative}
-    .tl-line::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px rgba(126,244,115,.15)}
-    .tl-line::after{content:"";position:absolute;top:16px;bottom:-2rem;left:50%;transform:translateX(-50%);width:1px;background:var(--border)}
-    .tl-item:last-child .tl-line::after{display:none}
-    .tl-content h4{font-size:var(--sm);font-weight:600;margin-bottom:var(--s2)}
-    .tl-content p{font-size:var(--xs);color:var(--muted-fg);line-height:1.6}
     .comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:var(--s3)}
     .comp-item{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4);background:var(--card);border:1px solid var(--border);border-radius:var(--radius);font-size:var(--xs)}
     .comp-dot{width:6px;height:6px;border-radius:50%;background:var(--primary);flex-shrink:0}
@@ -111,8 +91,7 @@
     .btn-back:hover{border-color:var(--primary);color:var(--primary)}
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
     .reveal.in{opacity:1;transform:translateY(0)}
-
-    /* ===== SIMULATION ===== */
+    /* SIMULATION */
     .sim-wrapper{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
     .sim-topbar{background:#1a1a1a;border-bottom:1px solid var(--border);padding:var(--s3) var(--s4);display:flex;align-items:center;justify-content:space-between}
     .sim-topbar-title{font-size:var(--xs);font-family:var(--font-mono);color:var(--muted-fg)}
@@ -128,8 +107,7 @@
     .sim-log .log-warn{color:#f9e2af}
     .sim-log .log-err{color:#f38ba8}
     .sim-log .log-dim{color:#6c7086}
-
-    /* Windows dialog */
+    /* Windows dialogs */
     .win-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:flex;align-items:center;justify-content:center;padding:var(--s4);backdrop-filter:blur(2px)}
     .win-overlay.hidden{display:none}
     .win-dialog{background:var(--win-bg);border:1px solid var(--win-border);border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,.5);min-width:340px;max-width:520px;width:100%;font-family:'Segoe UI',sans-serif;color:var(--win-fg);overflow:hidden;animation:winIn .15s ease}
@@ -138,7 +116,6 @@
     .win-titlebar-icon{display:flex;align-items:center;gap:6px}
     .win-close{width:24px;height:24px;background:rgba(255,255,255,.2);border:none;color:#fff;cursor:pointer;border-radius:2px;font-size:14px;display:flex;align-items:center;justify-content:center}
     .win-close:hover{background:#e81123}
-    /* Folder browser */
     .win-browser-body{padding:0}
     .win-browser-desc{padding:10px 14px;font-size:13px;border-bottom:1px solid #ccc;background:#fff}
     .win-browser-tree{padding:6px;background:#fff;border-bottom:1px solid #ccc;height:220px;overflow-y:auto}
@@ -155,20 +132,16 @@
     .win-btn.primary{background:#0078d4;border-color:#0078d4;color:#fff}
     .win-btn.primary:hover{background:#106ebe}
     .win-btn:disabled{opacity:.5;cursor:not-allowed}
-    /* MessageBox */
     .win-msgbox-body{padding:20px 24px;display:flex;gap:14px;align-items:flex-start;background:#fff}
     .win-msgbox-icon{font-size:32px;flex-shrink:0}
     .win-msgbox-text{font-size:13px;line-height:1.5}
     .win-msgbox-text strong{display:block;margin-bottom:4px;font-size:14px}
     .win-msgbox-actions{padding:12px 14px;display:flex;justify-content:flex-end;gap:8px;background:#f0f0f0;border-top:1px solid #ddd}
-    /* Progress */
     .win-progress-body{padding:16px 20px;background:#fff}
     .win-progress-label{font-size:13px;margin-bottom:8px;color:#333}
     .win-progress-track{height:20px;background:#e0e0e0;border:1px inset #999;border-radius:2px;overflow:hidden}
     .win-progress-fill{height:100%;background:linear-gradient(90deg,#0078d4,#00b7ff);transition:width .08s linear;width:0%}
     .win-progress-info{font-size:12px;color:#666;margin-top:6px;font-family:'Courier New',monospace}
-
-    @media(max-width:640px){.tl-item{grid-template-columns:80px 1px 1fr;gap:0 var(--s3)}}
     @media(max-width:768px){.ctx-grid{grid-template-columns:1fr !important}}
   </style>
 </head>
@@ -187,13 +160,10 @@
   </div>
 </nav>
 
-<!-- WINDOWS DIALOGS (overlay) -->
+<!-- WINDOWS DIALOGS -->
 <div class="win-overlay hidden" id="dlg-browser">
   <div class="win-dialog">
-    <div class="win-titlebar">
-      <div class="win-titlebar-icon"><span>📁</span> Rechercher un dossier</div>
-      <button class="win-close" onclick="cancelBrowser()">✕</button>
-    </div>
+    <div class="win-titlebar"><div class="win-titlebar-icon"><span>📁</span> Rechercher un dossier</div><button class="win-close" onclick="cancelBrowser()">✕</button></div>
     <div class="win-browser-body">
       <div class="win-browser-desc">Choisissez un dossier à sauvegarder</div>
       <div class="win-browser-tree" id="browser-tree"></div>
@@ -205,82 +175,42 @@
     </div>
   </div>
 </div>
-
 <div class="win-overlay hidden" id="dlg-addmore">
   <div class="win-dialog">
-    <div class="win-titlebar">
-      <div class="win-titlebar-icon"><span>📂</span> Ajouter un autre dossier</div>
-      <button class="win-close" onclick="answerAddMore(false)">✕</button>
-    </div>
-    <div class="win-msgbox-body">
-      <div class="win-msgbox-icon">❓</div>
-      <div class="win-msgbox-text"><strong>Voulez-vous sélectionner un autre dossier ?</strong>Vous pouvez ajouter plusieurs dossiers à sauvegarder.</div>
-    </div>
-    <div class="win-msgbox-actions">
-      <button class="win-btn primary" onclick="answerAddMore(true)">Oui</button>
-      <button class="win-btn" onclick="answerAddMore(false)">Non</button>
-    </div>
+    <div class="win-titlebar"><div class="win-titlebar-icon"><span>📂</span> Ajouter un autre dossier</div><button class="win-close" onclick="answerAddMore(false)">✕</button></div>
+    <div class="win-msgbox-body"><div class="win-msgbox-icon">❓</div><div class="win-msgbox-text"><strong>Voulez-vous sélectionner un autre dossier ?</strong>Vous pouvez ajouter plusieurs dossiers à sauvegarder.</div></div>
+    <div class="win-msgbox-actions"><button class="win-btn primary" onclick="answerAddMore(true)">Oui</button><button class="win-btn" onclick="answerAddMore(false)">Non</button></div>
   </div>
 </div>
-
 <div class="win-overlay hidden" id="dlg-progress">
   <div class="win-dialog">
-    <div class="win-titlebar">
-      <div class="win-titlebar-icon"><span>🔒</span> Sauvegarde en cours...</div>
-    </div>
+    <div class="win-titlebar"><div class="win-titlebar-icon"><span>🔒</span> Sauvegarde en cours...</div></div>
     <div class="win-progress-body">
-      <div class="win-progress-label" id="progress-label">Compression de <strong>Documents</strong> avec 7-Zip AES-256...</div>
+      <div class="win-progress-label" id="progress-label">Compression en cours...</div>
       <div class="win-progress-track"><div class="win-progress-fill" id="progress-fill"></div></div>
       <div class="win-progress-info" id="progress-info">Initialisation...</div>
     </div>
   </div>
 </div>
-
 <div class="win-overlay hidden" id="dlg-success">
   <div class="win-dialog">
-    <div class="win-titlebar">
-      <div class="win-titlebar-icon"><span>✅</span> Succès</div>
-      <button class="win-close" onclick="closeSuccess()">✕</button>
-    </div>
-    <div class="win-msgbox-body">
-      <div class="win-msgbox-icon">✅</div>
-      <div class="win-msgbox-text" id="success-text"><strong>Sauvegarde réussie</strong></div>
-    </div>
-    <div class="win-msgbox-actions">
-      <button class="win-btn primary" onclick="closeSuccess()">OK</button>
-    </div>
+    <div class="win-titlebar"><div class="win-titlebar-icon"><span>✅</span> Succès</div><button class="win-close" onclick="closeSuccess()">✕</button></div>
+    <div class="win-msgbox-body"><div class="win-msgbox-icon">✅</div><div class="win-msgbox-text" id="success-text"><strong>Sauvegarde réussie</strong></div></div>
+    <div class="win-msgbox-actions"><button class="win-btn primary" onclick="closeSuccess()">OK</button></div>
   </div>
 </div>
-
 <div class="win-overlay hidden" id="dlg-done">
   <div class="win-dialog">
-    <div class="win-titlebar">
-      <div class="win-titlebar-icon"><span>🎉</span> Sauvegarde terminée</div>
-      <button class="win-close" onclick="closeDone()">✕</button>
-    </div>
-    <div class="win-msgbox-body">
-      <div class="win-msgbox-icon">🎉</div>
-      <div class="win-msgbox-text" id="done-text"><strong>Tous les dossiers ont été sauvegardés.</strong></div>
-    </div>
-    <div class="win-msgbox-actions">
-      <button class="win-btn primary" onclick="closeDone()">OK</button>
-    </div>
+    <div class="win-titlebar"><div class="win-titlebar-icon"><span>🎉</span> Sauvegarde terminée</div><button class="win-close" onclick="closeDone()">✕</button></div>
+    <div class="win-msgbox-body"><div class="win-msgbox-icon">🎉</div><div class="win-msgbox-text" id="done-text"></div></div>
+    <div class="win-msgbox-actions"><button class="win-btn primary" onclick="closeDone()">OK</button></div>
   </div>
 </div>
-
 <div class="win-overlay hidden" id="dlg-nosel">
   <div class="win-dialog">
-    <div class="win-titlebar">
-      <div class="win-titlebar-icon"><span>⚠️</span> Sauvegarde annulée</div>
-      <button class="win-close" onclick="closeNosel()">✕</button>
-    </div>
-    <div class="win-msgbox-body">
-      <div class="win-msgbox-icon">⚠️</div>
-      <div class="win-msgbox-text"><strong>Aucun dossier sélectionné.</strong>Opération annulée.</div>
-    </div>
-    <div class="win-msgbox-actions">
-      <button class="win-btn primary" onclick="closeNosel()">OK</button>
-    </div>
+    <div class="win-titlebar"><div class="win-titlebar-icon"><span>⚠️</span> Sauvegarde annulée</div><button class="win-close" onclick="closeNosel()">✕</button></div>
+    <div class="win-msgbox-body"><div class="win-msgbox-icon">⚠️</div><div class="win-msgbox-text"><strong>Aucun dossier sélectionné.</strong>Opération annulée.</div></div>
+    <div class="win-msgbox-actions"><button class="win-btn primary" onclick="closeNosel()">OK</button></div>
   </div>
 </div>
 
@@ -305,7 +235,6 @@
     </section>
     <hr class="divider">
 
-    <!-- SIMULATION -->
     <section class="section reveal">
       <div class="section-head"><h2>Simulation interactive</h2></div>
       <div class="sim-wrapper">
@@ -384,39 +313,6 @@
     </section>
 
     <section class="section reveal">
-      <div class="section-head"><h2>Extrait du code</h2></div>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">PowerShell</span><div class="code-dots"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div></div></div>
-        <pre><code><span class="cm"># Boucle de sélection multi-dossiers</span>
-<span class="kw">while</span> (<span class="var">$dialog</span>.ShowDialog() <span class="kw">-eq</span> <span class="str">"OK"</span>) {
-    <span class="var">$selectedFolders</span> += <span class="var">$dialog</span>.SelectedPath
-    <span class="var">$reselect</span> = [System.Windows.Forms.MessageBox]::Show(
-        <span class="str">"Voulez-vous selectionner un autre dossier ?"</span>,
-        <span class="str">"Ajouter un autre dossier"</span>, <span class="str">"YesNo"</span>
-    )
-    <span class="kw">if</span> (<span class="var">$reselect</span> <span class="kw">-eq</span> <span class="str">"No"</span>) { <span class="kw">break</span> }
-}
-
-<span class="cm"># Compression AES-256 via 7-Zip</span>
-<span class="kw">foreach</span> (<span class="var">$source</span> <span class="kw">in</span> <span class="var">$selectedFolders</span>) {
-    <span class="var">$arguments</span> = <span class="str">"a -tzip `"<span class="var">$zipPath</span>`" `"<span class="var">$source</span>\*`" -r -p<span class="var">$password</span> -mem=AES256"</span>
-    <span class="var">$processInfo</span>.CreateNoWindow = <span class="num">$true</span>   <span class="cm"># exécution silencieuse</span>
-    <span class="var">$process</span>.WaitForExit()
-}</code></pre>
-      </div>
-    </section>
-
-    <section class="section reveal">
-      <div class="section-head"><h2>Déroulement du stage</h2></div>
-      <div class="timeline">
-        <div class="tl-item"><div class="tl-date">Étape 1</div><div class="tl-line"></div><div class="tl-content"><h4>Analyse du besoin</h4><p>Audit de la méthode de sauvegarde existante : copies manuelles sans chiffrement, risques de perte et d'accès non autorisé aux documents. Définition des exigences avec le responsable informatique.</p></div></div>
-        <div class="tl-item"><div class="tl-date">Étape 2</div><div class="tl-line"></div><div class="tl-content"><h4>Choix des technologies</h4><p>PowerShell natif Windows pour éviter toute installation supplémentaire. 7-Zip pour la compression et le chiffrement AES-256. Interface graphique via System.Windows.Forms pour une prise en main immédiate.</p></div></div>
-        <div class="tl-item"><div class="tl-date">Étape 3</div><div class="tl-line"></div><div class="tl-content"><h4>Développement &amp; tests</h4><p>Développement itératif du script : boucle de sélection, gestion des cas d'erreur (dossier inexistant, doublon, échec 7-Zip), exécution silencieuse du processus. Tests sur différents profils utilisateurs.</p></div></div>
-        <div class="tl-item"><div class="tl-date">Étape 4</div><div class="tl-line"></div><div class="tl-content"><h4>Déploiement &amp; remise</h4><p>Livraison du script accompagné d'une documentation utilisateur. Déploiement sur les postes des différentes filiales. Prise en main validée par les employés sans formation technique.</p></div></div>
-      </div>
-    </section>
-
-    <section class="section reveal">
       <div class="section-head"><h2>Compétences mobilisées</h2></div>
       <div class="comp-grid">
         <div class="comp-item"><span class="comp-dot"></span>Scripting PowerShell</div>
@@ -431,6 +327,7 @@
     </section>
   </div>
 </main>
+
 <footer class="footer">
   <div class="container">
     <p>&copy; 2026 Quentin SILVA &mdash; Portfolio BTS SIO SISR</p>
@@ -439,9 +336,6 @@
 </footer>
 
 <script>
-// ============================
-// SIMULATION STATE
-// ============================
 const FOLDERS = [
   { name:"Bureau",     path:"C:\\Users\\Utilisateur\\Desktop",   size:"42 Mo"  },
   { name:"Documents",  path:"C:\\Users\\Utilisateur\\Documents", size:"128 Mo" },
@@ -455,30 +349,19 @@ const FOLDERS = [
   { name:"Devis",      path:"C:\\BTP\\Devis",                    size:"34 Mo"  },
 ];
 const DEST = "D:\\Mon Drive";
-let selectedFolders = [];
-let selectedInBrowser = null;
-let resolve_browser = null;
-let resolve_addmore = null;
-let resolve_success = null;
+let selectedFolders = [], selectedInBrowser = null;
+let resolve_browser = null, resolve_addmore = null, resolve_success = null;
 let running = false;
 
-// ============================
-// LOG
-// ============================
-function log(msg, cls='') {
+function log(msg) {
   const el = document.getElementById('sim-log');
   const line = document.createElement('div');
-  line.innerHTML = cls ? `<span class="${cls}">${msg}</span>` : msg;
+  line.innerHTML = msg;
   el.appendChild(line);
   el.scrollTop = el.scrollHeight;
 }
-function clearLog() {
-  document.getElementById('sim-log').innerHTML = '';
-}
+function clearLog() { document.getElementById('sim-log').innerHTML = ''; }
 
-// ============================
-// FOLDER BROWSER
-// ============================
 function openBrowser() {
   return new Promise(res => {
     resolve_browser = res;
@@ -505,128 +388,58 @@ function selectInBrowser(i) {
   document.getElementById('browser-path').textContent = FOLDERS[i].path;
   document.getElementById('btn-ok-browser').disabled = false;
 }
-function confirmBrowser() {
-  document.getElementById('dlg-browser').classList.add('hidden');
-  if(resolve_browser) resolve_browser({ok: true, folder: selectedInBrowser});
-}
-function cancelBrowser() {
-  document.getElementById('dlg-browser').classList.add('hidden');
-  if(resolve_browser) resolve_browser({ok: false});
-}
+function confirmBrowser() { document.getElementById('dlg-browser').classList.add('hidden'); if(resolve_browser) resolve_browser({ok:true,folder:selectedInBrowser}); }
+function cancelBrowser() { document.getElementById('dlg-browser').classList.add('hidden'); if(resolve_browser) resolve_browser({ok:false}); }
 
-// ============================
-// MESSAGEBOX — ADDMORE
-// ============================
-function askAddMore() {
-  return new Promise(res => {
-    resolve_addmore = res;
-    document.getElementById('dlg-addmore').classList.remove('hidden');
-  });
-}
-function answerAddMore(val) {
-  document.getElementById('dlg-addmore').classList.add('hidden');
-  if(resolve_addmore) resolve_addmore(val);
-}
+function askAddMore() { return new Promise(res => { resolve_addmore = res; document.getElementById('dlg-addmore').classList.remove('hidden'); }); }
+function answerAddMore(val) { document.getElementById('dlg-addmore').classList.add('hidden'); if(resolve_addmore) resolve_addmore(val); }
 
-// ============================
-// PROGRESS DIALOG
-// ============================
-function showProgress(folderName) {
-  document.getElementById('progress-label').innerHTML = `Compression de <strong>${folderName}</strong> avec 7-Zip AES-256...`;
-  document.getElementById('progress-fill').style.width = '0%';
-  document.getElementById('progress-info').textContent = 'Initialisation...';
-  document.getElementById('dlg-progress').classList.remove('hidden');
-}
-function updateProgress(pct, info) {
-  document.getElementById('progress-fill').style.width = pct+'%';
-  document.getElementById('progress-info').textContent = info;
-}
-function hideProgress() {
-  document.getElementById('dlg-progress').classList.add('hidden');
-}
-function animateProgress(folderName, size) {
+function animateProgress(folderName) {
   return new Promise(res => {
-    showProgress(folderName);
-    const steps = [
-      [5, 'Ouverture de l\'archive...'],
-      [15,'Lecture des fichiers source...'],
-      [28,'Compression en cours (méthode Deflate)...'],
-      [42,'Application du chiffrement AES-256...'],
-      [58,'Génération de la clé de chiffrement...'],
-      [72,'Écriture de l\'archive...'],
-      [85,'Vérification de l\'intégrité...'],
-      [95,'Finalisation...'],
-      [100,'Terminé.']
-    ];
+    document.getElementById('progress-label').innerHTML = `Compression de <strong>${folderName}</strong> avec 7-Zip AES-256...`;
+    document.getElementById('progress-fill').style.width = '0%';
+    document.getElementById('progress-info').textContent = 'Initialisation...';
+    document.getElementById('dlg-progress').classList.remove('hidden');
+    const steps = [[5,'Ouverture de l\'archive...'],[15,'Lecture des fichiers source...'],[28,'Compression (méthode Deflate)...'],[42,'Application du chiffrement AES-256...'],[58,'Génération de la clé...'],[72,'Écriture de l\'archive...'],[85,'Vérification de l\'intégrité...'],[95,'Finalisation...'],[100,'Terminé.']];
     let i = 0;
     const tick = setInterval(() => {
-      if(i >= steps.length) { clearInterval(tick); setTimeout(() => { hideProgress(); res(); }, 400); return; }
-      updateProgress(steps[i][0], steps[i][1]);
+      if(i >= steps.length) { clearInterval(tick); setTimeout(() => { document.getElementById('dlg-progress').classList.add('hidden'); res(); }, 400); return; }
+      document.getElementById('progress-fill').style.width = steps[i][0]+'%';
+      document.getElementById('progress-info').textContent = steps[i][1];
       i++;
     }, 280);
   });
 }
 
-// ============================
-// SUCCESS DIALOG
-// ============================
 function showSuccess(folderName, zipName) {
   return new Promise(res => {
     resolve_success = res;
-    document.getElementById('success-text').innerHTML =
-      `<strong>Sauvegarde réussie !</strong>Le dossier <em>${folderName}</em> a été sauvegardé dans <code style="font-size:12px;background:#e0e0e0;padding:1px 4px;border-radius:2px">${DEST}\\${zipName}</code>`;
+    document.getElementById('success-text').innerHTML = `<strong>Sauvegarde réussie !</strong>Le dossier <em>${folderName}</em> a été sauvegardé dans <code style="font-size:12px;background:#e0e0e0;padding:1px 4px;border-radius:2px">${DEST}\\${zipName}</code>`;
     document.getElementById('dlg-success').classList.remove('hidden');
   });
 }
-function closeSuccess() {
-  document.getElementById('dlg-success').classList.add('hidden');
-  if(resolve_success) resolve_success();
-}
+function closeSuccess() { document.getElementById('dlg-success').classList.add('hidden'); if(resolve_success) resolve_success(); }
 
-// ============================
-// DONE DIALOG
-// ============================
 function showDone(count) {
   return new Promise(res => {
     resolve_success = res;
-    document.getElementById('done-text').innerHTML =
-      `<strong>${count} dossier${count>1?'s':''} sauvegardé${count>1?'s':''}.</strong>Toutes les archives ont été chiffrées (AES-256) et déposées dans <code style="font-size:12px;background:#e0e0e0;padding:1px 4px;border-radius:2px">${DEST}</code>`;
+    document.getElementById('done-text').innerHTML = `<strong>${count} dossier${count>1?'s':''} sauvegardé${count>1?'s':''}.</strong>Toutes les archives ont été chiffrées (AES-256) et déposées dans <code style="font-size:12px;background:#e0e0e0;padding:1px 4px;border-radius:2px">${DEST}</code>`;
     document.getElementById('dlg-done').classList.remove('hidden');
   });
 }
-function closeDone() {
-  document.getElementById('dlg-done').classList.add('hidden');
-  if(resolve_success) resolve_success();
-  endSim();
-}
+function closeDone() { document.getElementById('dlg-done').classList.add('hidden'); if(resolve_success) resolve_success(); endSim(); }
 
-// ============================
-// NO SELECTION
-// ============================
-function showNosel() {
-  document.getElementById('dlg-nosel').classList.remove('hidden');
-}
-function closeNosel() {
-  document.getElementById('dlg-nosel').classList.add('hidden');
-  endSim();
-}
+function showNosel() { document.getElementById('dlg-nosel').classList.remove('hidden'); }
+function closeNosel() { document.getElementById('dlg-nosel').classList.add('hidden'); endSim(); }
 
-// ============================
-// SELECTED TAGS UI
-// ============================
 function updateSelectedUI() {
   const wrap = document.getElementById('sim-selected');
   const list = document.getElementById('sim-selected-list');
-  if(selectedFolders.length === 0) { wrap.style.display = 'none'; return; }
+  if(selectedFolders.length === 0) { wrap.style.display='none'; return; }
   wrap.style.display = 'block';
-  list.innerHTML = selectedFolders.map(f =>
-    `<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:#1e1e1e;border:1px solid var(--border);border-radius:var(--radius);font-size:var(--xs);font-family:var(--font-mono)">📁 ${f.name}</span>`
-  ).join('');
+  list.innerHTML = selectedFolders.map(f => `<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:#1e1e1e;border:1px solid var(--border);border-radius:var(--radius);font-size:var(--xs);font-family:var(--font-mono)">📁 ${f.name}</span>`).join('');
 }
 
-// ============================
-// MAIN SCRIPT SIMULATION
-// ============================
 async function launchScript() {
   if(running) return;
   running = true;
@@ -634,25 +447,17 @@ async function launchScript() {
   document.getElementById('btn-launch').disabled = true;
   clearLog();
   updateSelectedUI();
-
   log('<span class="log-dim">PS C:\\Users\\Utilisateur> .\\backup.ps1</span>');
   await sleep(400);
   log('<span class="log-info">[INFO] Chargement de System.Windows.Forms...</span>');
   await sleep(500);
-  log('<span class="log-info">[INFO] Destination : D:\\Mon Drive</span>');
-  await sleep(300);
-  log('<span class="log-info">[INFO] Moteur : 7-Zip AES-256</span>');
-  await sleep(400);
-  log('<span class="log-dim"># Ouverture de la boîte de sélection de dossiers...</span>');
+  log('<span class="log-info">[INFO] Destination : D:\\Mon Drive | Moteur : 7-Zip AES-256</span>');
   await sleep(500);
-
-  // SELECTION LOOP
+  log('<span class="log-dim"># Ouverture de la boîte de sélection...</span>');
+  await sleep(400);
   while(true) {
     const result = await openBrowser();
-    if(!result.ok) {
-      log('<span class="log-warn">[WARN] Sélection annulée par l\'utilisateur.</span>');
-      break;
-    }
+    if(!result.ok) { log('<span class="log-warn">[WARN] Sélection annulée.</span>'); break; }
     selectedFolders.push(result.folder);
     log(`<span class="log-ok">[OK]   Dossier ajouté : ${result.folder.path}</span>`);
     updateSelectedUI();
@@ -662,41 +467,28 @@ async function launchScript() {
     log('<span class="log-dim"># Ouverture d\'une nouvelle boîte de sélection...</span>');
     await sleep(300);
   }
-
-  if(selectedFolders.length === 0) {
-    log('<span class="log-err">[ERR]  Aucun dossier sélectionné. Opération annulée.</span>');
-    showNosel();
-    return;
-  }
-
-  log(`<span class="log-info">[INFO] ${selectedFolders.length} dossier(s) à sauvegarder.</span>`);
-  await sleep(400);
-  log(`<span class="log-info">[INFO] Vérification de la destination : ${DEST}</span>`);
-  await sleep(300);
+  if(selectedFolders.length === 0) { log('<span class="log-err">[ERR]  Aucun dossier sélectionné. Opération annulée.</span>'); showNosel(); return; }
+  log(`<span class="log-info">[INFO] ${selectedFolders.length} dossier(s) à sauvegarder. Vérification destination...</span>`);
+  await sleep(500);
   log('<span class="log-ok">[OK]   Destination accessible.</span>');
   await sleep(300);
-
-  // BACKUP LOOP
   for(let i=0; i<selectedFolders.length; i++) {
     const f = selectedFolders[i];
     const zip = f.name+'.zip';
     log(`<span class="log-dim"># Traitement (${i+1}/${selectedFolders.length}) : ${f.name}</span>`);
     await sleep(200);
-    log(`<span class="log-info">[INFO] Vérification doublons → ${DEST}\\${zip}</span>`);
-    await sleep(300);
     log(`<span class="log-warn">[WARN] Archive existante détectée → suppression...</span>`);
-    await sleep(400);
+    await sleep(350);
     log(`<span class="log-ok">[OK]   Ancien fichier supprimé.</span>`);
     await sleep(200);
-    log(`<span class="log-info">[INFO] Lancement 7z.exe : a -tzip "${DEST}\\${zip}" "${f.path}\\*" -r -mem=AES256</span>`);
+    log(`<span class="log-info">[INFO] 7z.exe a -tzip "${DEST}\\${zip}" "${f.path}\\*" -r -mem=AES256</span>`);
     await sleep(300);
-    await animateProgress(f.name, f.size);
-    log(`<span class="log-ok">[OK]   ExitCode 7-Zip : 0 — ${f.name}.zip créé avec succès.</span>`);
+    await animateProgress(f.name);
+    log(`<span class="log-ok">[OK]   ExitCode 0 — ${f.name}.zip créé avec succès.</span>`);
     await sleep(200);
     await showSuccess(f.name, zip);
     await sleep(200);
   }
-
   log(`<span class="log-ok">[DONE] ${selectedFolders.length} archive(s) chiffrée(s) déposée(s) dans ${DEST}</span>`);
   await sleep(400);
   await showDone(selectedFolders.length);
@@ -707,7 +499,6 @@ function endSim() {
   document.getElementById('btn-launch').disabled = false;
   document.getElementById('btn-reset').style.display = 'inline-flex';
 }
-
 function resetSim() {
   selectedFolders = [];
   updateSelectedUI();
@@ -717,17 +508,10 @@ function resetSim() {
   document.getElementById('btn-launch').disabled = false;
   running = false;
 }
-
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// scroll progress
-window.addEventListener('scroll',()=>{
-  const h=document.documentElement;
-  document.getElementById('pf').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
-});
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
-},{threshold:.07});
+window.addEventListener('scroll',()=>{ const h=document.documentElement; document.getElementById('pf').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'; });
+const obs=new IntersectionObserver(entries=>{ entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}); },{threshold:.07});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>
