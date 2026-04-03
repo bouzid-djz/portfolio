@@ -62,7 +62,7 @@ export function Projects() {
       technologies: ["n8n", "Automatisation", "E-mail", "RSS"],
       downloadUrl: "#",
       hasDemo: false,
-      detailUrl: null,
+      detailUrl: "/portfolio/projects/n8n.html",
       icon: Workflow,
     },
   ]
