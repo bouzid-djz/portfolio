@@ -52,7 +52,7 @@ export function Projects() {
       technologies: ["Proxmox", "AD", "TrueNAS", "VLAN", "Ubuntu"],
       downloadUrl: "#",
       hasDemo: false,
-      detailUrl: "/projects/proxmox",
+      detailUrl: "/portfolio/projects/proxmox.html",
       icon: null,
     },
     {
