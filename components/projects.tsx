@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Download, ExternalLink, Workflow, ArrowRight } from "lucide-react"
+import { ExternalLink, Workflow, ArrowRight } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
@@ -20,7 +20,6 @@ export function Projects() {
       description: t.project1Desc,
       context: t.context,
       technologies: ["CISCO", "Réseaux"],
-      downloadUrl: "/Projet.zip",
       detailUrl: null,
       icon: null,
     },
@@ -29,7 +28,6 @@ export function Projects() {
       description: t.project2Desc,
       context: t.internship,
       technologies: ["PowerShell", "VBS", "Automatisation"],
-      downloadUrl: "/Projet2.zip",
       detailUrl: "/portfolio/projects/powershell.html",
       icon: null,
     },
@@ -38,7 +36,6 @@ export function Projects() {
       description: t.project3Desc,
       context: t.context,
       technologies: ["Proxmox", "AD", "TrueNAS", "VLAN", "Ubuntu"],
-      downloadUrl: "#",
       detailUrl: "/portfolio/projects/proxmox.html",
       icon: null,
     },
@@ -47,7 +44,6 @@ export function Projects() {
       description: t.project4Desc,
       context: t.personal,
       technologies: ["n8n", "Automatisation", "E-mail", "RSS"],
-      downloadUrl: "#",
       detailUrl: "/portfolio/projects/n8n.html",
       icon: Workflow,
     },
@@ -71,7 +67,7 @@ export function Projects() {
             {projects.map((project, index) => (
               <Card
                 key={index}
-                className="p-6 space-y-4 border-border/40 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all hover:-translate-y-1"
+                className="p-6 flex flex-col border-border/40 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all hover:-translate-y-1"
               >
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
@@ -86,7 +82,7 @@ export function Projects() {
                   <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-4">
                   {project.technologies.map((tech) => (
                     <Badge key={tech} variant="secondary" className="text-xs">
                       {tech}
@@ -94,29 +90,16 @@ export function Projects() {
                   ))}
                 </div>
 
-                <div className="flex gap-2">
-                  {project.detailUrl && (
-                    <Button asChild variant="default" size="sm" className="flex-1">
+                {project.detailUrl && (
+                  <div className="mt-auto pt-4">
+                    <Button asChild variant="default" size="sm" className="w-full">
                       <a href={project.detailUrl}>
                         <ArrowRight className="h-4 w-4 mr-2" />
                         Voir le projet
                       </a>
                     </Button>
-                  )}
-                  {project.downloadUrl !== "#" && (
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="sm"
-                      className={`bg-transparent ${project.detailUrl ? "flex-1" : "w-full"}`}
-                    >
-                      <a href={project.downloadUrl} download>
-                        <Download className="h-4 w-4 mr-2" />
-                        {t.download}
-                      </a>
-                    </Button>
-                  )}
-                </div>
+                  </div>
+                )}
               </Card>
             ))}
           </div>
