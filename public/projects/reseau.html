@@ -47,7 +47,7 @@
     .hero h1 .accent{color:var(--primary)}
     .hero-desc{font-size:var(--base);color:var(--muted-fg);max-width:68ch;line-height:1.7;margin-bottom:var(--s10)}
     .hero-stats{display:flex;gap:var(--s10);flex-wrap:wrap}
-    .stat{display:flex;flex-direction:column;gap:var(--s1)}
+    .stat-blk{display:flex;flex-direction:column;gap:var(--s1)}
     .stat-value{font-size:var(--xl);font-weight:700;font-family:var(--font-mono);color:var(--primary);line-height:1}
     .stat-label{font-size:var(--xs);color:var(--muted-fg);text-transform:uppercase;letter-spacing:.1em;font-family:var(--font-mono)}
     .divider{border:none;border-top:1px solid var(--border);margin:0}
@@ -79,7 +79,6 @@
     .btn-back:hover{border-color:var(--primary);color:var(--primary)}
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
     .reveal.in{opacity:1;transform:translateY(0)}
-
     /* TOPOLOGY */
     .topo-wrapper{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
     .topo-topbar{background:#1a1a1a;border-bottom:1px solid var(--border);padding:var(--s3) var(--s4);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--s2)}
@@ -93,14 +92,10 @@
     .topo-legend{display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap;padding:var(--s3) var(--s4);border-bottom:1px solid var(--border);background:#0d0d0d}
     .legend-item{display:flex;align-items:center;gap:var(--s2);font-size:10px;font-family:var(--font-mono);color:var(--muted-fg)}
     .legend-dot{width:8px;height:8px;border-radius:50%}
-    .topo-body{display:grid;grid-template-columns:1fr 300px;height:520px}
-    .topo-canvas{
-      position:relative;overflow:hidden;
-      background:radial-gradient(ellipse at 50% 50%,#0f1a0f 0%,#080808 100%);
-      cursor:grab;
-    }
+    .topo-body{display:grid;grid-template-columns:1fr 300px;height:540px}
+    .topo-canvas{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#0f1a0f 0%,#080808 100%);cursor:grab;user-select:none}
     .topo-canvas.grabbing{cursor:grabbing}
-    .topo-canvas svg{width:100%;height:100%;display:block;}
+    .topo-canvas svg{width:100%;height:100%;display:block}
     .topo-panel{border-left:1px solid var(--border);padding:var(--s5);display:flex;flex-direction:column;gap:var(--s4);background:#050505;overflow-y:auto}
     .panel-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:var(--s3);text-align:center}
     .panel-placeholder-icon{font-size:2rem;opacity:.3}
@@ -118,30 +113,19 @@
     .panel-row-value.green{color:var(--primary)}
     .ping-btn{display:inline-flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s4);background:rgba(126,244,115,.1);border:1px solid rgba(126,244,115,.3);border-radius:var(--radius);font-size:var(--xs);font-family:var(--font-mono);color:var(--primary);cursor:pointer;transition:background var(--t)}
     .ping-btn:hover{background:rgba(126,244,115,.2)}
-    .ping-output{font-family:var(--font-mono);font-size:10px;line-height:1.7;color:#6c7086;max-height:120px;overflow-y:auto}
+    .ping-output{font-family:var(--font-mono);font-size:10px;line-height:1.7;color:#6c7086;max-height:120px;overflow-y:auto;white-space:pre}
     .ping-output .ok{color:#a6e3a1}
     .ping-output .stat{color:#89b4fa}
     .topo-hint{padding:var(--s3) var(--s4);background:#0a0a0a;border-top:1px solid var(--border);font-size:10px;font-family:var(--font-mono);color:#3a3a3a;text-align:center}
-
-    /* SVG nodes */
-    .net-node{cursor:pointer}
-    .net-node:hover .node-bg{filter:brightness(1.4)}
-    .net-node.selected .node-bg{filter:brightness(1.6)}
-    .net-node.selected .node-ring{opacity:1 !important}
+    /* SVG nodes (styled via JS classes) */
+    .net-node{cursor:move}
+    .net-node.selected .node-ring{opacity:1!important}
     .node-ring{opacity:0;transition:opacity .15s}
-    .link{stroke:#1e2a1e;stroke-width:1.5;fill:none}
-    .link.active{stroke:#7ef47388;stroke-width:2.5}
-    .link.animated{stroke-dasharray:6 4;animation:dash 1s linear infinite}
+    .topo-link{stroke:#1e2a1e;stroke-width:1.5;fill:none;pointer-events:none}
+    .topo-link.active{stroke:#7ef47388;stroke-width:2.5}
+    .topo-link.animated{stroke-dasharray:6 4;animation:dash 1s linear infinite}
     @keyframes dash{to{stroke-dashoffset:-20}}
-    .node-label{font-family:'Geist',sans-serif;font-size:12px;fill:#aaa;text-anchor:middle;pointer-events:none}
-    .node-sub{font-family:'Geist Mono',monospace;font-size:10px;fill:#555;text-anchor:middle;pointer-events:none}
-
-    @media(max-width:768px){
-      .topo-body{grid-template-columns:1fr;height:auto}
-      .topo-canvas{height:420px}
-      .topo-panel{border-left:none;border-top:1px solid var(--border);height:auto}
-      .ctx-grid{grid-template-columns:1fr !important}
-    }
+    @media(max-width:768px){.topo-body{grid-template-columns:1fr;height:auto}.topo-canvas{height:400px}.topo-panel{border-left:none;border-top:1px solid var(--border)}.ctx-grid{grid-template-columns:1fr!important}}
   </style>
 </head>
 <body>
@@ -158,7 +142,6 @@
     </div>
   </div>
 </nav>
-
 <main>
   <div class="container">
     <section class="hero">
@@ -170,219 +153,53 @@
         <span class="chip">Secteur Pharmaceutique</span>
       </div>
       <h1>Infrastructure<br><span class="accent">Réseau</span><br>Pharmaceutique</h1>
-      <p class="hero-desc">Projet scolaire consistant à concevoir et proposer une solution système et réseau complète pour une entreprise pharmaceutique fictive. Le périmètre couvre la sélection des postes de travail jusqu'à la mise en place de l’architecture réseau avec segmentation VLAN, routage inter-VLAN et sécurisation par pare-feu.</p>
+      <p class="hero-desc">Projet scolaire consistant à concevoir et proposer une solution système et réseau complète pour une entreprise pharmaceutique fictive. Le périmètre couvre la sélection des postes de travail jusqu’à la mise en place de l’architecture réseau avec segmentation VLAN, routage inter-VLAN et sécurisation par pare-feu.</p>
       <div class="hero-stats">
-        <div class="stat"><span class="stat-value">4</span><span class="stat-label">VLANs</span></div>
-        <div class="stat"><span class="stat-value">2</span><span class="stat-label">Types de postes</span></div>
-        <div class="stat"><span class="stat-value">FW</span><span class="stat-label">Pare-feu CISCO</span></div>
-        <div class="stat"><span class="stat-value">ACL</span><span class="stat-label">Filtrage règles</span></div>
+        <div class="stat-blk"><span class="stat-value">4</span><span class="stat-label">VLANs</span></div>
+        <div class="stat-blk"><span class="stat-value">2</span><span class="stat-label">Types de postes</span></div>
+        <div class="stat-blk"><span class="stat-value">FW</span><span class="stat-label">Pare-feu CISCO</span></div>
+        <div class="stat-blk"><span class="stat-value">ACL</span><span class="stat-label">Filtrage règles</span></div>
       </div>
     </section>
     <hr class="divider">
 
-    <!-- TOPOLOGIE INTERACTIVE -->
+    <!-- TOPOLOGIE -->
     <section class="section reveal">
       <div class="section-head"><h2>Topologie interactive</h2></div>
       <div class="topo-wrapper">
         <div class="topo-topbar">
           <span class="topo-title">Cisco Packet Tracer &mdash; <span>pharma-reseau.pkt</span></span>
           <div class="topo-controls">
-            <button class="zoom-btn" onclick="doZoom(-0.2)" title="Dézoomer">−</button>
+            <button class="zoom-btn" onclick="doZoom(-0.2)">−</button>
             <span class="zoom-level" id="zoom-label">100%</span>
-            <button class="zoom-btn" onclick="doZoom(0.2)" title="Zoomer">+</button>
-            <button class="zoom-btn" onclick="resetView()" title="Réinitialiser" style="width:auto;padding:0 8px;font-size:10px;font-family:var(--font-mono)">Reset</button>
-            <span class="topo-badge">Drag • Scroll • Clic</span>
+            <button class="zoom-btn" onclick="doZoom(0.2)">+</button>
+            <button class="zoom-btn" onclick="resetView()" style="width:auto;padding:0 8px;font-size:10px;font-family:var(--font-mono)">Reset</button>
+            <span class="topo-badge">Drag équipement • Scroll zoom • Clic info</span>
           </div>
         </div>
         <div class="topo-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#7ef473"></div>VLAN 10 &mdash; Direction</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#4d8fff"></div>VLAN 20 &mdash; Production</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#f9e2af"></div>VLAN 30 &mdash; R&amp;D</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#f38ba8"></div>VLAN 40 &mdash; DMZ Serveurs</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7ef473"></div>VLAN 10 — Direction</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4d8fff"></div>VLAN 20 — Production</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f9e2af"></div>VLAN 30 — R&amp;D</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f38ba8"></div>VLAN 40 — DMZ</div>
         </div>
         <div class="topo-body">
           <div class="topo-canvas" id="topo-canvas">
             <svg id="topo-svg" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-              <g id="viewport">
-
-              <!-- LINKS -->
-              <line id="l-inet-fw"  x1="400" y1="60"  x2="400" y2="140" class="link"/>
-              <line id="l-fw-rt"   x1="400" y1="190" x2="400" y2="270" class="link"/>
-              <line id="l-rt-sw"   x1="400" y1="320" x2="400" y2="400" class="link"/>
-              <line id="l-sw-dir"  x1="340" y1="420" x2="170" y2="490" class="link"/>
-              <line id="l-sw-prod" x1="360" y1="425" x2="290" y2="560" class="link"/>
-              <line id="l-sw-rd"   x1="440" y1="425" x2="510" y2="560" class="link"/>
-              <line id="l-sw-dmz"  x1="460" y1="420" x2="630" y2="490" class="link"/>
-              <line id="l-dir-pc1" x1="140" y1="515" x2="80"  y2="590" class="link"/>
-              <line id="l-dir-pc2" x1="170" y1="518" x2="170" y2="590" class="link"/>
-              <line id="l-dir-lap" x1="200" y1="515" x2="260" y2="590" class="link"/>
-              <line id="l-prod-pc" x1="280" y1="585" x2="240" y2="650" class="link"/>
-              <line id="l-prod-pc2" x1="300" y1="588" x2="340" y2="650" class="link"/>
-              <line id="l-rd-lap"  x1="500" y1="585" x2="460" y2="650" class="link"/>
-              <line id="l-rd-lap2" x1="520" y1="588" x2="560" y2="650" class="link"/>
-              <line id="l-dmz-srv" x1="640" y1="515" x2="700" y2="590" class="link"/>
-              <line id="l-dmz-srv2" x1="660" y1="518" x2="660" y2="590" class="link"/>
-
-              <!-- INTERNET -->
-              <g class="net-node" id="node-internet" onclick="selectNode('internet')">
-                <circle class="node-ring" cx="400" cy="40" r="28" stroke="#444" stroke-width="2" fill="none"/>
-                <circle class="node-bg" cx="400" cy="40" r="22" fill="#111" stroke="#333" stroke-width="1.5"/>
-                <text x="400" y="46" text-anchor="middle" font-size="18" fill="#555">🌐</text>
-                <text class="node-label" x="400" y="80">Internet / WAN</text>
-              </g>
-
-              <!-- FIREWALL -->
-              <g class="net-node" id="node-fw" onclick="selectNode('fw')">
-                <circle class="node-ring" cx="400" cy="165" r="30" stroke="#f38ba8" stroke-width="2" fill="none"/>
-                <rect class="node-bg" x="372" y="142" width="56" height="44" rx="8" fill="#1a0808" stroke="#f38ba866" stroke-width="1.5"/>
-                <text x="400" y="170" text-anchor="middle" font-size="20" fill="#f38ba8">🔥</text>
-                <text class="node-label" x="400" y="202">Pare-feu</text>
-                <text class="node-sub"   x="400" y="215">Cisco ASA 5505</text>
-              </g>
-
-              <!-- ROUTER -->
-              <g class="net-node" id="node-router" onclick="selectNode('router')">
-                <circle class="node-ring" cx="400" cy="295" r="30" stroke="#7ef473" stroke-width="2" fill="none"/>
-                <circle class="node-bg" cx="400" cy="295" r="24" fill="#0a1a0a" stroke="#7ef47366" stroke-width="1.5"/>
-                <text x="400" y="301" text-anchor="middle" font-size="20" fill="#7ef473">🔀</text>
-                <text class="node-label" x="400" y="335">Routeur</text>
-                <text class="node-sub"   x="400" y="348">Cisco 2911</text>
-              </g>
-
-              <!-- SW CORE -->
-              <g class="net-node" id="node-swcore" onclick="selectNode('swcore')">
-                <circle class="node-ring" cx="400" cy="415" r="30" stroke="#7ef473" stroke-width="2" fill="none"/>
-                <rect class="node-bg" x="368" y="394" width="64" height="42" rx="7" fill="#0a1a0a" stroke="#7ef47366" stroke-width="1.5"/>
-                <text x="400" y="422" text-anchor="middle" font-size="16" fill="#7ef473">⧀⧀⧀</text>
-                <text class="node-label" x="400" y="456">Switch Core</text>
-                <text class="node-sub"   x="400" y="469">Cisco Catalyst 3650</text>
-              </g>
-
-              <!-- SW DIR -->
-              <g class="net-node" id="node-swdir" onclick="selectNode('swdir')">
-                <circle class="node-ring" cx="170" cy="505" r="24" stroke="#7ef473" stroke-width="2" fill="none"/>
-                <rect class="node-bg" x="144" y="488" width="52" height="34" rx="6" fill="#0a1a0a" stroke="#7ef47344" stroke-width="1.5"/>
-                <text x="170" y="510" text-anchor="middle" font-size="14" fill="#7ef47399">⧀⧀</text>
-                <text class="node-label" x="170" y="544">SW-Direction</text>
-                <text class="node-sub"   x="170" y="557">VLAN 10</text>
-              </g>
-
-              <!-- SW PROD -->
-              <g class="net-node" id="node-swprod" onclick="selectNode('swprod')">
-                <circle class="node-ring" cx="300" cy="575" r="24" stroke="#4d8fff" stroke-width="2" fill="none"/>
-                <rect class="node-bg" x="274" y="558" width="52" height="34" rx="6" fill="#080d1a" stroke="#4d8fff44" stroke-width="1.5"/>
-                <text x="300" y="580" text-anchor="middle" font-size="14" fill="#4d8fff99">⧀⧀</text>
-                <text class="node-label" x="300" y="614">SW-Production</text>
-                <text class="node-sub"   x="300" y="627">VLAN 20</text>
-              </g>
-
-              <!-- SW RD -->
-              <g class="net-node" id="node-swrd" onclick="selectNode('swrd')">
-                <circle class="node-ring" cx="510" cy="575" r="24" stroke="#f9e2af" stroke-width="2" fill="none"/>
-                <rect class="node-bg" x="484" y="558" width="52" height="34" rx="6" fill="#1a1500" stroke="#f9e2af44" stroke-width="1.5"/>
-                <text x="510" y="580" text-anchor="middle" font-size="14" fill="#f9e2af99">⧀⧀</text>
-                <text class="node-label" x="510" y="614">SW-R&amp;D</text>
-                <text class="node-sub"   x="510" y="627">VLAN 30</text>
-              </g>
-
-              <!-- SW DMZ -->
-              <g class="net-node" id="node-swdmz" onclick="selectNode('swdmz')">
-                <circle class="node-ring" cx="645" cy="505" r="24" stroke="#f38ba8" stroke-width="2" fill="none"/>
-                <rect class="node-bg" x="619" y="488" width="52" height="34" rx="6" fill="#1a0808" stroke="#f38ba844" stroke-width="1.5"/>
-                <text x="645" y="510" text-anchor="middle" font-size="14" fill="#f38ba899">⧀⧀</text>
-                <text class="node-label" x="645" y="544">SW-DMZ</text>
-                <text class="node-sub"   x="645" y="557">VLAN 40</text>
-              </g>
-
-              <!-- PCs DIRECTION -->
-              <g class="net-node" id="node-pcdir1" onclick="selectNode('pcdir1')">
-                <circle class="node-ring" cx="80" cy="608" r="18" stroke="#7ef473" stroke-width="1.5" fill="none"/>
-                <circle class="node-bg" cx="80" cy="608" r="14" fill="#0a1a0a" stroke="#7ef47344" stroke-width="1"/>
-                <text x="80" y="614" text-anchor="middle" font-size="12" fill="#7ef47388">💻</text>
-                <text class="node-label" x="80" y="636">PC-Dir 1</text>
-                <text class="node-sub"   x="80" y="648">10.10.10.10</text>
-              </g>
-              <g class="net-node" id="node-pcdir2" onclick="selectNode('pcdir2')">
-                <circle class="node-ring" cx="170" cy="608" r="18" stroke="#7ef473" stroke-width="1.5" fill="none"/>
-                <circle class="node-bg" cx="170" cy="608" r="14" fill="#0a1a0a" stroke="#7ef47344" stroke-width="1"/>
-                <text x="170" y="614" text-anchor="middle" font-size="12" fill="#7ef47388">💻</text>
-                <text class="node-label" x="170" y="636">PC-Dir 2</text>
-                <text class="node-sub"   x="170" y="648">10.10.10.11</text>
-              </g>
-              <g class="net-node" id="node-lapdir" onclick="selectNode('lapdir')">
-                <circle class="node-ring" cx="260" cy="608" r="18" stroke="#7ef473" stroke-width="1.5" fill="none"/>
-                <circle class="node-bg" cx="260" cy="608" r="14" fill="#0a1a0a" stroke="#7ef47344" stroke-width="1"/>
-                <text x="260" y="614" text-anchor="middle" font-size="12" fill="#7ef47388">📳</text>
-                <text class="node-label" x="260" y="636">Laptop Dir.</text>
-                <text class="node-sub"   x="260" y="648">DHCP</text>
-              </g>
-
-              <!-- PCs PROD -->
-              <g class="net-node" id="node-pcprod1" onclick="selectNode('pcprod1')">
-                <circle class="node-ring" cx="240" cy="665" r="18" stroke="#4d8fff" stroke-width="1.5" fill="none"/>
-                <circle class="node-bg" cx="240" cy="665" r="14" fill="#080d1a" stroke="#4d8fff44" stroke-width="1"/>
-                <text x="240" y="671" text-anchor="middle" font-size="12" fill="#4d8fff88">💻</text>
-                <text class="node-label" x="240" y="693">PC-Prod 1</text>
-                <text class="node-sub"   x="240" y="705">10.20.20.10</text>
-              </g>
-              <g class="net-node" id="node-pcprod2" onclick="selectNode('pcprod2')">
-                <circle class="node-ring" cx="340" cy="665" r="18" stroke="#4d8fff" stroke-width="1.5" fill="none"/>
-                <circle class="node-bg" cx="340" cy="665" r="14" fill="#080d1a" stroke="#4d8fff44" stroke-width="1"/>
-                <text x="340" y="671" text-anchor="middle" font-size="12" fill="#4d8fff88">💻</text>
-                <text class="node-label" x="340" y="693">PC-Prod 2</text>
-                <text class="node-sub"   x="340" y="705">10.20.20.11</text>
-              </g>
-
-              <!-- LAPTOPS R&D -->
-              <g class="net-node" id="node-laprd1" onclick="selectNode('laprd1')">
-                <circle class="node-ring" cx="460" cy="665" r="18" stroke="#f9e2af" stroke-width="1.5" fill="none"/>
-                <circle class="node-bg" cx="460" cy="665" r="14" fill="#1a1500" stroke="#f9e2af44" stroke-width="1"/>
-                <text x="460" y="671" text-anchor="middle" font-size="12" fill="#f9e2af88">📳</text>
-                <text class="node-label" x="460" y="693">Laptop R&amp;D 1</text>
-                <text class="node-sub"   x="460" y="705">DHCP</text>
-              </g>
-              <g class="net-node" id="node-laprd2" onclick="selectNode('laprd2')">
-                <circle class="node-ring" cx="560" cy="665" r="18" stroke="#f9e2af" stroke-width="1.5" fill="none"/>
-                <circle class="node-bg" cx="560" cy="665" r="14" fill="#1a1500" stroke="#f9e2af44" stroke-width="1"/>
-                <text x="560" y="671" text-anchor="middle" font-size="12" fill="#f9e2af88">📳</text>
-                <text class="node-label" x="560" y="693">Laptop R&amp;D 2</text>
-                <text class="node-sub"   x="560" y="705">DHCP</text>
-              </g>
-
-              <!-- SERVEURS DMZ -->
-              <g class="net-node" id="node-srv1" onclick="selectNode('srv1')">
-                <circle class="node-ring" cx="660" cy="608" r="18" stroke="#f38ba8" stroke-width="1.5" fill="none"/>
-                <rect class="node-bg" x="645" y="593" width="30" height="28" rx="4" fill="#1a0808" stroke="#f38ba844" stroke-width="1"/>
-                <text x="660" y="613" text-anchor="middle" font-size="12" fill="#f38ba888">🖥️</text>
-                <text class="node-label" x="660" y="638">Srv Web/DNS</text>
-                <text class="node-sub"   x="660" y="650">10.40.40.10</text>
-              </g>
-              <g class="net-node" id="node-srv2" onclick="selectNode('srv2')">
-                <circle class="node-ring" cx="700" cy="608" r="18" stroke="#f38ba8" stroke-width="1.5" fill="none"/>
-                <rect class="node-bg" x="685" y="593" width="30" height="28" rx="4" fill="#1a0808" stroke="#f38ba844" stroke-width="1"/>
-                <text x="700" y="613" text-anchor="middle" font-size="12" fill="#f38ba888">🖥️</text>
-                <text class="node-label" x="700" y="638">Srv FTP</text>
-                <text class="node-sub"   x="700" y="650">10.40.40.11</text>
-              </g>
-
-              </g><!-- /viewport -->
+              <g id="links-layer"></g>
+              <g id="nodes-layer"></g>
             </svg>
           </div>
-
-          <!-- PANEL -->
           <div class="topo-panel">
             <div class="panel-placeholder" id="panel-placeholder">
               <div class="panel-placeholder-icon">🔍</div>
-              <p>Cliquez sur un équipement pour afficher ses détails.</p>
-              <p style="font-size:9px;margin-top:4px;opacity:.5">Drag pour déplacer &bull; Scroll pour zoomer</p>
+              <p>Cliquez sur un équipement pour ses détails.</p>
+              <p style="font-size:9px;margin-top:4px;opacity:.4">Glissez un équipement pour le repositionner</p>
             </div>
             <div class="panel-device" id="panel-device">
               <div class="panel-device-header">
                 <div class="panel-device-icon" id="pd-icon"></div>
-                <div>
-                  <div class="panel-device-name" id="pd-name"></div>
-                  <div class="panel-device-type" id="pd-type"></div>
-                </div>
+                <div><div class="panel-device-name" id="pd-name"></div><div class="panel-device-type" id="pd-type"></div></div>
               </div>
               <div class="panel-rows" id="pd-rows"></div>
               <button class="ping-btn" onclick="doPing()">
@@ -393,7 +210,7 @@
             </div>
           </div>
         </div>
-        <div class="topo-hint">📌 Drag pour naviguer &mdash; Molette / boutons +− pour zoomer &mdash; Clic sur un équipement pour ses détails</div>
+        <div class="topo-hint">📌 Glisser un équipement pour le déplacer &mdash; Drag fond pour naviguer &mdash; Molette / +− pour zoomer</div>
       </div>
     </section>
 
@@ -401,84 +218,38 @@
     <section class="section reveal">
       <div class="section-head"><h2>Contexte du projet</h2></div>
       <div class="ctx-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s5)">
-        <div class="card">
-          <h3>L’entreprise fictive</h3>
-          <p>Une société pharmaceutique en croissance souhaitant moderniser son infrastructure informatique. Les contraintes incluaient un budget maîtrisé, des exigences de sécurité élevées (données sensibles R&amp;D) et une continuité de service indispensable en production.</p>
-        </div>
-        <div class="card">
-          <h3>Objectifs</h3>
-          <ul>
-            <li>Sélectionner des postes fixes et portables adaptés aux usages métiers</li>
-            <li>Concevoir une architecture réseau segmentée par VLANs</li>
-            <li>Mettre en place un routage inter-VLAN sécurisé</li>
-            <li>Configurer un pare-feu avec règles ACL strictes</li>
-            <li>Produire un dossier technique et une maquette Packet Tracer</li>
-          </ul>
-        </div>
+        <div class="card"><h3>L’entreprise fictive</h3><p>Une société pharmaceutique en croissance souhaitant moderniser son infrastructure. Les contraintes incluaient un budget maîtrisé, des exigences de sécurité élevées (données sensibles R&amp;D) et une continuité de service indispensable en production.</p></div>
+        <div class="card"><h3>Objectifs</h3><ul>
+          <li>Sélectionner des postes fixes et portables adaptés aux usages métiers</li>
+          <li>Concevoir une architecture réseau segmentée par VLANs</li>
+          <li>Mettre en place un routage inter-VLAN sécurisé</li>
+          <li>Configurer un pare-feu avec règles ACL strictes</li>
+          <li>Produire un dossier technique et une maquette Packet Tracer</li>
+        </ul></div>
       </div>
     </section>
 
-    <!-- SELECTION POSTES -->
+    <!-- POSTES -->
     <section class="section reveal">
       <div class="section-head"><h2>Sélection des postes</h2></div>
       <div class="feat-grid">
-        <div class="feat-card">
-          <div class="feat-icon">🖥️</div>
-          <h4>Postes fixes &mdash; Production</h4>
-          <p>Sélectionnés pour leur robustesse et leur rapport performance/coût. Destinés aux opérateurs de production : usage intensif, pas de mobilité requise.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">💻</div>
-          <h4>Portables &mdash; Direction &amp; R&amp;D</h4>
-          <p>Choix justifié par la mobilité des cadres et chercheurs. Critères : autonomie élevée, dalle IPS, stockage SSD NVMe.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">💰</div>
-          <h4>Contraintes budgétaires</h4>
-          <p>Chaque poste justifié par une analyse coût/usage. Mise en compétition de plusieurs constructeurs avec tableaux comparatifs.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🔒</div>
-          <h4>Sécurité des équipements</h4>
-          <p>Chiffrement disque (BitLocker), comptes domainés via Active Directory, politique de mots de passe et verrouillage automatique.</p>
-        </div>
+        <div class="feat-card"><div class="feat-icon">🖥️</div><h4>Postes fixes — Production</h4><p>Sélectionnés pour leur robustesse et rapport performance/coût. Usage intensif, pas de mobilité requise.</p></div>
+        <div class="feat-card"><div class="feat-icon">💻</div><h4>Portables — Direction &amp; R&amp;D</h4><p>Mobilité des cadres et chercheurs. Critères : autonomie, dalle IPS, stockage SSD NVMe.</p></div>
+        <div class="feat-card"><div class="feat-icon">💰</div><h4>Contraintes budgétaires</h4><p>Analyse coût/usage par poste, mise en compétition constructeurs avec tableaux comparatifs.</p></div>
+        <div class="feat-card"><div class="feat-icon">🔒</div><h4>Sécurité</h4><p>BitLocker, comptes Active Directory, politique mots de passe et verrouillage automatique.</p></div>
       </div>
     </section>
 
-    <!-- ARCHITECTURE RESEAU -->
+    <!-- ARCHI -->
     <section class="section reveal">
       <div class="section-head"><h2>Architecture réseau</h2></div>
       <div class="feat-grid">
-        <div class="feat-card">
-          <div class="feat-icon">🌐</div>
-          <h4>Segmentation VLAN</h4>
-          <p>4 VLANs dédiés : Direction (10), Production (20), R&amp;D (30), DMZ Serveurs (40). Isolation du trafic entre départements.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🔀</div>
-          <h4>Routage inter-VLAN</h4>
-          <p>Configuré sur le routeur Cisco 2911 via sous-interfaces (Router-on-a-Stick). Chaque VLAN dispose de sa propre passerelle et plage IP.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🔥</div>
-          <h4>Pare-feu &amp; ACL</h4>
-          <p>Cisco ASA en périmètre. Règles ACL bloquant les flux non autorisés : Production isolée de la R&amp;D, DMZ en accès contrôlé.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">📡</div>
-          <h4>DHCP centralisé</h4>
-          <p>Pools DHCP séparés par VLAN sur le routeur. Attribution automatique des IP, masques, passerelles et DNS.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🖧</div>
-          <h4>Switch de distribution</h4>
-          <p>Cisco 3650 en trunk 802.1Q. Propagation des VLANs vers les switchs d’accès de chaque département.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🖥️</div>
-          <h4>DMZ Serveurs</h4>
-          <p>Zone démilitarisée hébergeant serveur Web/DNS et FTP. Isolée du LAN interne avec règles ACL strictes.</p>
-        </div>
+        <div class="feat-card"><div class="feat-icon">🌐</div><h4>Segmentation VLAN</h4><p>4 VLANs : Direction (10), Production (20), R&amp;D (30), DMZ (40). Isolation du trafic inter-départements.</p></div>
+        <div class="feat-card"><div class="feat-icon">🔀</div><h4>Routage inter-VLAN</h4><p>Cisco 2911 en Router-on-a-Stick. Chaque VLAN : passerelle et plage IP dédiées.</p></div>
+        <div class="feat-card"><div class="feat-icon">🔥</div><h4>Pare-feu &amp; ACL</h4><p>Cisco ASA en périmètre. Blocage des flux non autorisés inter-VLAN, DMZ en accès contrôlé.</p></div>
+        <div class="feat-card"><div class="feat-icon">📡</div><h4>DHCP centralisé</h4><p>Pools DHCP par VLAN sur le routeur : IP, masque, passerelle, DNS attribués automatiquement.</p></div>
+        <div class="feat-card"><div class="feat-icon">🖧</div><h4>Switch distribution</h4><p>Cisco 3650 trunk 802.1Q. Propagation des VLANs vers les switchs d’accès de chaque département.</p></div>
+        <div class="feat-card"><div class="feat-icon">🖥️</div><h4>DMZ Serveurs</h4><p>Zone isolée hébergeant serveur Web/DNS et FTP, séparée du LAN par ACL strictes.</p></div>
       </div>
     </section>
 
@@ -486,18 +257,9 @@
     <section class="section reveal">
       <div class="section-head"><h2>Livrables produits</h2></div>
       <div class="ctx-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s4)">
-        <div class="card">
-          <h3>📊 PowerPoint</h3>
-          <p>Présentation complète : analyse du besoin, comparatif matériel, justification budgétaire, schémas réseau et plan d’adressage IP.</p>
-        </div>
-        <div class="card">
-          <h3>🗺️ Maquette Cisco</h3>
-          <p>Fichier Packet Tracer fonctionnel avec tous les équipements configurés, VLANs actifs et règles ACL appliquées.</p>
-        </div>
-        <div class="card">
-          <h3>📝 Dossier technique</h3>
-          <p>Documentation détaillée : plan d’adressage, configurations CLI, matrice de flux inter-VLANs et justifications techniques.</p>
-        </div>
+        <div class="card"><h3>📊 PowerPoint</h3><p>Analyse du besoin, comparatif matériel, justification budgétaire, schémas réseau et plan d’adressage IP.</p></div>
+        <div class="card"><h3>🗺️ Maquette Cisco</h3><p>Packet Tracer fonctionnel : équipements configurés, VLANs actifs, routage inter-VLAN et ACL appliquées.</p></div>
+        <div class="card"><h3>📝 Dossier technique</h3><p>Plan d’adressage, CLI, matrice de flux inter-VLANs et justifications techniques complètes.</p></div>
       </div>
     </section>
 
@@ -509,7 +271,7 @@
         <div class="comp-item"><span class="comp-dot"></span>Configuration VLAN</div>
         <div class="comp-item"><span class="comp-dot"></span>Routage inter-VLAN</div>
         <div class="comp-item"><span class="comp-dot"></span>Pare-feu Cisco ASA</div>
-        <div class="comp-item"><span class="comp-dot"></span>ACL (Access Control List)</div>
+        <div class="comp-item"><span class="comp-dot"></span>ACL</div>
         <div class="comp-item"><span class="comp-dot"></span>DHCP / DNS</div>
         <div class="comp-item"><span class="comp-dot"></span>Plan d’adressage IP</div>
         <div class="comp-item"><span class="comp-dot"></span>Analyse du besoin</div>
@@ -519,7 +281,6 @@
     </section>
   </div>
 </main>
-
 <footer class="footer">
   <div class="container">
     <p>&copy; 2026 Quentin SILVA &mdash; Portfolio BTS SIO SISR</p>
@@ -528,209 +289,446 @@
 </footer>
 
 <script>
-/* ---- PAN / ZOOM ---- */
-const canvas = document.getElementById('topo-canvas');
-const vp     = document.getElementById('viewport');
-let tx = 0, ty = 0, scale = 1;
-let dragging = false, startX = 0, startY = 0, moved = false;
-const MIN_SCALE = 0.3, MAX_SCALE = 3;
+// =====================================================
+// DATA : nodes + links
+// =====================================================
+const NODE_DEFS = {
+  internet: { x:400, y:50,  icon:'🌐', label:'Internet',    sub:'WAN',            r:22, stroke:'#444',    fill:'#111',    textFill:'#555',   type:'ext' },
+  fw:       { x:400, y:155, icon:'🔥', label:'Pare-feu',   sub:'Cisco ASA 5505', r:24, stroke:'#f38ba8', fill:'#1a0808', textFill:'#f38ba8',type:'fw'  },
+  router:   { x:400, y:265, icon:'🔀', label:'Routeur',    sub:'Cisco 2911',     r:24, stroke:'#7ef473', fill:'#0a1a0a', textFill:'#7ef473',type:'rt'  },
+  swcore:   { x:400, y:375, icon:'⧀⧀⧀', label:'SW Core',   sub:'Cisco 3650',     r:24, stroke:'#7ef473', fill:'#0a1a0a', textFill:'#7ef47388',type:'sw' },
+  swdir:    { x:160, y:470, icon:'⧀⧀', label:'SW-Dir',    sub:'VLAN 10',        r:20, stroke:'#7ef473', fill:'#0a1a0a', textFill:'#7ef47388',type:'sw' },
+  swprod:   { x:295, y:540, icon:'⧀⧀', label:'SW-Prod',   sub:'VLAN 20',        r:20, stroke:'#4d8fff', fill:'#080d1a', textFill:'#4d8fff88',type:'sw' },
+  swrd:     { x:505, y:540, icon:'⧀⧀', label:'SW-R&D',    sub:'VLAN 30',        r:20, stroke:'#f9e2af', fill:'#1a1500', textFill:'#f9e2af88',type:'sw' },
+  swdmz:    { x:640, y:470, icon:'⧀⧀', label:'SW-DMZ',    sub:'VLAN 40',        r:20, stroke:'#f38ba8', fill:'#1a0808', textFill:'#f38ba888',type:'sw' },
+  pcdir1:   { x:60,  y:590, icon:'💻', label:'PC-Dir 1', sub:'10.10.10.10',    r:15, stroke:'#7ef473', fill:'#0a1a0a', textFill:'#7ef47366',type:'pc' },
+  pcdir2:   { x:155, y:600, icon:'💻', label:'PC-Dir 2', sub:'10.10.10.11',    r:15, stroke:'#7ef473', fill:'#0a1a0a', textFill:'#7ef47366',type:'pc' },
+  lapdir:   { x:250, y:590, icon:'📳', label:'Lap-Dir',  sub:'DHCP',           r:15, stroke:'#7ef473', fill:'#0a1a0a', textFill:'#7ef47366',type:'pc' },
+  pcprod1:  { x:235, y:660, icon:'💻', label:'PC-Prod1', sub:'10.20.20.10',    r:15, stroke:'#4d8fff', fill:'#080d1a', textFill:'#4d8fff66',type:'pc' },
+  pcprod2:  { x:340, y:660, icon:'💻', label:'PC-Prod2', sub:'10.20.20.11',    r:15, stroke:'#4d8fff', fill:'#080d1a', textFill:'#4d8fff66',type:'pc' },
+  laprd1:   { x:460, y:660, icon:'📳', label:'Lap-RD1',  sub:'DHCP',           r:15, stroke:'#f9e2af', fill:'#1a1500', textFill:'#f9e2af66',type:'pc' },
+  laprd2:   { x:555, y:660, icon:'📳', label:'Lap-RD2',  sub:'DHCP',           r:15, stroke:'#f9e2af', fill:'#1a1500', textFill:'#f9e2af66',type:'pc' },
+  srv1:     { x:620, y:590, icon:'🖥️', label:'Srv Web', sub:'10.40.40.10',    r:15, stroke:'#f38ba8', fill:'#1a0808', textFill:'#f38ba866',type:'pc' },
+  srv2:     { x:710, y:590, icon:'🖥️', label:'Srv FTP', sub:'10.40.40.11',    r:15, stroke:'#f38ba8', fill:'#1a0808', textFill:'#f38ba866',type:'pc' },
+};
 
-function applyTransform() {
-  vp.setAttribute('transform', `translate(${tx},${ty}) scale(${scale})`);
-  document.getElementById('zoom-label').textContent = Math.round(scale * 100) + '%';
-}
+const LINK_DEFS = [
+  {id:'l-inet-fw',   a:'internet', b:'fw'},
+  {id:'l-fw-rt',     a:'fw',       b:'router'},
+  {id:'l-rt-sw',     a:'router',   b:'swcore'},
+  {id:'l-sw-dir',    a:'swcore',   b:'swdir'},
+  {id:'l-sw-prod',   a:'swcore',   b:'swprod'},
+  {id:'l-sw-rd',     a:'swcore',   b:'swrd'},
+  {id:'l-sw-dmz',    a:'swcore',   b:'swdmz'},
+  {id:'l-dir-pc1',   a:'swdir',    b:'pcdir1'},
+  {id:'l-dir-pc2',   a:'swdir',    b:'pcdir2'},
+  {id:'l-dir-lap',   a:'swdir',    b:'lapdir'},
+  {id:'l-prod-pc1',  a:'swprod',   b:'pcprod1'},
+  {id:'l-prod-pc2',  a:'swprod',   b:'pcprod2'},
+  {id:'l-rd-lap1',   a:'swrd',     b:'laprd1'},
+  {id:'l-rd-lap2',   a:'swrd',     b:'laprd2'},
+  {id:'l-dmz-srv1',  a:'swdmz',    b:'srv1'},
+  {id:'l-dmz-srv2',  a:'swdmz',    b:'srv2'},
+];
 
-/* initial centering */
-window.addEventListener('load', () => {
-  const r = canvas.getBoundingClientRect();
-  tx = r.width  * 0.05;
-  ty = r.height * 0.03;
-  scale = Math.min(r.width / 820, r.height / 760) * 0.88;
-  applyTransform();
+const NODE_INFO = {
+  internet: { icon:'🌐', name:'Internet / WAN',       type:'Réseau externe',
+    rows:[{label:'IP publique',value:'203.0.113.1'},{label:'Interface',value:'WAN (Serial0/0)'},{label:'Statut',value:'● En ligne',green:true}], pingTarget:'203.0.113.1' },
+  fw:       { icon:'🔥', name:'Pare-feu Cisco ASA 5505', type:'Firewall périmètrique',
+    rows:[{label:'Modèle',value:'Cisco ASA 5505'},{label:'IP WAN',value:'203.0.113.2 /30'},{label:'IP LAN',value:'192.168.0.1 /30'},{label:'ACL',value:'deny inter-VLAN non autorisés',green:true}], pingTarget:'192.168.0.1' },
+  router:   { icon:'🔀', name:'Routeur Cisco 2911',     type:'Routeur cœur',
+    rows:[{label:'Modèle',value:'Cisco 2911'},{label:'IP',value:'192.168.0.2 /30'},{label:'Mode',value:'Router-on-a-Stick',green:true},{label:'DHCP',value:'4 pools VLAN',green:true}], pingTarget:'192.168.0.2' },
+  swcore:   { icon:'⧀⧀⧀', name:'Switch Core 3650',      type:'Commutateur distribution',
+    rows:[{label:'Modèle',value:'Cisco Catalyst 3650'},{label:'Uplink',value:'Trunk 802.1Q',green:true},{label:'VLANs',value:'10, 20, 30, 40'}], pingTarget:'10.0.0.1' },
+  swdir:    { icon:'⧀⧀', name:'Switch Direction',        type:'Accès — VLAN 10',
+    rows:[{label:'VLAN',value:'10 — Direction',green:true},{label:'Plage IP',value:'10.10.10.0 /24'},{label:'GW',value:'10.10.10.254'}], pingTarget:'10.10.10.254' },
+  swprod:   { icon:'⧀⧀', name:'Switch Production',      type:'Accès — VLAN 20',
+    rows:[{label:'VLAN',value:'20 — Production',green:true},{label:'Plage IP',value:'10.20.20.0 /24'},{label:'GW',value:'10.20.20.254'}], pingTarget:'10.20.20.254' },
+  swrd:     { icon:'⧀⧀', name:'Switch R&D',              type:'Accès — VLAN 30',
+    rows:[{label:'VLAN',value:'30 — R&D',green:true},{label:'Plage IP',value:'10.30.30.0 /24'},{label:'GW',value:'10.30.30.254'}], pingTarget:'10.30.30.254' },
+  swdmz:    { icon:'⧀⧀', name:'Switch DMZ',              type:'Accès — VLAN 40',
+    rows:[{label:'VLAN',value:'40 — DMZ Serveurs',green:true},{label:'Plage IP',value:'10.40.40.0 /24'},{label:'Isolation',value:'ACL strict'}], pingTarget:'10.40.40.254' },
+  pcdir1:   { icon:'💻', name:'PC Direction 1',  type:'Poste fixe — VLAN 10', rows:[{label:'IP',value:'10.10.10.10 /24'},{label:'Usage',value:'Bureautique, ERP'},{label:'Accès R&D',value:'✖ Bloqué'}], pingTarget:'10.10.10.10' },
+  pcdir2:   { icon:'💻', name:'PC Direction 2',  type:'Poste fixe — VLAN 10', rows:[{label:'IP',value:'10.10.10.11 /24'},{label:'Usage',value:'Bureautique, ERP'},{label:'Accès R&D',value:'✖ Bloqué'}], pingTarget:'10.10.10.11' },
+  lapdir:   { icon:'📳', name:'Laptop Direction', type:'Portable — VLAN 10',   rows:[{label:'IP',value:'DHCP 10.10.10.x',green:true},{label:'Usage',value:'Mobilité, réunions'}], pingTarget:'10.10.10.20' },
+  pcprod1:  { icon:'💻', name:'PC Production 1', type:'Poste fixe — VLAN 20', rows:[{label:'IP',value:'10.20.20.10 /24'},{label:'Accès R&D',value:'✖ Bloqué (ACL)'}], pingTarget:'10.20.20.10' },
+  pcprod2:  { icon:'💻', name:'PC Production 2', type:'Poste fixe — VLAN 20', rows:[{label:'IP',value:'10.20.20.11 /24'},{label:'Accès R&D',value:'✖ Bloqué (ACL)'}], pingTarget:'10.20.20.11' },
+  laprd1:   { icon:'📳', name:'Laptop R&D 1',    type:'Portable — VLAN 30',   rows:[{label:'IP',value:'DHCP 10.30.30.x',green:true},{label:'Accès Prod',value:'✖ Bloqué (ACL)'}], pingTarget:'10.30.30.10' },
+  laprd2:   { icon:'📳', name:'Laptop R&D 2',    type:'Portable — VLAN 30',   rows:[{label:'IP',value:'DHCP 10.30.30.x',green:true},{label:'Accès Prod',value:'✖ Bloqué (ACL)'}], pingTarget:'10.30.30.11' },
+  srv1:     { icon:'🖥️', name:'Serveur Web/DNS', type:'Serveur — VLAN 40',     rows:[{label:'IP',value:'10.40.40.10 /24'},{label:'Services',value:'HTTP, HTTPS, DNS'},{label:'Accès LAN',value:'✖ Strict'}], pingTarget:'10.40.40.10' },
+  srv2:     { icon:'🖥️', name:'Serveur FTP',     type:'Serveur — VLAN 40',     rows:[{label:'IP',value:'10.40.40.11 /24'},{label:'Services',value:'FTP (port 21)'},{label:'Accès LAN',value:'✖ Strict'}], pingTarget:'10.40.40.11' },
+};
+
+// =====================================================
+// STATE
+// =====================================================
+const positions = {}; // nodeId -> {x, y}
+Object.entries(NODE_DEFS).forEach(([id, d]) => { positions[id] = {x: d.x, y: d.y}; });
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const linksLayer = document.getElementById('links-layer');
+const nodesLayer = document.getElementById('nodes-layer');
+const canvas     = document.getElementById('topo-canvas');
+
+// =====================================================
+// RENDER LINKS
+// =====================================================
+const linkEls = {};
+LINK_DEFS.forEach(ld => {
+  const line = document.createElementNS(SVG_NS, 'line');
+  line.setAttribute('class', 'topo-link');
+  line.id = ld.id;
+  linksLayer.appendChild(line);
+  linkEls[ld.id] = {el: line, a: ld.a, b: ld.b};
 });
 
-/* drag */
+function updateLinks() {
+  Object.values(linkEls).forEach(({el, a, b}) => {
+    const pa = positions[a], pb = positions[b];
+    el.setAttribute('x1', pa.x); el.setAttribute('y1', pa.y);
+    el.setAttribute('x2', pb.x); el.setAttribute('y2', pb.y);
+  });
+}
+
+// =====================================================
+// RENDER NODES
+// =====================================================
+const nodeEls = {};
+Object.entries(NODE_DEFS).forEach(([id, d]) => {
+  const g = document.createElementNS(SVG_NS, 'g');
+  g.setAttribute('class', 'net-node');
+  g.id = 'node-' + id;
+
+  // ring
+  const ring = document.createElementNS(SVG_NS, 'circle');
+  ring.setAttribute('class', 'node-ring');
+  ring.setAttribute('cx', 0); ring.setAttribute('cy', 0);
+  ring.setAttribute('r', d.r + 8);
+  ring.setAttribute('stroke', d.stroke);
+  ring.setAttribute('stroke-width', '2');
+  ring.setAttribute('fill', 'none');
+  g.appendChild(ring);
+
+  // bg
+  const bg = document.createElementNS(SVG_NS, 'circle');
+  bg.setAttribute('class', 'node-bg');
+  bg.setAttribute('cx', 0); bg.setAttribute('cy', 0);
+  bg.setAttribute('r', d.r);
+  bg.setAttribute('fill', d.fill);
+  bg.setAttribute('stroke', d.stroke + '66');
+  bg.setAttribute('stroke-width', '1.5');
+  bg.style.transition = 'filter .15s';
+  g.appendChild(bg);
+
+  // emoji
+  const em = document.createElementNS(SVG_NS, 'text');
+  em.setAttribute('x', 0); em.setAttribute('y', 5);
+  em.setAttribute('text-anchor', 'middle');
+  em.setAttribute('font-size', d.r > 18 ? '18' : '13');
+  em.setAttribute('fill', d.textFill);
+  em.setAttribute('pointer-events', 'none');
+  em.textContent = d.icon;
+  g.appendChild(em);
+
+  // label
+  const lbl = document.createElementNS(SVG_NS, 'text');
+  lbl.setAttribute('x', 0); lbl.setAttribute('y', d.r + 16);
+  lbl.setAttribute('text-anchor', 'middle');
+  lbl.setAttribute('font-size', '11');
+  lbl.setAttribute('font-family', 'Geist, sans-serif');
+  lbl.setAttribute('fill', '#aaa');
+  lbl.setAttribute('pointer-events', 'none');
+  lbl.innerHTML = d.label;
+  g.appendChild(lbl);
+
+  // sub
+  const sub = document.createElementNS(SVG_NS, 'text');
+  sub.setAttribute('x', 0); sub.setAttribute('y', d.r + 29);
+  sub.setAttribute('text-anchor', 'middle');
+  sub.setAttribute('font-size', '9');
+  sub.setAttribute('font-family', 'Geist Mono, monospace');
+  sub.setAttribute('fill', '#555');
+  sub.setAttribute('pointer-events', 'none');
+  sub.innerHTML = d.sub;
+  g.appendChild(sub);
+
+  nodesLayer.appendChild(g);
+  nodeEls[id] = {g, bg};
+});
+
+function positionNodes() {
+  Object.entries(positions).forEach(([id, p]) => {
+    nodeEls[id].g.setAttribute('transform', `translate(${p.x},${p.y})`);
+  });
+}
+
+// =====================================================
+// CANVAS PAN + ZOOM
+// =====================================================
+let panTx = 0, panTy = 0, panScale = 1;
+const MIN_S = 0.25, MAX_S = 4;
+const vpGroup = document.createElementNS(SVG_NS, 'g');
+vpGroup.id = 'viewport-group';
+// rewrap both layers inside vpGroup
+const svg = document.getElementById('topo-svg');
+svg.removeChild(linksLayer);
+svg.removeChild(nodesLayer);
+vpGroup.appendChild(linksLayer);
+vpGroup.appendChild(nodesLayer);
+svg.appendChild(vpGroup);
+
+function applyPan() {
+  vpGroup.setAttribute('transform', `translate(${panTx},${panTy}) scale(${panScale})`);
+  document.getElementById('zoom-label').textContent = Math.round(panScale * 100) + '%';
+}
+
+window.addEventListener('load', () => {
+  const r = canvas.getBoundingClientRect();
+  panScale = Math.min(r.width / 820, r.height / 730) * 0.90;
+  panTx = r.width  * 0.04;
+  panTy = r.height * 0.03;
+  applyPan(); positionNodes(); updateLinks();
+});
+
+function doZoom(d) {
+  const r = canvas.getBoundingClientRect();
+  zoomAt(r.width/2, r.height/2, d);
+}
+function zoomAt(cx, cy, delta) {
+  const ns = Math.min(MAX_S, Math.max(MIN_S, panScale + delta));
+  const ratio = ns / panScale;
+  panTx = cx - ratio * (cx - panTx);
+  panTy = cy - ratio * (cy - panTy);
+  panScale = ns;
+  applyPan();
+}
+function resetView() {
+  const r = canvas.getBoundingClientRect();
+  Object.entries(NODE_DEFS).forEach(([id, d]) => { positions[id] = {x: d.x, y: d.y}; });
+  panScale = Math.min(r.width / 820, r.height / 730) * 0.90;
+  panTx = r.width  * 0.04;
+  panTy = r.height * 0.03;
+  applyPan(); positionNodes(); updateLinks();
+}
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = canvas.getBoundingClientRect();
+  zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 0.15 : -0.15);
+}, {passive:false});
+
+// =====================================================
+// NODE DRAG + CANVAS PAN  (priority: node > canvas)
+// =====================================================
+let activeNode  = null;  // id being dragged
+let nodeDragStart = null; // {mouseX, mouseY, origX, origY}
+let canvasDrag  = false;
+let canvasDragStart = null;
+let didMove = false;
+const DRAG_THRESHOLD = 4;
+
+// Convert screen coords to SVG world coords
+function toWorld(screenX, screenY) {
+  const r = canvas.getBoundingClientRect();
+  return {
+    x: (screenX - r.left - panTx) / panScale,
+    y: (screenY - r.top  - panTy) / panScale,
+  };
+}
+
+// Attach mousedown to each node
+Object.entries(nodeEls).forEach(([id, {g}]) => {
+  g.addEventListener('mousedown', e => {
+    if(e.button !== 0) return;
+    e.stopPropagation();
+    didMove = false;
+    activeNode = id;
+    nodeDragStart = {
+      mouseX: e.clientX, mouseY: e.clientY,
+      origX: positions[id].x, origY: positions[id].y,
+    };
+    canvas.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+});
+
+// Canvas mousedown (background pan)
 canvas.addEventListener('mousedown', e => {
-  if(e.button !== 0) return;
-  dragging = true; moved = false;
-  startX = e.clientX - tx;
-  startY = e.clientY - ty;
+  if(e.button !== 0 || activeNode) return;
+  didMove = false;
+  canvasDrag = true;
+  canvasDragStart = {mouseX: e.clientX, mouseY: e.clientY, tx: panTx, ty: panTy};
   canvas.classList.add('grabbing');
   e.preventDefault();
 });
-window.addEventListener('mousemove', e => {
-  if(!dragging) return;
-  const dx = e.clientX - tx - startX;
-  const dy = e.clientY - ty - startY;
-  if(Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
-  tx = e.clientX - startX;
-  ty = e.clientY - startY;
-  applyTransform();
-});
-window.addEventListener('mouseup', () => { dragging = false; canvas.classList.remove('grabbing'); });
 
-/* touch pan */
-let lastTX = 0, lastTY = 0, pinchDist = 0;
+window.addEventListener('mousemove', e => {
+  if(activeNode) {
+    const dx = e.clientX - nodeDragStart.mouseX;
+    const dy = e.clientY - nodeDragStart.mouseY;
+    if(!didMove && (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD)) didMove = true;
+    if(didMove) {
+      positions[activeNode].x = nodeDragStart.origX + dx / panScale;
+      positions[activeNode].y = nodeDragStart.origY + dy / panScale;
+      nodeEls[activeNode].g.setAttribute('transform',
+        `translate(${positions[activeNode].x},${positions[activeNode].y})`);
+      updateLinks();
+    }
+  } else if(canvasDrag) {
+    const dx = e.clientX - canvasDragStart.mouseX;
+    const dy = e.clientY - canvasDragStart.mouseY;
+    if(!didMove && (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD)) didMove = true;
+    panTx = canvasDragStart.tx + dx;
+    panTy = canvasDragStart.ty + dy;
+    applyPan();
+  }
+});
+
+window.addEventListener('mouseup', e => {
+  if(activeNode && !didMove) {
+    selectNode(activeNode);
+  }
+  activeNode = null; nodeDragStart = null;
+  canvasDrag = false; canvasDragStart = null;
+  canvas.classList.remove('grabbing');
+  canvas.style.cursor = '';
+  // reset didMove after short delay so click handler can read it
+  setTimeout(() => { didMove = false; }, 10);
+});
+
+// Touch support
+let touchNode = null, touchStart = null, touchDidMove = false;
+let pinchDist = 0;
+
 canvas.addEventListener('touchstart', e => {
   if(e.touches.length === 1) {
-    moved = false;
-    startX = e.touches[0].clientX - tx;
-    startY = e.touches[0].clientY - ty;
+    const t = e.touches[0];
+    // check if touch hits a node
+    const el = document.elementFromPoint(t.clientX, t.clientY);
+    const nodeG = el && el.closest('.net-node');
+    touchDidMove = false;
+    if(nodeG) {
+      const id = nodeG.id.replace('node-','');
+      touchNode = id;
+      touchStart = {clientX: t.clientX, clientY: t.clientY, origX: positions[id].x, origY: positions[id].y};
+    } else {
+      touchNode = null;
+      touchStart = {clientX: t.clientX, clientY: t.clientY, tx: panTx, ty: panTy};
+    }
   } else if(e.touches.length === 2) {
     pinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
   }
   e.preventDefault();
 }, {passive:false});
+
 canvas.addEventListener('touchmove', e => {
-  if(e.touches.length === 1) {
-    const nx = e.touches[0].clientX - startX;
-    const ny = e.touches[0].clientY - startY;
-    if(Math.abs(nx - tx) > 3 || Math.abs(ny - ty) > 3) moved = true;
-    tx = nx; ty = ny;
-    applyTransform();
+  if(e.touches.length === 1 && touchStart) {
+    const t = e.touches[0];
+    const dx = t.clientX - touchStart.clientX;
+    const dy = t.clientY - touchStart.clientY;
+    if(Math.abs(dx)>3||Math.abs(dy)>3) touchDidMove = true;
+    if(touchNode) {
+      positions[touchNode].x = touchStart.origX + dx / panScale;
+      positions[touchNode].y = touchStart.origY + dy / panScale;
+      nodeEls[touchNode].g.setAttribute('transform',`translate(${positions[touchNode].x},${positions[touchNode].y})`);
+      updateLinks();
+    } else {
+      panTx = touchStart.tx + dx;
+      panTy = touchStart.ty + dy;
+      applyPan();
+    }
   } else if(e.touches.length === 2) {
     const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-    const delta = (d - pinchDist) * 0.01;
+    const r = canvas.getBoundingClientRect();
+    zoomAt(r.width/2, r.height/2, (d - pinchDist) * 0.01);
     pinchDist = d;
-    zoomAt(canvas.getBoundingClientRect().width/2, canvas.getBoundingClientRect().height/2, delta);
   }
   e.preventDefault();
 }, {passive:false});
 
-/* scroll zoom */
-canvas.addEventListener('wheel', e => {
-  e.preventDefault();
-  const rect = canvas.getBoundingClientRect();
-  zoomAt(e.clientX - rect.left, e.clientY - rect.top, e.deltaY < 0 ? 0.15 : -0.15);
-}, {passive:false});
+canvas.addEventListener('touchend', e => {
+  if(touchNode && !touchDidMove) selectNode(touchNode);
+  touchNode = null; touchStart = null;
+});
 
-function zoomAt(cx, cy, delta) {
-  const ns = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale + delta));
-  const ratio = ns / scale;
-  tx = cx - ratio * (cx - tx);
-  ty = cy - ratio * (cy - ty);
-  scale = ns;
-  applyTransform();
-}
-
-function doZoom(delta) {
-  const rect = canvas.getBoundingClientRect();
-  zoomAt(rect.width/2, rect.height/2, delta);
-}
-
-function resetView() {
-  const r = canvas.getBoundingClientRect();
-  scale = Math.min(r.width / 820, r.height / 760) * 0.88;
-  tx = r.width  * 0.05;
-  ty = r.height * 0.03;
-  applyTransform();
-}
-
-/* prevent click after drag */
-canvas.addEventListener('click', e => { if(moved) { moved = false; e.stopPropagation(); } }, true);
-
-/* ---- NODES DATA ---- */
-const NODES = {
-  internet:{ icon:'🌐', name:'Internet / WAN',       type:'Réseau externe',
-    rows:[{label:'IP publique',value:'203.0.113.1'},{label:'Interface',value:'WAN (Serial0/0)'},{label:'Statut',value:'● En ligne',green:true}],
-    pingTarget:'203.0.113.1', links:['l-inet-fw'] },
-  fw:{ icon:'🔥', name:'Pare-feu Cisco ASA 5505', type:'Firewall périmètrique',
-    rows:[{label:'Modèle',value:'Cisco ASA 5505'},{label:'IP WAN',value:'203.0.113.2 /30'},{label:'IP LAN',value:'192.168.0.1 /30'},{label:'ACL',value:'deny inter-VLAN non autorisés',green:true},{label:'Statut',value:'● Opérationnel',green:true}],
-    pingTarget:'192.168.0.1', links:['l-inet-fw','l-fw-rt'] },
-  router:{ icon:'🔀', name:'Routeur Cisco 2911',     type:'Routeur cœur',
-    rows:[{label:'Modèle',value:'Cisco 2911'},{label:'IP',value:'192.168.0.2 /30'},{label:'Mode',value:'Router-on-a-Stick',green:true},{label:'DHCP',value:'4 pools (VLAN 10/20/30/40)',green:true},{label:'Sous-intf',value:'Fa0/0.10 .20 .30 .40'}],
-    pingTarget:'192.168.0.2', links:['l-fw-rt','l-rt-sw'] },
-  swcore:{ icon:'⧀⧀⧀', name:'Switch Core 3650',      type:'Commutateur distribution',
-    rows:[{label:'Modèle',value:'Cisco Catalyst 3650'},{label:'Mode uplink',value:'Trunk 802.1Q',green:true},{label:'VLANs',value:'10, 20, 30, 40'},{label:'Ports',value:'24 FastEthernet'}],
-    pingTarget:'10.0.0.1', links:['l-rt-sw','l-sw-dir','l-sw-prod','l-sw-rd','l-sw-dmz'] },
-  swdir:{ icon:'⧀⧀', name:'Switch Direction',        type:'Accès — VLAN 10',
-    rows:[{label:'VLAN',value:'10 — Direction',green:true},{label:'Plage IP',value:'10.10.10.0 /24'},{label:'Passerelle',value:'10.10.10.254'},{label:'Ports',value:'Access VLAN 10'}],
-    pingTarget:'10.10.10.254', links:['l-sw-dir','l-dir-pc1','l-dir-pc2','l-dir-lap'] },
-  swprod:{ icon:'⧀⧀', name:'Switch Production',      type:'Accès — VLAN 20',
-    rows:[{label:'VLAN',value:'20 — Production',green:true},{label:'Plage IP',value:'10.20.20.0 /24'},{label:'Passerelle',value:'10.20.20.254'},{label:'Ports',value:'Access VLAN 20'}],
-    pingTarget:'10.20.20.254', links:['l-sw-prod','l-prod-pc','l-prod-pc2'] },
-  swrd:{ icon:'⧀⧀', name:'Switch R&D',               type:'Accès — VLAN 30',
-    rows:[{label:'VLAN',value:'30 — R&D',green:true},{label:'Plage IP',value:'10.30.30.0 /24'},{label:'Passerelle',value:'10.30.30.254'},{label:'Ports',value:'Access VLAN 30'}],
-    pingTarget:'10.30.30.254', links:['l-sw-rd','l-rd-lap','l-rd-lap2'] },
-  swdmz:{ icon:'⧀⧀', name:'Switch DMZ',               type:'Accès — VLAN 40',
-    rows:[{label:'VLAN',value:'40 — DMZ Serveurs',green:true},{label:'Plage IP',value:'10.40.40.0 /24'},{label:'Passerelle',value:'10.40.40.254'},{label:'Isolation',value:'ACL strict'}],
-    pingTarget:'10.40.40.254', links:['l-sw-dmz','l-dmz-srv','l-dmz-srv2'] },
-  pcdir1:{ icon:'💻', name:'PC Direction 1',          type:'Poste fixe — VLAN 10',
-    rows:[{label:'IP',value:'10.10.10.10 /24'},{label:'VLAN',value:'10 — Direction'},{label:'Usage',value:'Bureautique, ERP'},{label:'Accès R&D',value:'✖ Bloqué (ACL)'}],
-    pingTarget:'10.10.10.10', links:['l-dir-pc1'] },
-  pcdir2:{ icon:'💻', name:'PC Direction 2',          type:'Poste fixe — VLAN 10',
-    rows:[{label:'IP',value:'10.10.10.11 /24'},{label:'VLAN',value:'10 — Direction'},{label:'Usage',value:'Bureautique, ERP'},{label:'Accès R&D',value:'✖ Bloqué (ACL)'}],
-    pingTarget:'10.10.10.11', links:['l-dir-pc2'] },
-  lapdir:{ icon:'📳', name:'Laptop Direction',        type:'Portable — VLAN 10',
-    rows:[{label:'IP',value:'DHCP — 10.10.10.x',green:true},{label:'VLAN',value:'10 — Direction'},{label:'Usage',value:'Mobilité, réunions'}],
-    pingTarget:'10.10.10.20', links:['l-dir-lap'] },
-  pcprod1:{ icon:'💻', name:'PC Production 1',        type:'Poste fixe — VLAN 20',
-    rows:[{label:'IP',value:'10.20.20.10 /24'},{label:'VLAN',value:'20 — Production'},{label:'Accès R&D',value:'✖ Bloqué (ACL)'}],
-    pingTarget:'10.20.20.10', links:['l-prod-pc'] },
-  pcprod2:{ icon:'💻', name:'PC Production 2',        type:'Poste fixe — VLAN 20',
-    rows:[{label:'IP',value:'10.20.20.11 /24'},{label:'VLAN',value:'20 — Production'},{label:'Accès R&D',value:'✖ Bloqué (ACL)'}],
-    pingTarget:'10.20.20.11', links:['l-prod-pc2'] },
-  laprd1:{ icon:'📳', name:'Laptop R&D 1',            type:'Portable — VLAN 30',
-    rows:[{label:'IP',value:'DHCP — 10.30.30.x',green:true},{label:'VLAN',value:'30 — R&D'},{label:'Accès Prod',value:'✖ Bloqué (ACL)'}],
-    pingTarget:'10.30.30.10', links:['l-rd-lap'] },
-  laprd2:{ icon:'📳', name:'Laptop R&D 2',            type:'Portable — VLAN 30',
-    rows:[{label:'IP',value:'DHCP — 10.30.30.x',green:true},{label:'VLAN',value:'30 — R&D'},{label:'Accès Prod',value:'✖ Bloqué (ACL)'}],
-    pingTarget:'10.30.30.11', links:['l-rd-lap2'] },
-  srv1:{ icon:'🖥️', name:'Serveur Web / DNS',      type:'Serveur — VLAN 40',
-    rows:[{label:'IP',value:'10.40.40.10 /24'},{label:'Services',value:'HTTP, HTTPS, DNS'},{label:'Accès LAN',value:'✖ Strict (ACL)'}],
-    pingTarget:'10.40.40.10', links:['l-dmz-srv'] },
-  srv2:{ icon:'🖥️', name:'Serveur FTP',             type:'Serveur — VLAN 40',
-    rows:[{label:'IP',value:'10.40.40.11 /24'},{label:'Services',value:'FTP (port 21)'},{label:'Accès LAN',value:'✖ Strict (ACL)'}],
-    pingTarget:'10.40.40.11', links:['l-dmz-srv2'] },
-};
-
+// =====================================================
+// SELECT + PANEL
+// =====================================================
 let currentNode = null;
 
 function selectNode(id) {
-  if(moved) return;
-  document.querySelectorAll('.net-node').forEach(n => n.classList.remove('selected'));
-  document.querySelectorAll('.link').forEach(l => l.classList.remove('active','animated'));
-  const el = document.getElementById('node-'+id);
-  if(el) el.classList.add('selected');
-  const data = NODES[id];
-  if(!data) return;
-  currentNode = id;
-  data.links.forEach(lid => {
-    const l = document.getElementById(lid);
-    if(l) l.classList.add('active','animated');
+  document.querySelectorAll('.net-node').forEach(n => {
+    n.classList.remove('selected');
+    const bg = n.querySelector('.node-bg');
+    if(bg) bg.style.filter = '';
   });
+  Object.values(linkEls).forEach(({el}) => el.classList.remove('active','animated'));
+
+  const g = document.getElementById('node-' + id);
+  if(g) {
+    g.classList.add('selected');
+    const bg = g.querySelector('.node-bg');
+    if(bg) bg.style.filter = 'brightness(1.8)';
+  }
+
+  const info = NODE_INFO[id];
+  if(!info) return;
+  currentNode = id;
+
+  // highlight connected links
+  LINK_DEFS.forEach(ld => {
+    if(ld.a === id || ld.b === id) {
+      const el = document.getElementById(ld.id);
+      if(el) el.classList.add('active','animated');
+    }
+  });
+
   document.getElementById('panel-placeholder').style.display = 'none';
   const pd = document.getElementById('panel-device');
   pd.classList.add('active');
-  document.getElementById('pd-icon').textContent = data.icon;
-  document.getElementById('pd-name').innerHTML = data.name;
-  document.getElementById('pd-type').innerHTML = data.type;
-  document.getElementById('pd-rows').innerHTML = data.rows.map(r =>
+  document.getElementById('pd-icon').textContent  = info.icon;
+  document.getElementById('pd-name').innerHTML    = info.name;
+  document.getElementById('pd-type').innerHTML    = info.type;
+  document.getElementById('pd-rows').innerHTML    = info.rows.map(r =>
     `<div class="panel-row"><span class="panel-row-label">${r.label}</span><span class="panel-row-value${r.green?' green':''}">${r.value}</span></div>`
   ).join('');
   document.getElementById('ping-output').innerHTML = '';
 }
 
+// hover brightness
+Object.entries(nodeEls).forEach(([id, {g, bg}]) => {
+  g.addEventListener('mouseenter', () => { if(!g.classList.contains('selected')) bg.style.filter='brightness(1.4)'; });
+  g.addEventListener('mouseleave', () => { if(!g.classList.contains('selected')) bg.style.filter=''; });
+});
+
+// =====================================================
+// PING
+// =====================================================
 function doPing() {
   if(!currentNode) return;
-  const ip = NODES[currentNode].pingTarget;
+  const ip = NODE_INFO[currentNode].pingTarget;
   const out = document.getElementById('ping-output');
-  out.innerHTML = `<span class="stat">PING ${ip} : 56 octets de données</span>`;
+  out.innerHTML = `<span class="stat">PING ${ip} (56 octets)</span>`;
   let count = 0;
-  const times = Array.from({length:4}, () => Math.floor(Math.random()*4)+1);
+  const times = Array.from({length:4}, ()=>Math.floor(Math.random()*4)+1);
   const iv = setInterval(() => {
     if(count >= 4) {
       clearInterval(iv);
       const avg = Math.round(times.reduce((a,b)=>a+b)/4);
-      out.innerHTML += `\n<span class="stat">--- ${ip} ping statistics ---</span>`;
-      out.innerHTML += `\n<span class="ok">4 transmis, 4 reçus, 0% perte, avg ${avg}ms</span>`;
+      out.innerHTML += `
+<span class="stat">--- ${ip} statistics ---</span>`;
+      out.innerHTML += `
+<span class="ok">4 transmis, 4 reçus, 0% perte, avg ${avg}ms</span>`;
       return;
     }
-    out.innerHTML += `\n<span class="ok">64 octets de ${ip}: icmp_seq=${count+1} ttl=64 time=${times[count]} ms</span>`;
+    out.innerHTML += `
+<span class="ok">64 bytes ${ip}: icmp_seq=${count+1} ttl=64 time=${times[count]}ms</span>`;
     count++; out.scrollTop = out.scrollHeight;
   }, 320);
 }
 
+// =====================================================
+// SCROLL PROGRESS + REVEAL
+// =====================================================
 window.addEventListener('scroll', () => {
   const h = document.documentElement;
   document.getElementById('pf').style.width = (h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
