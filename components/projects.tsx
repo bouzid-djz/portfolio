@@ -20,7 +20,7 @@ export function Projects() {
       description: t.project1Desc,
       context: t.context,
       technologies: ["CISCO", "Réseaux"],
-      detailUrl: null,
+      detailUrl: "/portfolio/projects/reseau.html",
       icon: null,
     },
     {
