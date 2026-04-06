@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infrastructure Réseau Pharmaceutique | Quentin SILVA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:72px}
+    :root{
+      --bg:#121212;--fg:#eeeeee;--card:#030303;--border:#1e1e1e;--muted:#0b0b0b;--muted-fg:#8f8f8f;
+      --primary:#7ef473;--primary-fg:#0b0b0b;--radius:.625rem;
+      --font-sans:'Geist','Helvetica Neue',sans-serif;--font-mono:'Geist Mono','Courier New',monospace;
+      --xs:clamp(.75rem,.7rem + .25vw,.875rem);--sm:clamp(.875rem,.8rem + .35vw,1rem);
+      --base:clamp(1rem,.95rem + .25vw,1.125rem);--xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+      --2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+      --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;--s8:2rem;--s10:2.5rem;--s16:4rem;--s20:5rem;
+      --sh-sm:0 1px 3px rgba(0,0,0,.6);--sh-md:0 4px 16px rgba(0,0,0,.7);
+      --t:150ms cubic-bezier(.4,0,.2,1);--content:1100px;
+    }
+    body{font-family:var(--font-sans);font-size:var(--base);color:var(--fg);background:var(--bg);line-height:1.6;min-height:100dvh;background-image:linear-gradient(to right,#80808012 1px,transparent 1px),linear-gradient(to bottom,#80808012 1px,transparent 1px);background-size:24px 24px}
+    a,button{transition:color var(--t),background var(--t),border-color var(--t)}
+    ::selection{background:rgba(126,244,115,.2);color:var(--fg)}
+    .container{max-width:var(--content);margin-inline:auto;padding-inline:var(--s6)}
+    .navbar{position:sticky;top:0;z-index:100;background:color-mix(in oklab,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:var(--s4) 0}
+    .navbar .container{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{display:flex;align-items:center;gap:var(--s3);text-decoration:none;color:var(--fg);font-weight:600;font-size:var(--sm)}
+    .nav-logo-icon{width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center}
+    .nav-right{display:flex;align-items:center;gap:var(--s3)}
+    .nav-back{display:flex;align-items:center;gap:var(--s2);font-size:var(--sm);color:var(--muted-fg);text-decoration:none;padding:var(--s2) var(--s3);border:1px solid var(--border);border-radius:var(--radius)}
+    .nav-back:hover{border-color:var(--primary);color:var(--primary)}
+    .nav-tag{font-size:var(--xs);font-family:var(--font-mono);color:var(--primary);border:1px solid rgba(126,244,115,.3);padding:var(--s1) var(--s3);border-radius:var(--radius);background:rgba(126,244,115,.06)}
+    .progress-bar{position:fixed;top:0;left:0;width:100%;height:2px;background:rgba(126,244,115,.1);z-index:200}
+    .progress-fill{height:100%;background:var(--primary);transition:width .1s linear;width:0%}
+    .hero{padding:var(--s20) 0 var(--s16)}
+    .hero-eyebrow{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s5);flex-wrap:wrap}
+    .chip{display:inline-flex;align-items:center;gap:var(--s1);padding:2px var(--s3);border-radius:var(--radius);font-size:var(--xs);font-family:var(--font-mono);border:1px solid var(--border);background:var(--muted);color:var(--muted-fg)}
+    .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.8}
+    .chip.green{border-color:rgba(126,244,115,.4);background:rgba(126,244,115,.08);color:var(--primary)}
+    .chip.orange{border-color:rgba(240,81,0,.4);background:rgba(240,81,0,.08);color:#f05100}
+    .chip.blue{border-color:rgba(77,143,255,.4);background:rgba(77,143,255,.08);color:#4d8fff}
+    .chip.purple{border-color:rgba(172,75,255,.4);background:rgba(172,75,255,.08);color:#ac4bff}
+    .hero h1{font-size:var(--2xl);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:var(--s5)}
+    .hero h1 .accent{color:var(--primary)}
+    .hero-desc{font-size:var(--base);color:var(--muted-fg);max-width:68ch;line-height:1.7;margin-bottom:var(--s10)}
+    .hero-stats{display:flex;gap:var(--s10);flex-wrap:wrap}
+    .stat{display:flex;flex-direction:column;gap:var(--s1)}
+    .stat-value{font-size:var(--xl);font-weight:700;font-family:var(--font-mono);color:var(--primary);line-height:1}
+    .stat-label{font-size:var(--xs);color:var(--muted-fg);text-transform:uppercase;letter-spacing:.1em;font-family:var(--font-mono)}
+    .divider{border:none;border-top:1px solid var(--border);margin:0}
+    .section{padding:var(--s16) 0}
+    .section+.section{border-top:1px solid var(--border)}
+    .section-head{display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s8)}
+    .section-head h2{font-size:var(--sm);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-family:var(--font-mono);color:var(--muted-fg)}
+    .section-head::before{content:"";flex-shrink:0;width:20px;height:1px;background:var(--primary)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--s6);box-shadow:var(--sh-sm);transition:border-color var(--t),box-shadow var(--t)}
+    .card:hover{border-color:rgba(126,244,115,.25);box-shadow:var(--sh-md)}
+    .card h3{font-size:var(--sm);font-weight:600;margin-bottom:var(--s3)}
+    .card p,.card li{font-size:var(--sm);color:var(--muted-fg);line-height:1.65}
+    .card ul{list-style:none;display:flex;flex-direction:column;gap:var(--s2)}
+    .card ul li{display:flex;gap:var(--s2);align-items:baseline}
+    .card ul li::before{content:"→";color:var(--primary);font-size:var(--xs);flex-shrink:0;font-family:var(--font-mono)}
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:var(--s4)}
+    .feat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--s5);transition:border-color var(--t),transform var(--t)}
+    .feat-card:hover{border-color:rgba(126,244,115,.3);transform:translateY(-2px)}
+    .feat-icon{font-size:1.4rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--muted);margin-bottom:var(--s4)}
+    .feat-card h4{font-size:var(--sm);font-weight:600;margin-bottom:var(--s2)}
+    .feat-card p{font-size:var(--xs);color:var(--muted-fg);line-height:1.5}
+    .comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:var(--s3)}
+    .comp-item{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4);background:var(--card);border:1px solid var(--border);border-radius:var(--radius);font-size:var(--xs)}
+    .comp-dot{width:6px;height:6px;border-radius:50%;background:var(--primary);flex-shrink:0}
+    .footer{border-top:1px solid var(--border);padding:var(--s8) 0;margin-top:var(--s8)}
+    .footer .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--s4)}
+    .footer p{font-size:var(--xs);color:var(--muted-fg);font-family:var(--font-mono)}
+    .btn-back{display:inline-flex;align-items:center;gap:var(--s2);padding:var(--s3) var(--s5);border-radius:var(--radius);font-size:var(--sm);font-weight:500;text-decoration:none;border:1px solid var(--border);color:var(--muted-fg)}
+    .btn-back:hover{border-color:var(--primary);color:var(--primary)}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.in{opacity:1;transform:translateY(0)}
+
+    /* TOPOLOGY */
+    .topo-wrapper{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .topo-topbar{background:#1a1a1a;border-bottom:1px solid var(--border);padding:var(--s3) var(--s4);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--s2)}
+    .topo-title{font-size:var(--xs);font-family:var(--font-mono);color:var(--muted-fg)}
+    .topo-title span{color:var(--primary)}
+    .topo-badge{font-size:10px;font-family:var(--font-mono);background:rgba(126,244,115,.1);border:1px solid rgba(126,244,115,.25);color:var(--primary);padding:2px 8px;border-radius:4px}
+    .topo-legend{display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap;padding:var(--s3) var(--s4);border-bottom:1px solid var(--border);background:#0d0d0d}
+    .legend-item{display:flex;align-items:center;gap:var(--s2);font-size:10px;font-family:var(--font-mono);color:var(--muted-fg)}
+    .legend-dot{width:8px;height:8px;border-radius:50%}
+    .topo-body{display:grid;grid-template-columns:1fr 300px;min-height:440px}
+    .topo-canvas{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#0f1a0f 0%,#080808 100%)}
+    .topo-canvas svg{width:100%;height:100%;min-height:440px}
+    .topo-panel{border-left:1px solid var(--border);padding:var(--s5);display:flex;flex-direction:column;gap:var(--s4);background:#050505}
+    .panel-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:var(--s3);text-align:center}
+    .panel-placeholder-icon{font-size:2rem;opacity:.3}
+    .panel-placeholder p{font-size:var(--xs);color:var(--muted-fg);line-height:1.5}
+    .panel-device{display:none;flex-direction:column;gap:var(--s4)}
+    .panel-device.active{display:flex}
+    .panel-device-header{display:flex;align-items:center;gap:var(--s3)}
+    .panel-device-icon{width:40px;height:40px;border-radius:var(--radius);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+    .panel-device-name{font-size:var(--sm);font-weight:600;line-height:1.2}
+    .panel-device-type{font-size:var(--xs);color:var(--muted-fg);font-family:var(--font-mono)}
+    .panel-rows{display:flex;flex-direction:column;gap:var(--s2)}
+    .panel-row{display:flex;flex-direction:column;gap:2px;padding:var(--s3);background:var(--muted);border:1px solid var(--border);border-radius:6px}
+    .panel-row-label{font-size:10px;font-family:var(--font-mono);color:var(--muted-fg);text-transform:uppercase;letter-spacing:.08em}
+    .panel-row-value{font-size:var(--xs);font-family:var(--font-mono);color:var(--fg)}
+    .panel-row-value.green{color:var(--primary)}
+    .ping-btn{display:inline-flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s4);background:rgba(126,244,115,.1);border:1px solid rgba(126,244,115,.3);border-radius:var(--radius);font-size:var(--xs);font-family:var(--font-mono);color:var(--primary);cursor:pointer;transition:background var(--t)}
+    .ping-btn:hover{background:rgba(126,244,115,.2)}
+    .ping-output{font-family:var(--font-mono);font-size:10px;line-height:1.7;color:#6c7086;max-height:100px;overflow-y:auto}
+    .ping-output .ok{color:#a6e3a1}
+    .ping-output .stat{color:#89b4fa}
+    .topo-hint{padding:var(--s3) var(--s4);background:#0a0a0a;border-top:1px solid var(--border);font-size:10px;font-family:var(--font-mono);color:#3a3a3a;text-align:center}
+
+    /* SVG nodes */
+    .net-node{cursor:pointer;transition:all .2s}
+    .net-node:hover .node-bg{filter:brightness(1.4)}
+    .net-node.selected .node-bg{filter:brightness(1.6)}
+    .net-node.selected .node-ring{opacity:1 !important}
+    .node-ring{opacity:0;transition:opacity .2s}
+    .link{stroke:#1e2a1e;stroke-width:1.5;fill:none;transition:stroke .2s}
+    .link.active{stroke:#7ef47388;stroke-width:2}
+    .link.animated{stroke-dasharray:6 4;animation:dash 1s linear infinite}
+    @keyframes dash{to{stroke-dashoffset:-20}}
+    .vlan-label{font-family:'Geist Mono',monospace;font-size:10px;fill:#3a4a3a}
+    .node-label{font-family:'Geist',sans-serif;font-size:11px;fill:#aaa;text-anchor:middle}
+    .node-sub{font-family:'Geist Mono',monospace;font-size:9px;fill:#555;text-anchor:middle}
+    .zone-rect{fill:none;stroke:#1a2a1a;stroke-width:1;stroke-dasharray:4 3;rx:8}
+    .zone-label{font-family:'Geist',sans-serif;font-size:10px;fill:#2a4a2a;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+
+    @media(max-width:768px){
+      .topo-body{grid-template-columns:1fr}
+      .topo-panel{border-left:none;border-top:1px solid var(--border)}
+      .ctx-grid{grid-template-columns:1fr !important}
+    }
+  </style>
+</head>
+<body>
+<div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+<nav class="navbar">
+  <div class="container">
+    <a href="/portfolio/" class="nav-logo">
+      <div class="nav-logo-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b0b0b" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+      Quentin SILVA
+    </a>
+    <div class="nav-right">
+      <span class="nav-tag">projet / réseau</span>
+      <a href="/portfolio/" class="nav-back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Retour</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="chip orange">Scolaire</span>
+        <span class="chip blue">CISCO</span>
+        <span class="chip purple">Réseaux</span>
+        <span class="chip green">VLAN</span>
+        <span class="chip">Secteur Pharmaceutique</span>
+      </div>
+      <h1>Infrastructure<br><span class="accent">Réseau</span><br>Pharmaceutique</h1>
+      <p class="hero-desc">Projet scolaire consistant à concevoir et proposer une solution système et réseau complète pour une entreprise pharmaceutique fictive. Le périmètre couvre la sélection des postes de travail jusqu'à la mise en place de l’architecture réseau avec segmentation VLAN, routage inter-VLAN et sécurisation par pare-feu.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-value">4</span><span class="stat-label">VLANs</span></div>
+        <div class="stat"><span class="stat-value">2</span><span class="stat-label">Types de postes</span></div>
+        <div class="stat"><span class="stat-value">FW</span><span class="stat-label">Pare-feu CISCO</span></div>
+        <div class="stat"><span class="stat-value">ACL</span><span class="stat-label">Filtrage règles</span></div>
+      </div>
+    </section>
+    <hr class="divider">
+
+    <!-- TOPOLOGIE INTERACTIVE -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Topologie interactive</h2></div>
+      <div class="topo-wrapper">
+        <div class="topo-topbar">
+          <span class="topo-title">Cisco Packet Tracer &mdash; <span>pharma-reseau.pkt</span></span>
+          <span class="topo-badge">Cliquez sur un équipement</span>
+        </div>
+        <div class="topo-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#7ef473"></div>VLAN 10 &mdash; Direction</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4d8fff"></div>VLAN 20 &mdash; Production</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f9e2af"></div>VLAN 30 &mdash; R&amp;D</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f38ba8"></div>VLAN 40 &mdash; DMZ Serveurs</div>
+        </div>
+        <div class="topo-body">
+          <div class="topo-canvas">
+            <svg id="topo-svg" viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg">
+              <!-- ZONE LABELS -->
+              <rect x="12" y="8" width="656" height="424" class="zone-rect" rx="8"/>
+
+              <!-- LINKS -->
+              <!-- Internet - Firewall -->
+              <line id="l-inet-fw" x1="340" y1="48" x2="340" y2="108" class="link"/>
+              <!-- Firewall - Router -->
+              <line id="l-fw-rt" x1="340" y1="148" x2="340" y2="198" class="link"/>
+              <!-- Router - SW-Core -->
+              <line id="l-rt-sw" x1="340" y1="238" x2="340" y2="290" class="link"/>
+              <!-- SW-Core - SW-DIR -->
+              <line id="l-sw-dir" x1="260" y1="310" x2="160" y2="350" class="link"/>
+              <!-- SW-Core - SW-PROD -->
+              <line id="l-sw-prod" x1="300" y1="315" x2="240" y2="390" class="link"/>
+              <!-- SW-Core - SW-RD -->
+              <line id="l-sw-rd" x1="380" y1="315" x2="440" y2="390" class="link"/>
+              <!-- SW-Core - SW-DMZ -->
+              <line id="l-sw-dmz" x1="420" y1="310" x2="520" y2="350" class="link"/>
+              <!-- SW-DIR - PC-DIR -->
+              <line id="l-dir-pc" x1="140" y1="370" x2="80" y2="410" class="link"/>
+              <!-- SW-DIR - LAPTOP-DIR -->
+              <line id="l-dir-lap" x1="170" y1="372" x2="155" y2="415" class="link"/>
+              <!-- SW-PROD - PC-PROD -->
+              <line id="l-prod-pc" x1="228" y1="408" x2="200" y2="430" class="link"/>
+              <!-- SW-RD - PC-RD -->
+              <line id="l-rd-pc" x1="452" y1="408" x2="470" y2="430" class="link"/>
+              <!-- SW-DMZ - SRV -->
+              <line id="l-dmz-srv" x1="532" y1="370" x2="590" y2="410" class="link"/>
+
+              <!-- INTERNET -->
+              <g class="net-node" id="node-internet" onclick="selectNode('internet')">
+                <circle class="node-ring" cx="340" cy="28" r="22" stroke="#555" stroke-width="2" fill="none"/>
+                <circle class="node-bg" cx="340" cy="28" r="18" fill="#111" stroke="#333" stroke-width="1.5"/>
+                <text x="340" y="32" text-anchor="middle" font-size="14" fill="#555">🌐</text>
+                <text class="node-label" x="340" y="56">Internet</text>
+              </g>
+
+              <!-- FIREWALL -->
+              <g class="net-node" id="node-fw" onclick="selectNode('fw')">
+                <circle class="node-ring" cx="340" cy="128" r="24" stroke="#f38ba8" stroke-width="2" fill="none"/>
+                <rect class="node-bg" x="318" y="108" width="44" height="36" rx="6" fill="#1a0808" stroke="#f38ba855" stroke-width="1.5"/>
+                <text x="340" y="131" text-anchor="middle" font-size="14" fill="#f38ba8">🔥</text>
+                <text class="node-label" x="340" y="155">Pare-feu</text>
+                <text class="node-sub" x="340" y="167">Cisco ASA</text>
+              </g>
+
+              <!-- ROUTER -->
+              <g class="net-node" id="node-router" onclick="selectNode('router')">
+                <circle class="node-ring" cx="340" cy="218" r="24" stroke="#7ef473" stroke-width="2" fill="none"/>
+                <circle class="node-bg" cx="340" cy="218" r="18" fill="#0a1a0a" stroke="#7ef47355" stroke-width="1.5"/>
+                <text x="340" y="222" text-anchor="middle" font-size="14" fill="#7ef473">🔀</text>
+                <text class="node-label" x="340" y="246">Routeur</text>
+                <text class="node-sub" x="340" y="258">Cisco 2911</text>
+              </g>
+
+              <!-- SW CORE -->
+              <g class="net-node" id="node-swcore" onclick="selectNode('swcore')">
+                <circle class="node-ring" cx="340" cy="308" r="24" stroke="#7ef473" stroke-width="2" fill="none"/>
+                <rect class="node-bg" x="316" y="288" width="48" height="32" rx="5" fill="#0a1a0a" stroke="#7ef47355" stroke-width="1.5"/>
+                <text x="340" y="309" text-anchor="middle" font-size="12" fill="#7ef473">⧀⧀</text>
+                <text class="node-label" x="340" y="334">SW Core</text>
+                <text class="node-sub" x="340" y="346">Cisco 3650</text>
+              </g>
+
+              <!-- SW DIR -->
+              <g class="net-node" id="node-swdir" onclick="selectNode('swdir')">
+                <circle class="node-ring" cx="155" cy="358" r="20" stroke="#7ef473" stroke-width="2" fill="none"/>
+                <rect class="node-bg" x="135" y="342" width="40" height="26" rx="4" fill="#0a1a0a" stroke="#7ef47344" stroke-width="1"/>
+                <text x="155" y="360" text-anchor="middle" font-size="10" fill="#7ef47388">⧀⧀</text>
+                <text class="node-label" x="155" y="380">SW-Dir</text>
+                <text class="node-sub" x="155" y="391">VLAN 10</text>
+              </g>
+
+              <!-- SW PROD -->
+              <g class="net-node" id="node-swprod" onclick="selectNode('swprod')">
+                <circle class="node-ring" cx="235" cy="398" r="20" stroke="#4d8fff" stroke-width="2" fill="none"/>
+                <rect class="node-bg" x="215" y="382" width="40" height="26" rx="4" fill="#080d1a" stroke="#4d8fff44" stroke-width="1"/>
+                <text x="235" y="400" text-anchor="middle" font-size="10" fill="#4d8fff88">⧀⧀</text>
+                <text class="node-label" x="235" y="420">SW-Prod</text>
+                <text class="node-sub" x="235" y="431">VLAN 20</text>
+              </g>
+
+              <!-- SW RD -->
+              <g class="net-node" id="node-swrd" onclick="selectNode('swrd')">
+                <circle class="node-ring" cx="445" cy="398" r="20" stroke="#f9e2af" stroke-width="2" fill="none"/>
+                <rect class="node-bg" x="425" y="382" width="40" height="26" rx="4" fill="#1a1500" stroke="#f9e2af44" stroke-width="1"/>
+                <text x="445" y="400" text-anchor="middle" font-size="10" fill="#f9e2af88">⧀⧀</text>
+                <text class="node-label" x="445" y="420">SW-R&amp;D</text>
+                <text class="node-sub" x="445" y="431">VLAN 30</text>
+              </g>
+
+              <!-- SW DMZ -->
+              <g class="net-node" id="node-swdmz" onclick="selectNode('swdmz')">
+                <circle class="node-ring" cx="525" cy="358" r="20" stroke="#f38ba8" stroke-width="2" fill="none"/>
+                <rect class="node-bg" x="505" y="342" width="40" height="26" rx="4" fill="#1a0808" stroke="#f38ba844" stroke-width="1"/>
+                <text x="525" y="360" text-anchor="middle" font-size="10" fill="#f38ba888">⧀⧀</text>
+                <text class="node-label" x="525" y="380">SW-DMZ</text>
+                <text class="node-sub" x="525" y="391">VLAN 40</text>
+              </g>
+
+              <!-- PC DIRECTION -->
+              <g class="net-node" id="node-pcdir" onclick="selectNode('pcdir')">
+                <circle class="node-ring" cx="72" cy="416" r="14" stroke="#7ef473" stroke-width="1.5" fill="none"/>
+                <circle class="node-bg" cx="72" cy="416" r="10" fill="#0a1a0a" stroke="#7ef47344" stroke-width="1"/>
+                <text x="72" y="420" text-anchor="middle" font-size="9" fill="#7ef47388">💻</text>
+                <text class="node-label" x="72" y="434">PC Dir.</text>
+              </g>
+
+              <!-- LAPTOP DIRECTION -->
+              <g class="net-node" id="node-lapdir" onclick="selectNode('lapdir')">
+                <circle class="node-ring" cx="155" cy="422" r="14" stroke="#7ef473" stroke-width="1.5" fill="none"/>
+                <circle class="node-bg" cx="155" cy="422" r="10" fill="#0a1a0a" stroke="#7ef47344" stroke-width="1"/>
+                <text x="155" y="426" text-anchor="middle" font-size="9" fill="#7ef47388">📳</text>
+                <text class="node-label" x="155" y="440">Laptop Dir.</text>
+              </g>
+
+              <!-- PC PROD -->
+              <g class="net-node" id="node-pcprod" onclick="selectNode('pcprod')">
+                <circle class="node-ring" cx="200" cy="434" r="14" stroke="#4d8fff" stroke-width="1.5" fill="none"/>
+                <circle class="node-bg" cx="200" cy="434" r="10" fill="#080d1a" stroke="#4d8fff44" stroke-width="1"/>
+                <text x="200" y="438" text-anchor="middle" font-size="9" fill="#4d8fff88">💻</text>
+              </g>
+
+              <!-- PC RD -->
+              <g class="net-node" id="node-pcrd" onclick="selectNode('pcrd')">
+                <circle class="node-ring" cx="472" cy="434" r="14" stroke="#f9e2af" stroke-width="1.5" fill="none"/>
+                <circle class="node-bg" cx="472" cy="434" r="10" fill="#1a1500" stroke="#f9e2af44" stroke-width="1"/>
+                <text x="472" y="438" text-anchor="middle" font-size="9" fill="#f9e2af88">💻</text>
+              </g>
+
+              <!-- SERVER DMZ -->
+              <g class="net-node" id="node-srv" onclick="selectNode('srv')">
+                <circle class="node-ring" cx="592" cy="416" r="14" stroke="#f38ba8" stroke-width="1.5" fill="none"/>
+                <rect class="node-bg" x="580" y="404" width="24" height="22" rx="3" fill="#1a0808" stroke="#f38ba844" stroke-width="1"/>
+                <text x="592" y="418" text-anchor="middle" font-size="9" fill="#f38ba888">🖥️</text>
+                <text class="node-label" x="592" y="434">Serveur</text>
+              </g>
+
+              <!-- PING PACKET ANIMATION -->
+              <circle id="ping-dot" r="4" fill="#7ef473" opacity="0">
+                <animate id="ping-anim" attributeName="opacity" values="0" dur="0.1s" fill="freeze"/>
+              </circle>
+            </svg>
+          </div>
+
+          <!-- PANEL -->
+          <div class="topo-panel">
+            <div class="panel-placeholder" id="panel-placeholder">
+              <div class="panel-placeholder-icon">🔍</div>
+              <p>Cliquez sur un équipement pour afficher ses détails et simuler un ping.</p>
+            </div>
+            <div class="panel-device" id="panel-device">
+              <div class="panel-device-header">
+                <div class="panel-device-icon" id="pd-icon"></div>
+                <div>
+                  <div class="panel-device-name" id="pd-name"></div>
+                  <div class="panel-device-type" id="pd-type"></div>
+                </div>
+              </div>
+              <div class="panel-rows" id="pd-rows"></div>
+              <button class="ping-btn" id="ping-btn" onclick="doPing()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+                Simuler un ping
+              </button>
+              <div class="ping-output" id="ping-output"></div>
+            </div>
+          </div>
+        </div>
+        <div class="topo-hint">↗ Topologie représentative de l’architecture proposée &mdash; cliquez sur chaque équipement pour explorer la configuration</div>
+      </div>
+    </section>
+
+    <!-- CONTEXTE -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Contexte du projet</h2></div>
+      <div class="ctx-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s5)">
+        <div class="card">
+          <h3>L’entreprise fictive</h3>
+          <p>Une société pharmaceutique en croissance souhaitant moderniser son infrastructure informatique. Les contraintes incluaient un budget maîtrisé, des exigences de sécurité élevées (données sensibles R&amp;D) et une continuité de service indispensable en production.</p>
+        </div>
+        <div class="card">
+          <h3>Objectifs</h3>
+          <ul>
+            <li>Sélectionner des postes fixes et portables adaptés aux usages métiers</li>
+            <li>Concevoir une architecture réseau segmentée par VLANs</li>
+            <li>Mettre en place un routage inter-VLAN sécurisé</li>
+            <li>Configurer un pare-feu avec règles ACL strictes</li>
+            <li>Produire un dossier technique et une maquette Packet Tracer</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELECTION POSTES -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Sélection des postes</h2></div>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">🖥️</div>
+          <h4>Postes fixes &mdash; Production</h4>
+          <p>Sélectionés pour leur robustesse et leur rapport performance/coût. Destinés aux opérateurs de production : usage intensif, pas de mobilité requise, accumulateur de données locales.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">💻</div>
+          <h4>Portables &mdash; Direction &amp; R&amp;D</h4>
+          <p>Choix justifié par la mobilité des cadres et chercheurs. Critères : autonomie élevée, dalle IPS pour la précision colorimétrique, stockage SSD NVMe pour les fichiers volumineux.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">💰</div>
+          <h4>Contraintes budgétaires</h4>
+          <p>Chaque poste a été justifié par un analyse coût/usage. Mise en compétition de plusieurs constructeurs avec tableaux comparatifs intégrés dans le livrable PowerPoint.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔒</div>
+          <h4>Sécurité des équipements</h4>
+          <p>Chiffrement disque activé (BitLocker), comptes domainés via Active Directory simulé, politique de mots de passe et verrouillage automatique prévus.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE RESEAU -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Architecture réseau</h2></div>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">🌐</div>
+          <h4>Segmentation VLAN</h4>
+          <p>4 VLANs dédiés : Direction (10), Production (20), R&amp;D (30), DMZ Serveurs (40). Isolation du trafic entre départements pour limiter la surface d’attaque.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔀</div>
+          <h4>Routage inter-VLAN</h4>
+          <p>Configuré sur le routeur Cisco 2911 via sous-interfaces (Router-on-a-Stick). Chaque VLAN dispose de sa propre passerelle et plage d’adressage IP dédiée.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔥</div>
+          <h4>Pare-feu &amp; ACL</h4>
+          <p>Cisco ASA en périmètre. Règles ACL bloquant les flux non autorisés entre VLANs : la Production ne peut pas accéder à la R&amp;D, la DMZ est isolée en lecture seule.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">📡</div>
+          <h4>DHCP centralisé</h4>
+          <p>Serveur DHCP configuré sur le routeur avec pools séparés par VLAN. Attribution automatique des adresses IP, masques, passerelles et DNS pour chaque segment.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🖧</div>
+          <h4>Switch de distribution</h4>
+          <p>Cisco 3650 en cœur de réseau en mode trunk. Propagation des VLANs vers les switchs d’accès de chaque département via ports trunk 802.1Q.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🖥️</div>
+          <h4>DMZ Serveurs</h4>
+          <p>Zone démilitarisée hébergeant les serveurs accessibles depuis l’extérieur. Isolée du LAN interne, avec règles ACL strictes contrôlant les flux entrants et sortants.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVRABLES -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Livrables produits</h2></div>
+      <div class="ctx-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s4)">
+        <div class="card">
+          <h3>📊 PowerPoint</h3>
+          <p>Présentation complète : analyse du besoin, comparatif matériel, justification des choix budgétaires, schémas réseau et plan d’adressage IP.</p>
+        </div>
+        <div class="card">
+          <h3>🗺️ Maquette Cisco</h3>
+          <p>Fichier Packet Tracer fonctionnel avec tous les équipements configurés, VLANs actifs, routage inter-VLAN opérationnel et règles ACL appliquées.</p>
+        </div>
+        <div class="card">
+          <h3>📝 Dossier technique</h3>
+          <p>Documentation détaillée incluant le plan d’adressage, les configurations CLI, la matrice de flux entre VLANs et les justifications des choix techniques.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPETENCES -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Compétences mobilisées</h2></div>
+      <div class="comp-grid">
+        <div class="comp-item"><span class="comp-dot"></span>Cisco Packet Tracer</div>
+        <div class="comp-item"><span class="comp-dot"></span>Configuration VLAN</div>
+        <div class="comp-item"><span class="comp-dot"></span>Routage inter-VLAN</div>
+        <div class="comp-item"><span class="comp-dot"></span>Pare-feu Cisco ASA</div>
+        <div class="comp-item"><span class="comp-dot"></span>ACL (Access Control List)</div>
+        <div class="comp-item"><span class="comp-dot"></span>DHCP / DNS</div>
+        <div class="comp-item"><span class="comp-dot"></span>Plan d’adressage IP</div>
+        <div class="comp-item"><span class="comp-dot"></span>Analyse du besoin</div>
+        <div class="comp-item"><span class="comp-dot"></span>Sélection matériel</div>
+        <div class="comp-item"><span class="comp-dot"></span>Documentation technique</div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2026 Quentin SILVA &mdash; Portfolio BTS SIO SISR</p>
+    <a href="/portfolio/" class="btn-back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Retour au portfolio</a>
+  </div>
+</footer>
+
+<script>
+const NODES = {
+  internet: {
+    icon: '🌐', name: 'Internet / WAN', type: 'Réseau externe',
+    rows: [
+      { label: 'IP publique', value: '203.0.113.1' },
+      { label: 'Interface', value: 'WAN (Serial0/0)' },
+      { label: 'Statut', value: '● En ligne', green: true },
+    ],
+    pingTarget: '203.0.113.1', links: ['l-inet-fw']
+  },
+  fw: {
+    icon: '🔥', name: 'Pare-feu CISCO ASA', type: 'Firewall périmètrique',
+    rows: [
+      { label: 'Modèle', value: 'Cisco ASA 5505' },
+      { label: 'IP WAN', value: '203.0.113.2 /30' },
+      { label: 'IP LAN', value: '192.168.0.1 /30' },
+      { label: 'ACL', value: 'deny inter-VLAN non autorisés', green: true },
+      { label: 'Statut', value: '● Opérationnel', green: true },
+    ],
+    pingTarget: '192.168.0.1', links: ['l-inet-fw','l-fw-rt']
+  },
+  router: {
+    icon: '🔀', name: 'Routeur Cisco 2911', type: 'Routeur cœur',
+    rows: [
+      { label: 'Modèle', value: 'Cisco 2911' },
+      { label: 'IP', value: '192.168.0.2 /30' },
+      { label: 'Mode', value: 'Router-on-a-Stick', green: true },
+      { label: 'DHCP', value: '4 pools (VLAN 10/20/30/40)', green: true },
+      { label: 'Sous-intf', value: 'Fa0/0.10 .20 .30 .40' },
+    ],
+    pingTarget: '192.168.0.2', links: ['l-fw-rt','l-rt-sw']
+  },
+  swcore: {
+    icon: '⧀⧀', name: 'Switch Core 3650', type: 'Commutateur distribution',
+    rows: [
+      { label: 'Modèle', value: 'Cisco Catalyst 3650' },
+      { label: 'Mode uplink', value: 'Trunk 802.1Q', green: true },
+      { label: 'VLANs actifs', value: '10, 20, 30, 40' },
+      { label: 'Ports', value: '24 FastEthernet' },
+    ],
+    pingTarget: '10.0.0.1', links: ['l-rt-sw','l-sw-dir','l-sw-prod','l-sw-rd','l-sw-dmz']
+  },
+  swdir: {
+    icon: '⧀⧀', name: 'Switch Direction', type: 'Commutateur accès &mdash; VLAN 10',
+    rows: [
+      { label: 'VLAN', value: '10 &mdash; Direction', green: true },
+      { label: 'Plage IP', value: '10.10.10.0 /24' },
+      { label: 'Passerelle', value: '10.10.10.254' },
+      { label: 'Ports accès', value: 'Access VLAN 10' },
+    ],
+    pingTarget: '10.10.10.254', links: ['l-sw-dir','l-dir-pc','l-dir-lap']
+  },
+  swprod: {
+    icon: '⧀⧀', name: 'Switch Production', type: 'Commutateur accès &mdash; VLAN 20',
+    rows: [
+      { label: 'VLAN', value: '20 &mdash; Production', green: true },
+      { label: 'Plage IP', value: '10.20.20.0 /24' },
+      { label: 'Passerelle', value: '10.20.20.254' },
+      { label: 'Ports accès', value: 'Access VLAN 20' },
+    ],
+    pingTarget: '10.20.20.254', links: ['l-sw-prod','l-prod-pc']
+  },
+  swrd: {
+    icon: '⧀⧀', name: 'Switch R&D', type: 'Commutateur accès &mdash; VLAN 30',
+    rows: [
+      { label: 'VLAN', value: '30 &mdash; R&D', green: true },
+      { label: 'Plage IP', value: '10.30.30.0 /24' },
+      { label: 'Passerelle', value: '10.30.30.254' },
+      { label: 'Ports accès', value: 'Access VLAN 30' },
+    ],
+    pingTarget: '10.30.30.254', links: ['l-sw-rd','l-rd-pc']
+  },
+  swdmz: {
+    icon: '⧀⧀', name: 'Switch DMZ', type: 'Commutateur accès &mdash; VLAN 40',
+    rows: [
+      { label: 'VLAN', value: '40 &mdash; DMZ Serveurs', green: true },
+      { label: 'Plage IP', value: '10.40.40.0 /24' },
+      { label: 'Passerelle', value: '10.40.40.254' },
+      { label: 'Isolation', value: 'ACL strict &mdash; lecture seule' },
+    ],
+    pingTarget: '10.40.40.254', links: ['l-sw-dmz','l-dmz-srv']
+  },
+  pcdir: {
+    icon: '💻', name: 'Poste fixe Direction', type: 'Workstation &mdash; VLAN 10',
+    rows: [
+      { label: 'Type', value: 'PC fixe bureautique' },
+      { label: 'IP', value: '10.10.10.10 /24' },
+      { label: 'VLAN', value: '10 &mdash; Direction' },
+      { label: 'Usage', value: 'Bureautique, ERP' },
+    ],
+    pingTarget: '10.10.10.10', links: ['l-dir-pc']
+  },
+  lapdir: {
+    icon: '📳', name: 'Laptop Direction', type: 'Portable &mdash; VLAN 10',
+    rows: [
+      { label: 'Type', value: 'Ordinateur portable' },
+      { label: 'IP', value: 'DHCP &mdash; 10.10.10.x', green: true },
+      { label: 'VLAN', value: '10 &mdash; Direction' },
+      { label: 'Usage', value: 'Mobilité, réunions' },
+    ],
+    pingTarget: '10.10.10.20', links: ['l-dir-lap']
+  },
+  pcprod: {
+    icon: '💻', name: 'Poste Prod.', type: 'Workstation &mdash; VLAN 20',
+    rows: [
+      { label: 'Type', value: 'PC fixe industriel' },
+      { label: 'IP', value: 'DHCP &mdash; 10.20.20.x', green: true },
+      { label: 'VLAN', value: '20 &mdash; Production' },
+      { label: 'Accès R&D', value: '✖ Bloqué (ACL)' },
+    ],
+    pingTarget: '10.20.20.10', links: ['l-prod-pc']
+  },
+  pcrd: {
+    icon: '💻', name: 'Laptop R&D', type: 'Portable &mdash; VLAN 30',
+    rows: [
+      { label: 'Type', value: 'PC portable haute perf.' },
+      { label: 'IP', value: 'DHCP &mdash; 10.30.30.x', green: true },
+      { label: 'VLAN', value: '30 &mdash; R&D' },
+      { label: 'Accès Prod', value: '✖ Bloqué (ACL)' },
+    ],
+    pingTarget: '10.30.30.10', links: ['l-rd-pc']
+  },
+  srv: {
+    icon: '🖥️', name: 'Serveur DMZ', type: 'Serveur &mdash; VLAN 40',
+    rows: [
+      { label: 'IP', value: '10.40.40.10 /24' },
+      { label: 'Services', value: 'HTTP, FTP, DNS' },
+      { label: 'VLAN', value: '40 &mdash; DMZ' },
+      { label: 'Accès LAN', value: '✖ Strict (ACL)' },
+    ],
+    pingTarget: '10.40.40.10', links: ['l-dmz-srv']
+  },
+};
+
+let currentNode = null;
+
+function selectNode(id) {
+  // Reset all
+  document.querySelectorAll('.net-node').forEach(n => n.classList.remove('selected'));
+  document.querySelectorAll('.link').forEach(l => { l.classList.remove('active','animated'); });
+  // Select
+  document.getElementById('node-'+id).classList.add('selected');
+  const data = NODES[id];
+  if(!data) return;
+  currentNode = id;
+  // Highlight links
+  data.links.forEach(lid => {
+    const el = document.getElementById(lid);
+    if(el) { el.classList.add('active','animated'); }
+  });
+  // Fill panel
+  document.getElementById('panel-placeholder').style.display = 'none';
+  const pd = document.getElementById('panel-device');
+  pd.classList.add('active');
+  document.getElementById('pd-icon').textContent = data.icon;
+  document.getElementById('pd-name').innerHTML = data.name;
+  document.getElementById('pd-type').innerHTML = data.type;
+  const rows = document.getElementById('pd-rows');
+  rows.innerHTML = data.rows.map(r =>
+    `<div class="panel-row"><span class="panel-row-label">${r.label}</span><span class="panel-row-value${r.green?' green':''}">${r.value}</span></div>`
+  ).join('');
+  document.getElementById('ping-output').innerHTML = '';
+}
+
+function doPing() {
+  if(!currentNode) return;
+  const ip = NODES[currentNode].pingTarget;
+  const out = document.getElementById('ping-output');
+  out.innerHTML = `<span class="stat">PING ${ip} : 56 octets de données</span>`;
+  let count = 0;
+  const times = [1,2,1,3].map(() => Math.floor(Math.random()*3)+1);
+  const iv = setInterval(() => {
+    if(count >= 4) {
+      clearInterval(iv);
+      const avg = Math.round(times.reduce((a,b)=>a+b,0)/4);
+      out.innerHTML += `\n<span class="stat">--- ${ip} statistiques ---</span>`;
+      out.innerHTML += `\n<span class="ok">4 paquets transmis, 4 reçus, 0% perte, avg ${avg}ms</span>`;
+      return;
+    }
+    out.innerHTML += `\n<span class="ok">64 octets de ${ip}: icmp_seq=${count+1} ttl=64 time=${times[count]} ms</span>`;
+    count++;
+    out.scrollTop = out.scrollHeight;
+  }, 320);
+}
+
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  document.getElementById('pf').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: .07 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
