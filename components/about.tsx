@@ -11,6 +11,15 @@ export function About() {
   const t = translations[language].about
   const { ref, isVisible } = useScrollAnimation()
 
+  const tableRows = [
+    { label: t.btsRow1Label, sisr: t.btsRow1Sisr, slam: t.btsRow1Slam },
+    { label: t.btsRow2Label, sisr: t.btsRow2Sisr, slam: t.btsRow2Slam },
+    { label: t.btsRow3Label, sisr: t.btsRow3Sisr, slam: t.btsRow3Slam },
+    { label: t.btsRow4Label, sisr: t.btsRow4Sisr, slam: t.btsRow4Slam },
+    { label: t.btsRow5Label, sisr: t.btsRow5Sisr, slam: t.btsRow5Slam },
+    { label: t.btsRow6Label, sisr: t.btsRow6Sisr, slam: t.btsRow6Slam },
+  ]
+
   return (
     <section id="about" className="py-24 scroll-mt-16 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4">
@@ -58,6 +67,45 @@ export function About() {
             <p className="text-muted-foreground leading-relaxed">{t.p2}</p>
             <p className="text-muted-foreground leading-relaxed">{t.p3}</p>
           </div>
+
+          {/* Section BTS SIO */}
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <h3 className="text-2xl font-bold">{t.btsTitle}</h3>
+              <div className="h-1 w-12 bg-primary rounded-full" />
+              <p className="text-muted-foreground leading-relaxed">{t.btsDesc}</p>
+            </div>
+
+            <div className="space-y-3">
+              <h4 className="text-lg font-semibold text-foreground">{t.btsTableTitle}</h4>
+              <div className="overflow-x-auto rounded-xl border border-border/40">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-primary/10 border-b border-border/40">
+                      <th className="text-left px-4 py-3 font-semibold text-foreground w-1/4">{t.btsCol1}</th>
+                      <th className="text-left px-4 py-3 font-semibold text-primary w-[37.5%]">{t.btsCol2}</th>
+                      <th className="text-left px-4 py-3 font-semibold text-blue-500 w-[37.5%]">{t.btsCol3}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableRows.map((row, index) => (
+                      <tr
+                        key={index}
+                        className={`border-b border-border/20 transition-colors hover:bg-muted/30 ${
+                          index % 2 === 0 ? "bg-card/30" : "bg-card/10"
+                        }`}
+                      >
+                        <td className="px-4 py-3 font-medium text-foreground">{row.label}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{row.sisr}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{row.slam}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
