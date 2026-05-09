@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homelab — Infrastructure & Conteneurisation | Quentin SILVA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; scroll-padding-top: 72px; }
+    :root {
+      --background: #121212;
+      --foreground: #eeeeee;
+      --card: #030303;
+      --border: #1e1e1e;
+      --muted: #0b0b0b;
+      --muted-foreground: #8f8f8f;
+      --primary: #7ef473;
+      --primary-foreground: #0b0b0b;
+      --radius: 0.625rem;
+      --font-sans: 'Geist', 'Helvetica Neue', sans-serif;
+      --font-mono: 'Geist Mono', 'Courier New', monospace;
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --sp-1:.25rem;--sp-2:.5rem;--sp-3:.75rem;--sp-4:1rem;--sp-5:1.25rem;
+      --sp-6:1.5rem;--sp-8:2rem;--sp-10:2.5rem;--sp-12:3rem;--sp-16:4rem;--sp-20:5rem;
+      --shadow-sm:0 1px 3px rgba(0,0,0,.6);
+      --shadow-md:0 4px 16px rgba(0,0,0,.7);
+      --transition:150ms cubic-bezier(.4,0,.2,1);
+      --content:1100px;
+    }
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      color: var(--foreground);
+      background-color: var(--background);
+      line-height: 1.6;
+      min-height: 100dvh;
+      background-image: linear-gradient(to right,#80808012 1px,transparent 1px), linear-gradient(to bottom,#80808012 1px,transparent 1px);
+      background-size: 24px 24px;
+    }
+    a, button { transition: color var(--transition), background var(--transition), border-color var(--transition); }
+    ::selection { background: rgba(126,244,115,.2); color: var(--foreground); }
+    .container { max-width: var(--content); margin-inline: auto; padding-inline: var(--sp-6); }
+    .navbar { position:sticky; top:0; z-index:100; background:color-mix(in oklab,var(--background) 88%,transparent); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:var(--sp-4) 0; }
+    .navbar .container { display:flex; align-items:center; justify-content:space-between; }
+    .nav-logo { display:flex; align-items:center; gap:var(--sp-3); text-decoration:none; color:var(--foreground); font-weight:600; font-size:var(--text-sm); }
+    .nav-logo-icon { width:32px; height:32px; background:var(--primary); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; }
+    .nav-right { display:flex; align-items:center; gap:var(--sp-3); }
+    .nav-back { display:flex; align-items:center; gap:var(--sp-2); font-size:var(--text-sm); color:var(--muted-foreground); text-decoration:none; padding:var(--sp-2) var(--sp-3); border:1px solid var(--border); border-radius:var(--radius); }
+    .nav-back:hover { border-color:var(--primary); color:var(--primary); }
+    .nav-tag { font-size:var(--text-xs); font-family:var(--font-mono); color:var(--primary); border:1px solid rgba(126,244,115,.3); padding:var(--sp-1) var(--sp-3); border-radius:var(--radius); background:rgba(126,244,115,.06); }
+    .progress-bar { position:fixed; top:0; left:0; width:100%; height:2px; background:rgba(126,244,115,.1); z-index:200; }
+    .progress-fill { height:100%; background:var(--primary); transition:width .1s linear; width:0%; }
+    .hero { padding:var(--sp-20) 0 var(--sp-16); }
+    .hero-eyebrow { display:flex; align-items:center; gap:var(--sp-2); margin-bottom:var(--sp-5); flex-wrap:wrap; }
+    .chip { display:inline-flex; align-items:center; gap:var(--sp-1); padding:2px var(--sp-3); border-radius:var(--radius); font-size:var(--text-xs); font-family:var(--font-mono); border:1px solid var(--border); background:var(--muted); color:var(--muted-foreground); }
+    .chip::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; opacity:.8; }
+    .chip.green { border-color:rgba(126,244,115,.4); background:rgba(126,244,115,.08); color:var(--primary); }
+    .chip.blue { border-color:rgba(77,143,255,.4); background:rgba(77,143,255,.08); color:#4d8fff; }
+    .chip.cyan { border-color:rgba(0,187,127,.4); background:rgba(0,187,127,.08); color:#00bb7f; }
+    .chip.purple { border-color:rgba(172,75,255,.4); background:rgba(172,75,255,.08); color:#ac4bff; }
+    .hero h1 { font-size:var(--text-2xl); font-weight:700; line-height:1.1; letter-spacing:-.03em; margin-bottom:var(--sp-5); }
+    .hero h1 .accent { color:var(--primary); }
+    .hero-desc { font-size:var(--text-base); color:var(--muted-foreground); max-width:68ch; line-height:1.7; margin-bottom:var(--sp-10); }
+    .hero-stats { display:flex; gap:var(--sp-10); flex-wrap:wrap; }
+    .stat { display:flex; flex-direction:column; gap:var(--sp-1); }
+    .stat-value { font-size:var(--text-xl); font-weight:700; font-family:var(--font-mono); color:var(--primary); line-height:1; }
+    .stat-label { font-size:var(--text-xs); color:var(--muted-foreground); text-transform:uppercase; letter-spacing:.1em; font-family:var(--font-mono); }
+    .divider { border:none; border-top:1px solid var(--border); margin:0; }
+    .section { padding:var(--sp-16) 0; }
+    .section + .section { border-top:1px solid var(--border); }
+    .section-head { display:flex; align-items:center; gap:var(--sp-3); margin-bottom:var(--sp-8); }
+    .section-head h2 { font-size:var(--text-sm); font-weight:600; text-transform:uppercase; letter-spacing:.12em; font-family:var(--font-mono); color:var(--muted-foreground); }
+    .section-head::before { content:""; flex-shrink:0; width:20px; height:1px; background:var(--primary); }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:var(--sp-6); box-shadow:var(--shadow-sm); transition:border-color var(--transition), box-shadow var(--transition); }
+    .card:hover { border-color:rgba(126,244,115,.25); box-shadow:var(--shadow-md); }
+    .card h3 { font-size:var(--text-sm); font-weight:600; margin-bottom:var(--sp-3); }
+    .card p, .card li { font-size:var(--text-sm); color:var(--muted-foreground); line-height:1.65; }
+    .card ul { list-style:none; display:flex; flex-direction:column; gap:var(--sp-2); }
+    .card ul li { display:flex; gap:var(--sp-2); align-items:baseline; }
+    .card ul li::before { content:"→"; color:var(--primary); font-size:var(--text-xs); flex-shrink:0; font-family:var(--font-mono); }
+    .timeline { display:flex; flex-direction:column; gap:0; }
+    .tl-item { display:grid; grid-template-columns:120px 1px 1fr; gap:0 var(--sp-6); padding-bottom:var(--sp-8); }
+    .tl-item:last-child { padding-bottom:0; }
+    .tl-date { font-size:var(--text-xs); font-family:var(--font-mono); color:var(--muted-foreground); padding-top:2px; text-align:right; }
+    .tl-line { position:relative; }
+    .tl-line::before { content:""; position:absolute; top:8px; left:50%; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; background:var(--primary); box-shadow:0 0 0 3px rgba(126,244,115,.15); }
+    .tl-line::after { content:""; position:absolute; top:16px; bottom:-2rem; left:50%; transform:translateX(-50%); width:1px; background:var(--border); }
+    .tl-item:last-child .tl-line::after { display:none; }
+    .tl-content h4 { font-size:var(--text-sm); font-weight:600; margin-bottom:var(--sp-2); }
+    .tl-content p { font-size:var(--text-xs); color:var(--muted-foreground); line-height:1.6; }
+    .comp-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(200px,100%), 1fr)); gap:var(--sp-3); }
+    .comp-item { display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-3) var(--sp-4); background:var(--card); border:1px solid var(--border); border-radius:var(--radius); font-size:var(--text-xs); }
+    .comp-dot { width:6px; height:6px; border-radius:50%; background:var(--primary); flex-shrink:0; }
+    .footer { border-top:1px solid var(--border); padding:var(--sp-8) 0; margin-top:var(--sp-8); }
+    .footer .container { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--sp-4); }
+    .footer p { font-size:var(--text-xs); color:var(--muted-foreground); font-family:var(--font-mono); }
+    .btn-back { display:inline-flex; align-items:center; gap:var(--sp-2); padding:var(--sp-3) var(--sp-5); border-radius:var(--radius); font-size:var(--text-sm); font-weight:500; text-decoration:none; border:1px solid var(--border); color:var(--muted-foreground); transition:all var(--transition); }
+    .btn-back:hover { border-color:var(--primary); color:var(--primary); }
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+    .ctx-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-5); }
+    @media(max-width:768px) { .ctx-grid { grid-template-columns:1fr !important; } }
+  </style>
+</head>
+<body>
+<div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="https://bouzid-djz.github.io/portfolio/" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b0b0b" stroke-width="2.5">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
+      Quentin SILVA
+    </a>
+    <div class="nav-right">
+      <span class="nav-tag">projet / homelab</span>
+      <a href="https://bouzid-djz.github.io/portfolio/" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Retour
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="chip green">Infrastructure</span>
+        <span class="chip blue">Proxmox</span>
+        <span class="chip cyan">Docker</span>
+        <span class="chip purple">NAS</span>
+        <span class="chip">Apprentissage</span>
+      </div>
+      <h1>Homelab<br><span class="accent">Multi-couches</span></h1>
+      <p class="hero-desc">Infrastructure personnelle combinant virtualisation (Proxmox), conteneurisation (Docker Compose), stockage centralisé (NAS Synology) et sécurité réseau (Pi-hole). Un terrain d'expérimentation complet pour maîtriser les technologies d'infrastructure moderne et DevOps.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-value">4</span><span class="stat-label">VMs + Hyperviseur</span></div>
+        <div class="stat"><span class="stat-value">3+</span><span class="stat-label">Services Docker</span></div>
+        <div class="stat"><span class="stat-value">100%</span><span class="stat-label">Local & Privé</span></div>
+        <div class="stat"><span class="stat-value">∞</span><span class="stat-label">Scalabilité</span></div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ARCHITECTURE -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Architecture</h2></div>
+      <div style="display: flex; flex-direction: column; gap: var(--sp-6);">
+        <!-- Schéma SVG -->
+        <div style="overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4);">
+          <svg id="architecture-diagram" width="100%" height="500" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="min-width: 900px;">
+            <defs>
+              <style>
+                .arch-element { cursor: pointer; transition: all 0.2s ease; }
+                .arch-element:hover { filter: brightness(1.2); }
+                .arch-element.active { filter: brightness(1.3); }
+                .arch-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); }
+                .arch-line { stroke: rgba(126,244,115,.3); stroke-width: 2; fill: none; }
+              </style>
+            </defs>
+
+            <!-- Serveur Physique -->
+            <g class="arch-element" data-element="server" onclick="selectElement(event, 'server')">
+              <rect x="50" y="20" width="120" height="80" fill="rgba(126,244,115,.1)" stroke="rgba(126,244,115,.4)" stroke-width="2" rx="6"/>
+              <text x="110" y="55" font-size="24" text-anchor="middle">🖥️</text>
+              <text x="110" y="75" text-anchor="middle" class="arch-label">Serveur Physique</text>
+            </g>
+
+            <!-- Proxmox -->
+            <g class="arch-element" data-element="proxmox" onclick="selectElement(event, 'proxmox')">
+              <rect x="250" y="20" width="120" height="80" fill="rgba(77,143,255,.1)" stroke="rgba(77,143,255,.4)" stroke-width="2" rx="6"/>
+              <text x="310" y="55" font-size="24" text-anchor="middle">🔮</text>
+              <text x="310" y="75" text-anchor="middle" class="arch-label">Proxmox KVM</text>
+            </g>
+
+            <!-- Gaming VM -->
+            <g class="arch-element" data-element="gaming-vm" onclick="selectElement(event, 'gaming-vm')">
+              <rect x="50" y="180" width="100" height="75" fill="rgba(240,81,0,.1)" stroke="rgba(240,81,0,.4)" stroke-width="2" rx="6"/>
+              <text x="100" y="210" font-size="20" text-anchor="middle">🎮</text>
+              <text x="100" y="230" text-anchor="middle" class="arch-label" font-size="10">Gaming VM</text>
+              <text x="100" y="242" text-anchor="middle" class="arch-label" font-size="9" fill="rgba(143,143,143,.6)">Linux</text>
+            </g>
+
+            <!-- Docker VM -->
+            <g class="arch-element" data-element="docker-vm" onclick="selectElement(event, 'docker-vm')">
+              <rect x="200" y="180" width="100" height="75" fill="rgba(0,187,127,.1)" stroke="rgba(0,187,127,.4)" stroke-width="2" rx="6"/>
+              <text x="250" y="210" font-size="20" text-anchor="middle">🐳</text>
+              <text x="250" y="230" text-anchor="middle" class="arch-label" font-size="10">Docker VM</text>
+              <text x="250" y="242" text-anchor="middle" class="arch-label" font-size="9" fill="rgba(143,143,143,.6)">Windows 11</text>
+            </g>
+
+            <!-- Clients -->
+            <g class="arch-element" data-element="clients" onclick="selectElement(event, 'clients')">
+              <rect x="350" y="180" width="100" height="75" fill="rgba(172,75,255,.1)" stroke="rgba(172,75,255,.4)" stroke-width="2" rx="6"/>
+              <text x="400" y="210" font-size="20" text-anchor="middle">💻</text>
+              <text x="400" y="230" text-anchor="middle" class="arch-label" font-size="10">Clients</text>
+              <text x="400" y="242" text-anchor="middle" class="arch-label" font-size="9" fill="rgba(143,143,143,.6)">Linux/Win</text>
+            </g>
+
+            <!-- NAS Synology -->
+            <g class="arch-element" data-element="nas" onclick="selectElement(event, 'nas')">
+              <rect x="550" y="180" width="100" height="75" fill="rgba(172,75,255,.1)" stroke="rgba(172,75,255,.4)" stroke-width="2" rx="6"/>
+              <text x="600" y="210" font-size="20" text-anchor="middle">💾</text>
+              <text x="600" y="230" text-anchor="middle" class="arch-label" font-size="10">NAS Synology</text>
+              <text x="600" y="242" text-anchor="middle" class="arch-label" font-size="9" fill="rgba(143,143,143,.6)">Stockage</text>
+            </g>
+
+            <!-- Pi-hole -->
+            <g class="arch-element" data-element="pihole" onclick="selectElement(event, 'pihole')">
+              <rect x="50" y="330" width="100" height="60" fill="rgba(240,81,0,.15)" stroke="rgba(240,81,0,.5)" stroke-width="2" rx="5"/>
+              <text x="100" y="355" font-size="18" text-anchor="middle">🚫</text>
+              <text x="100" y="375" text-anchor="middle" class="arch-label" font-size="10">Pi-hole DNS</text>
+            </g>
+
+            <!-- n8n -->
+            <g class="arch-element" data-element="n8n" onclick="selectElement(event, 'n8n')">
+              <rect x="200" y="330" width="100" height="60" fill="rgba(0,187,127,.15)" stroke="rgba(0,187,127,.5)" stroke-width="2" rx="5"/>
+              <text x="250" y="355" font-size="18" text-anchor="middle">⚙️</text>
+              <text x="250" y="375" text-anchor="middle" class="arch-label" font-size="10">n8n Automation</text>
+            </g>
+
+            <!-- Chat -->
+            <g class="arch-element" data-element="chat" onclick="selectElement(event, 'chat')">
+              <rect x="200" y="410" width="100" height="60" fill="rgba(0,187,127,.15)" stroke="rgba(0,187,127,.5)" stroke-width="2" rx="5"/>
+              <text x="250" y="435" font-size="18" text-anchor="middle">💬</text>
+              <text x="250" y="455" text-anchor="middle" class="arch-label" font-size="10">Chat Privé</text>
+            </g>
+
+            <!-- Légende -->
+            <text x="50" y="490" class="arch-label" font-size="10" fill="rgba(143,143,143,.7)">Cliquez sur les éléments pour les détails — connexion physique - - - connexion logique</text>
+          </svg>
+        </div>
+
+        <!-- Panel d'infos -->
+        <div id="info-panel" style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-5); display: none;">
+          <div id="info-content">
+            <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--sp-3); color: var(--primary);" id="info-title"></h4>
+            <div id="info-desc" style="font-size: var(--text-xs); color: var(--muted-foreground); line-height: 1.6; margin-bottom: var(--sp-4);"></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-6); font-size: var(--text-xs); color: var(--muted-foreground);">
+              <div>
+                <div style="color: var(--primary); margin-bottom: 0.5rem; font-weight: 500;">Spécifications</div>
+                <div id="info-specs" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+              </div>
+              <div>
+                <div style="color: var(--primary); margin-bottom: 0.5rem; font-weight: 500;">Connexions</div>
+                <div id="info-connections" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTEXTE -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Contexte</h2></div>
+      <div class="ctx-grid">
+        <div class="card">
+          <h3>Objectif du projet</h3>
+          <p>Créer une infrastructure personnelle complète pour l'apprentissage des technologies modernes : virtualisation, conteneurisation, stockage distribué et sécurité réseau. Un laboratoire vivant pour expérimenter et maîtriser les compétences DevOps et infrastructure.</p>
+        </div>
+        <div class="card">
+          <h3>Points clés</h3>
+          <ul>
+            <li>Architecture multi-couches : hyperviseur vers VMs vers conteneurs vers stockage</li>
+            <li>Automatisation complète et self-hosting</li>
+            <li>Sécurité réseau (DNS filtrant, isolation)</li>
+            <li>Données persistantes et accès centralisé</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPOSITION -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Composition</h2></div>
+      <div class="ctx-grid">
+        <div class="card">
+          <h3>🎮 Gaming VM + Pi-hole</h3>
+          <p>Machine virtuelle Linux dédiée aux jeux en ligne. Pi-hole intégré pour filtrage DNS et blocage des publicités au niveau du réseau. Isolation complète des autres services.</p>
+        </div>
+        <div class="card">
+          <h3>🐳 Docker VM</h3>
+          <p>Windows 11 avec Docker Desktop. Héberge n8n (automatisation des workflows) et un serveur chat privé pour communication sécurisée avec amis et collaborateurs.</p>
+        </div>
+        <div class="card">
+          <h3>💻 Clients multiples</h3>
+          <p>Machines Linux et Windows connectées au réseau. Accès aux services centralisés, au stockage partagé via NFS, et à l'infrastructure commune.</p>
+        </div>
+        <div class="card">
+          <h3>💾 NAS Synology</h3>
+          <p>Stockage centralisé pour photos, vidéos, backups et données partagées. Accessible via NFS et iSCSI. Redondance RAID pour la sécurité des données.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Mise en place</h2></div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">Phase 1</div>
+          <div class="tl-line"></div>
+          <div class="tl-content"><h4>Virtualisation Proxmox</h4><p>Installation de Proxmox sur le serveur physique. Création des VMs (Gaming, Docker, Clients). Configuration de la mémoire, du stockage et du réseau pour chaque machine virtuelle.</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Phase 2</div>
+          <div class="tl-line"></div>
+          <div class="tl-content"><h4>Conteneurisation Docker</h4><p>Installation de Docker Desktop sur Windows 11. Création des stacks Docker Compose pour n8n et le serveur chat. Configuration des volumes persistants et du networking.</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Phase 3</div>
+          <div class="tl-line"></div>
+          <div class="tl-content"><h4>Stockage &amp; NAS</h4><p>Configuration du NAS Synology. Mise en place du RAID pour la redondance. Configuration des partages NFS et iSCSI. Montage sur les VMs et clients pour accès centralisé.</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">Phase 4</div>
+          <div class="tl-line"></div>
+          <div class="tl-content"><h4>Sécurité &amp; Services</h4><p>Installation de Pi-hole sur la VM Gaming pour filtrage DNS. Configuration des pare-feu, des VLANs et des accès réseau. Mise en place des certificats SSL et du reverse proxy.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPETENCES -->
+    <section class="section reveal">
+      <div class="section-head"><h2>Compétences mobilisées</h2></div>
+      <div class="comp-grid">
+        <div class="comp-item"><span class="comp-dot"></span>Proxmox KVM</div>
+        <div class="comp-item"><span class="comp-dot"></span>Virtualisation</div>
+        <div class="comp-item"><span class="comp-dot"></span>Docker Compose</div>
+        <div class="comp-item"><span class="comp-dot"></span>Conteneurisation</div>
+        <div class="comp-item"><span class="comp-dot"></span>NAS Synology</div>
+        <div class="comp-item"><span class="comp-dot"></span>NFS / iSCSI</div>
+        <div class="comp-item"><span class="comp-dot"></span>Stockage distribué</div>
+        <div class="comp-item"><span class="comp-dot"></span>Pi-hole DNS</div>
+        <div class="comp-item"><span class="comp-dot"></span>Sécurité réseau</div>
+        <div class="comp-item"><span class="comp-dot"></span>Linux Administration</div>
+        <div class="comp-item"><span class="comp-dot"></span>Windows Server</div>
+        <div class="comp-item"><span class="comp-dot"></span>Networking</div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2026 Quentin SILVA &mdash; Portfolio BTS SIO SISR</p>
+    <a href="https://bouzid-djz.github.io/portfolio/" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Retour au portfolio
+    </a>
+  </div>
+</footer>
+
+<script>
+  const elementPositions = {};
+  let draggedElementId = null;
+  let offsetX = 0, offsetY = 0, isDragging = false;
+
+  const connections = [
+    { from: "server", to: "proxmox", type: "solid" },
+    { from: "proxmox", to: "gaming-vm", type: "solid" },
+    { from: "proxmox", to: "docker-vm", type: "solid" },
+    { from: "proxmox", to: "clients", type: "solid" },
+    { from: "gaming-vm", to: "pihole", type: "solid" },
+    { from: "docker-vm", to: "n8n", type: "solid" },
+    { from: "docker-vm", to: "chat", type: "solid" },
+    { from: "pihole", to: "clients", type: "dashed" },
+    { from: "pihole", to: "gaming-vm", type: "dashed" },
+    { from: "pihole", to: "docker-vm", type: "dashed" },
+    { from: "clients", to: "nas", type: "solid" },
+    { from: "clients", to: "n8n", type: "dashed" },
+    { from: "clients", to: "chat", type: "dashed" }
+  ];
+
+  const elementInfo = {
+    "server": { title: "🖥️ Serveur Physique", desc: "Machine physique hebergeant Proxmox. Configuration compacte avec ressources pour supporter 4 VMs.", specs: ["RAM: 32GB", "CPU: Multi-core", "Stockage: 1-2TB SSD", "OS: Proxmox"], connections: ["→ Proxmox"] },
+    "proxmox": { title: "🔮 Proxmox Hyperviseur", desc: "Plateforme de virtualisation basee sur KVM. Gere toutes les VMs avec allocation dynamique.", specs: ["Type: KVM", "Interface: Web UI", "Cluster: Non", "Reseau: vBridge"], connections: ["← Serveur", "→ Gaming VM", "→ Docker VM", "→ Clients"] },
+    "gaming-vm": { title: "🎮 Gaming VM", desc: "Machine virtuelle Linux pour jeux en ligne. Pi-hole integre pour filtrage DNS.", specs: ["OS: Linux", "RAM: 8-16GB", "CPU: 4 cores", "Stockage: 100GB"], connections: ["← Proxmox", "→ Pi-hole", "→ Reseau"] },
+    "docker-vm": { title: "🐳 Docker VM", desc: "Windows 11 avec Docker Desktop. Heberge n8n et serveur chat.", specs: ["OS: Windows 11", "RAM: 8-12GB", "CPU: 4 cores", "Docker: Desktop"], connections: ["← Proxmox", "→ n8n", "→ Chat", "→ Clients"] },
+    "clients": { title: "💻 Clients", desc: "Machines Linux et Windows connectees au reseau.", specs: ["OS: Linux/Windows", "Nombre: Multiple", "Reseau: DHCP/Static", "Acces: Full"], connections: ["← Proxmox", "→ NAS (NFS)", "→ n8n", "→ Chat", "← Pi-hole (DNS)"] },
+    "nas": { title: "💾 NAS Synology", desc: "Stockage centralise pour donnees partagees. Redondance RAID.", specs: ["Systeme: Synology DSM", "Protocoles: NFS/iSCSI", "RAID: Oui", "Acces: Clients uniquement"], connections: ["→ Clients (NFS mount)"] },
+    "pihole": { title: "🚫 Pi-hole", desc: "Serveur DNS filtrant. Bloque les publicites au niveau reseau.", specs: ["Service: DNS", "Interface: Web UI", "Filtrage: Blocklists", "Scopes: Reseau entier"], connections: ["← Gaming VM", "→ Tout le reseau (DNS)"] },
+    "n8n": { title: "⚙️ n8n Automation", desc: "Plateforme d'automation no-code/low-code. Accessible aux clients autorises.", specs: ["Service: Workflow", "Interface: Web UI", "Conteneur: Docker", "Acces: Authentifie"], connections: ["← Docker VM", "→ Clients"] },
+    "chat": { title: "💬 Chat Prive", desc: "Application de chat auto-hebergee. Authentification requise.", specs: ["Service: Messaging", "Authentification: Oui", "Conteneur: Docker", "Acces: Restreint"], connections: ["← Docker VM", "→ Clients (restreint)"] }
+  };
+
+  function initializePositions() {
+    document.querySelectorAll(".arch-element").forEach(el => {
+      const id = el.getAttribute("data-element");
+      const rect = el.querySelector("rect");
+      if (rect) {
+        const x = parseFloat(rect.getAttribute("x"));
+        const y = parseFloat(rect.getAttribute("y"));
+        const width = parseFloat(rect.getAttribute("width"));
+        const height = parseFloat(rect.getAttribute("height"));
+        elementPositions[id] = { x, y, width, height };
+      }
+    });
+    updateAllConnections();
+  }
+
+  function getElementCenter(elementId) {
+    const pos = elementPositions[elementId];
+    if (!pos) return { x: 0, y: 0 };
+    return { x: pos.x + pos.width / 2, y: pos.y + pos.height / 2 };
+  }
+
+  function updateConnectionLine(conn) {
+    const fromCenter = getElementCenter(conn.from);
+    const toCenter = getElementCenter(conn.to);
+    const lineId = "line-" + conn.from + "-" + conn.to;
+    let line = document.getElementById(lineId);
+    
+    if (!line) {
+      const svg = document.getElementById("architecture-diagram");
+      line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("id", lineId);
+      line.setAttribute("class", "arch-line");
+      if (conn.type === "dashed") line.setAttribute("stroke-dasharray", "5,5");
+      svg.insertBefore(line, svg.querySelector(".arch-element"));
+    }
+    
+    line.setAttribute("x1", fromCenter.x);
+    line.setAttribute("y1", fromCenter.y);
+    line.setAttribute("x2", toCenter.x);
+    line.setAttribute("y2", toCenter.y);
+  }
+
+  function updateAllConnections() {
+    connections.forEach(conn => updateConnectionLine(conn));
+  }
+
+  function getSVGCoords(svg, event) {
+    const rect = svg.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const svgX = (x / rect.width) * svg.viewBox.baseVal.width;
+    const svgY = (y / rect.height) * svg.viewBox.baseVal.height;
+    return { x: svgX, y: svgY };
+  }
+
+  document.addEventListener("mousedown", function(event) {
+    const element = event.target.closest(".arch-element");
+    if (!element || event.button !== 0) return;
+    
+    const svg = document.getElementById("architecture-diagram");
+    const coords = getSVGCoords(svg, event);
+    const elementId = element.getAttribute("data-element");
+    const rect = element.querySelector("rect");
+    if (!rect) return;
+    
+    const elemX = parseFloat(rect.getAttribute("x"));
+    const elemY = parseFloat(rect.getAttribute("y"));
+    
+    draggedElementId = elementId;
+    isDragging = true;
+    offsetX = coords.x - elemX;
+    offsetY = coords.y - elemY;
+    svg.style.cursor = "grabbing";
+  });
+
+  document.addEventListener("mousemove", function(event) {
+    if (!isDragging || !draggedElementId) return;
+    
+    const svg = document.getElementById("architecture-diagram");
+    const coords = getSVGCoords(svg, event);
+    const element = document.querySelector('[data-element="' + draggedElementId + '"]');
+    const rect = element.querySelector("rect");
+    if (!rect) return;
+    
+    const width = parseFloat(rect.getAttribute("width"));
+    const height = parseFloat(rect.getAttribute("height"));
+    
+    let newX = coords.x - offsetX;
+    let newY = coords.y - offsetY;
+    
+    newX = Math.max(0, Math.min(newX, svg.viewBox.baseVal.width - width));
+    newY = Math.max(0, Math.min(newY, svg.viewBox.baseVal.height - height));
+    
+    const dx = newX - parseFloat(rect.getAttribute("x"));
+    const dy = newY - parseFloat(rect.getAttribute("y"));
+    
+    rect.setAttribute("x", newX);
+    rect.setAttribute("y", newY);
+    
+    element.querySelectorAll("text").forEach(text => {
+      const currentX = parseFloat(text.getAttribute("x")) || 0;
+      const currentY = parseFloat(text.getAttribute("y")) || 0;
+      text.setAttribute("x", currentX + dx);
+      text.setAttribute("y", currentY + dy);
+    });
+    
+    elementPositions[draggedElementId] = { x: newX, y: newY, width, height };
+    updateAllConnections();
+  });
+
+  document.addEventListener("mouseup", function(event) {
+    if (draggedElementId) {
+      draggedElementId = null;
+      isDragging = false;
+      document.getElementById("architecture-diagram").style.cursor = "grab";
+    }
+  });
+
+  function selectElement(event, elementId) {
+    if (isDragging) return;
+    event.stopPropagation();
+    
+    document.querySelectorAll(".arch-element.active").forEach(el => el.classList.remove("active"));
+    event.currentTarget.classList.add("active");
+    
+    const info = elementInfo[elementId];
+    if (info) {
+      const panel = document.getElementById("info-panel");
+      document.getElementById("info-title").textContent = info.title;
+      document.getElementById("info-desc").textContent = info.desc;
+      document.getElementById("info-specs").innerHTML = info.specs.map(s => "<div>• " + s + "</div>").join("");
+      document.getElementById("info-connections").innerHTML = info.connections.map(c => "<div>" + c + "</div>").join("");
+      panel.style.display = "block";
+    }
+  }
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".arch-element") && !e.target.closest("#info-panel") && !isDragging) {
+      document.querySelectorAll(".arch-element.active").forEach(el => el.classList.remove("active"));
+      document.getElementById("info-panel").style.display = "none";
+    }
+  });
+
+  window.addEventListener("scroll", () => {
+    const h = document.documentElement;
+    document.getElementById("pf").style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + "%";
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+
+  initializePositions();
+</script>
+</body>
+</html>
