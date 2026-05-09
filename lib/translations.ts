@@ -105,6 +105,13 @@ export const translations = {
         "Consultez mon tableau de synthèse complet pour une vue d'ensemble détaillée de mes compétences et réalisations.",
       viewDocs: "Voir le tableau de synthèse",
     },
+    // Dans la section "fr" :
+personalProjects: {
+  title: "Projets Personnels",
+  project1Title: "Portfolio",
+  project1Desc: "Mon portfolio personnel développé avec Next.js et TailwindCSS.",
+},
+
     // Experience
     experience: {
       title: "Parcours",
@@ -333,6 +340,12 @@ export const translations = {
       conclusion:
         "This watch allows me to adapt my skills, anticipate sector developments and propose relevant solutions in business. It is an essential pillar of my professional development in cybersecurity.",
     },    
+    // Dans la section "en" :
+personalProjects: {
+  title: "Personal Projects",
+  project1Title: "Portfolio",
+  project1Desc: "My personal portfolio built with Next.js and TailwindCSS.",
+},
     contact: {
       title: "Contact",
       description: "Feel free to contact me for any questions or professional opportunities.",
