@@ -8,6 +8,7 @@ import { LanguageSelector } from "@/components/language-selector"
 import { useLanguage } from "@/components/language-provider"
 import { translations } from "@/lib/translations"
 import { cn } from "@/lib/utils"
+import { ..., FolderOpen } from "lucide-react"
 
 export function SidebarMenu() {
   const [isOpen, setIsOpen] = useState(false)
@@ -22,6 +23,7 @@ export function SidebarMenu() {
     { label: t.nav.experience, href: "#experience", icon: FileText },
     { label: t.nav.veille, href: "#veille", icon: Lightbulb },
     { label: t.nav.contact, href: "#contact", icon: Mail },
+    { label: t.nav.personalProjects, href: "#personal-projects", icon: FolderOpen },
   ]
 
   const handleClick = (href: string) => {
