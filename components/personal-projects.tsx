@@ -11,15 +11,15 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 export function PersonalProjects() {
   const { language } = useLanguage()
-  const t = translations[language].personalProjects  // clé à créer
+  const t = translations[language].personalProjects
   const { ref, isVisible } = useScrollAnimation()
 
   const projects = [
     {
       title: t.project1Title,
       description: t.project1Desc,
-      technologies: ["Next.js", "TypeScript", "TailwindCSS"],
-      detailUrl: "/portfolio/projects/portfolio.html",
+      technologies: ["Proxmox", "TrueNAS", "pfSense", "VLAN", "Linux"],
+      detailUrl: "/portfolio/projects/homelab.html",
     },
     // Ajoute tes autres projets perso ici
   ]
