@@ -17,8 +17,8 @@ export function PersonalProjects() {
     {
       title: t.project1Title,
       description: t.project1Desc,
-      technologies: ["Proxmox", "TrueNAS", "Active Directory", "VLAN", "Ubuntu"],
-      detailUrl: "/projects/homelab.html",
+      technologies: ["Proxmox", "Docker", "NAS Synology", "Pi-hole", "n8n"],
+      detailUrl: "/portfolio/projects/homelab.html",
     },
   ]
 
