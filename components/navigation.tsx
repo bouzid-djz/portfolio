@@ -21,6 +21,7 @@ export function Navigation() {
     { label: t.nav.about, href: "#about" },
     { label: t.nav.skills, href: "#skills" },
     { label: t.nav.projects, href: "#projects" },
+    { label: t.nav.personalProjects, href: "#personal-projects" },
     { label: t.nav.experience, href: "#experience" },
     { label: t.nav.veille, href: "#veille" },
     { label: t.nav.contact, href: "#contact" },
