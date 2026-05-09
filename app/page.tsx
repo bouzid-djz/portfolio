@@ -2,6 +2,7 @@ import { Hero } from "@/components/hero"
 import { About } from "@/components/about"
 import { Skills } from "@/components/skills"
 import { Projects } from "@/components/projects"
+import { PersonalProjects } from "@/components/personal-projects"
 import { Experience } from "@/components/experience"
 import { Timeline } from "@/components/timeline"
 import { Veille } from "@/components/veille"
@@ -12,7 +13,6 @@ import { Terminal } from "@/components/terminal"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { KonamiEasterEgg } from "@/components/konami-easter-egg"
 import { PresentationMode } from "@/components/presentation-mode"
-import { PersonalProjects } from "@/components/personal-projects"
 
 export default function Home() {
   return (
@@ -26,7 +26,7 @@ export default function Home() {
         <About />
         <Skills />
         <Projects />
-        <PersonalProjects /> 
+        <PersonalProjects />
         <Experience />
         <Timeline />
         <Veille />

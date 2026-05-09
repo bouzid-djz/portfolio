@@ -1,4 +1,3 @@
-// components/personal-projects.tsx
 "use client"
 
 import { Card } from "@/components/ui/card"
@@ -18,10 +17,9 @@ export function PersonalProjects() {
     {
       title: t.project1Title,
       description: t.project1Desc,
-      technologies: ["Proxmox", "TrueNAS", "pfSense", "VLAN", "Linux"],
-      detailUrl: "/portfolio/projects/homelab.html",
+      technologies: ["Proxmox", "TrueNAS", "Active Directory", "VLAN", "Ubuntu"],
+      detailUrl: "/projects/homelab.html",
     },
-    // Ajoute tes autres projets perso ici
   ]
 
   return (
@@ -40,16 +38,23 @@ export function PersonalProjects() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
             {projects.map((project, index) => (
-              <Card key={index} className="p-6 flex flex-col border-border/40 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all hover:-translate-y-1">
+              <Card
+                key={index}
+                className="p-6 flex flex-col border-border/40 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all hover:-translate-y-1"
+              >
                 <div className="space-y-3">
                   <h3 className="text-lg font-semibold leading-tight text-balance">{project.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
                 </div>
+
                 <div className="flex flex-wrap gap-2 mt-4">
                   {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-xs">{tech}</Badge>
+                    <Badge key={tech} variant="secondary" className="text-xs">
+                      {tech}
+                    </Badge>
                   ))}
                 </div>
+
                 {project.detailUrl && (
                   <div className="mt-auto pt-4">
                     <Button asChild variant="default" size="sm" className="w-full">
