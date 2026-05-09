@@ -111,6 +111,8 @@ export const translations = {
       title: "Projets Personnels",
       project1Title: "HomeLab Personnel",
       project1Desc: "Infrastructure de virtualisation personnelle avec gestion du stockage, des VMs et de l'Active Directory.",
+      project2Title: "GuessTheCategory",
+      project2Desc: "Jeu multijoueur en temps réel où les joueurs doivent deviner la catégorie secrète choisie par le maître du jeu grâce à des indices OUI / NON / PEUT-ÊTRE.",
     },
     // Experience
     experience: {
@@ -308,6 +310,8 @@ export const translations = {
       title: "Personal Projects",
       project1Title: "Personal HomeLab",
       project1Desc: "Personal virtualization infrastructure with storage management, VMs, and Active Directory.",
+      project2Title: "GuessTheCategory",
+      project2Desc: "Real-time multiplayer game where players must guess the secret category chosen by the game master using YES / NO / MAYBE clues.",
     },
     experience: {
       title: "Experience",
