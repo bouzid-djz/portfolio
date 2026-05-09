@@ -12,6 +12,7 @@ import { Terminal } from "@/components/terminal"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { KonamiEasterEgg } from "@/components/konami-easter-egg"
 import { PresentationMode } from "@/components/presentation-mode"
+import { PersonalProjects } from "@/components/personal-projects"
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
         <About />
         <Skills />
         <Projects />
+        <PersonalProjects /> 
         <Experience />
         <Timeline />
         <Veille />
