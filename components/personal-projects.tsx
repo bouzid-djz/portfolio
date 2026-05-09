@@ -20,6 +20,12 @@ export function PersonalProjects() {
       technologies: ["Proxmox", "Docker", "NAS Synology", "Pi-hole", "n8n"],
       detailUrl: "/portfolio/projects/homelab.html",
     },
+    {
+      title: t.project2Title,
+      description: t.project2Desc,
+      technologies: ["Next.js", "TypeScript", "WebSockets", "Tailwind CSS", "Vercel"],
+      detailUrl: "/portfolio/projects/guessthecategory.html",
+    },
   ]
 
   return (
